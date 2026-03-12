@@ -30,6 +30,8 @@ class StudentExamRenderContext(StrictModel):
     title: str
     duration_minutes: str
     total_score: str
+    composition_note: str
+    scope_note: str
     items: list[StudentRenderItem]
 
 

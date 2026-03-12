@@ -229,6 +229,18 @@ class LaTeXRenderer:
             title=bundle.student_metadata["title"],
             duration_minutes=bundle.student_metadata["duration_minutes"],
             total_score=bundle.student_metadata["total_score"],
+            composition_note=escape_latex(
+                bundle.student_metadata.get(
+                    "composition_note",
+                    "1번부터 21번까지는 5지선다형, 22번부터 30번까지는 단답형이다.",
+                )
+            ),
+            scope_note=escape_latex(
+                bundle.student_metadata.get(
+                    "scope_note",
+                    "대수, 미적분Ⅰ, 확률과 통계 범위 안에서 구성한 중립적 레이아웃의 시험지다.",
+                )
+            ),
             items=items,
         )
 
