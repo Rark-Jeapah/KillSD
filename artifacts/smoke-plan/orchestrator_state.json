@@ -1,0 +1,48 @@
+{
+  "run_id": "smoke-plan",
+  "spec_id": "csat_math_2028",
+  "mode": "api",
+  "seed": 0,
+  "orchestrator_version": "0.1.0",
+  "status": "completed",
+  "exam_spec_artifact_id": "art-77d79df094c6",
+  "stage_outputs": {
+    "exam_blueprint": "art-b8767af9070d"
+  },
+  "stage_statuses": {
+    "exam_blueprint": "succeeded"
+  },
+  "stage_attempts": {
+    "exam_blueprint": 1
+  },
+  "stage_prompt_artifact_ids": {
+    "exam_blueprint": "art-74670e94e0b0"
+  },
+  "stage_prompt_paths": {},
+  "render_bundle_artifact_id": null,
+  "history": [
+    {
+      "record_id": "stg-a71907e6721a",
+      "stage_name": "exam_blueprint",
+      "item_no": null,
+      "attempt": 1,
+      "status": "succeeded",
+      "input_artifact_ids": [
+        "art-77d79df094c6"
+      ],
+      "prompt_packet_artifact_id": "art-74670e94e0b0",
+      "prompt_export_path": null,
+      "provider_response_artifact_id": "art-2a4b95508d85",
+      "manual_exchange_artifact_id": null,
+      "output_artifact_id": "art-b8767af9070d",
+      "prompt_hash": "7a7c730449f03a25ded854702e7814b2b8ce68d57627e6fd73e347da6fcd6c33",
+      "prompt_version": "1.0.0",
+      "seed": 0,
+      "provider_name": "mock_provider",
+      "error_message": null,
+      "recorded_at": "2026-03-12T04:48:08.166731Z"
+    }
+  ],
+  "last_error": null,
+  "updated_at": "2026-03-12T04:48:08.166864Z"
+}

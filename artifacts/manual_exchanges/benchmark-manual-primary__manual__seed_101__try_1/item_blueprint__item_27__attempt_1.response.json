@@ -1,0 +1,15 @@
+{
+  "item_id": "ibl-f6923a9e6c44",
+  "item_no": 27,
+  "domain": "probability_statistics",
+  "format": "short_answer",
+  "score": 4,
+  "difficulty": "advanced",
+  "objective": "확률분포 함수식 결정",
+  "skill_tags": [
+    "distribution",
+    "function"
+  ],
+  "choice_count": null,
+  "answer_type": "symbolic_or_numeric"
+}

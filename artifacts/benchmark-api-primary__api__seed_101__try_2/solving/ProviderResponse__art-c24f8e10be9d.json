@@ -1,0 +1,64 @@
+{
+  "artifact_id": "art-c24f8e10be9d",
+  "artifact_type": "ProviderResponse",
+  "schema_version": "1.0",
+  "stage": "solving",
+  "run_id": "benchmark-api-primary__api__seed_101__try_2",
+  "spec_id": "csat_math_2028",
+  "created_at": "2026-03-12T13:20:23.809020Z",
+  "metadata": {
+    "stage_name": "solve",
+    "attempt": 1,
+    "source": "provider_response"
+  },
+  "payload": {
+    "provider_name": "mock_provider",
+    "prompt_packet_id": "pkt-4fff28f459cf",
+    "stage_name": "solve",
+    "output": {
+      "solved_id": "slv-d485c850418a",
+      "draft": {
+        "draft_id": "drf-705643926c30",
+        "blueprint": {
+          "item_id": "ibl-a7548d309ac0",
+          "item_no": 22,
+          "domain": "probability_statistics",
+          "format": "short_answer",
+          "score": 4,
+          "difficulty": "challenging",
+          "objective": "확률 변수 계산",
+          "skill_tags": [
+            "random_variable",
+            "expectation"
+          ],
+          "choice_count": null,
+          "answer_type": "symbolic_or_numeric"
+        },
+        "stem": "확률 변수 계산을 평가하는 모의 문항 22번이다.",
+        "choices": [],
+        "rubric": "확률 변수 계산에 맞는 핵심 풀이를 구성한다.",
+        "answer_constraints": [
+          "symbolic_or_numeric"
+        ]
+      },
+      "final_answer": "122",
+      "correct_choice_index": null,
+      "correct_choice_value": null,
+      "solution_steps": [
+        "확률 변수 계산에 필요한 조건을 먼저 정리한다.",
+        "핵심 계산 또는 추론을 수행한다.",
+        "정답 형식에 맞게 결과를 확정한다."
+      ],
+      "solution_summary": "확률 변수 계산에 맞는 풀이가 완결되었다."
+    },
+    "raw_text": "{\"solved_id\": \"slv-d485c850418a\", \"draft\": {\"draft_id\": \"drf-705643926c30\", \"blueprint\": {\"item_id\": \"ibl-a7548d309ac0\", \"item_no\": 22, \"domain\": \"probability_statistics\", \"format\": \"short_answer\", \"score\": 4, \"difficulty\": \"challenging\", \"objective\": \"확률 변수 계산\", \"skill_tags\": [\"random_variable\", \"expectation\"], \"choice_count\": null, \"answer_type\": \"symbolic_or_numeric\"}, \"stem\": \"확률 변수 계산을 평가하는 모의 문항 22번이다.\", \"choices\": [], \"rubric\": \"확률 변수 계산에 맞는 핵심 풀이를 구성한다.\", \"answer_constraints\": [\"symbolic_or_numeric\"]}, \"final_answer\": \"122\", \"correct_choice_index\": null, \"correct_choice_value\": null, \"solution_steps\": [\"확률 변수 계산에 필요한 조건을 먼저 정리한다.\", \"핵심 계산 또는 추론을 수행한다.\", \"정답 형식에 맞게 결과를 확정한다.\"], \"solution_summary\": \"확률 변수 계산에 맞는 풀이가 완결되었다.\"}",
+    "prompt_hash": "bb39c429e643ddc7841878d9c1120217f0f7cd630c52aa272886ffff25399c2e",
+    "seed": 101,
+    "usage": {
+      "prompt_chars": 786,
+      "completion_chars": 740,
+      "estimated_cost_usd": 0.0,
+      "latency_ms": 0
+    }
+  }
+}

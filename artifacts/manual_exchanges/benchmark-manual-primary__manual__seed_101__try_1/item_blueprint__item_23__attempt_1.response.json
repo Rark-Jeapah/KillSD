@@ -1,0 +1,14 @@
+{
+  "item_id": "ibl-c9895f22523a",
+  "item_no": 23,
+  "domain": "probability_statistics",
+  "format": "short_answer",
+  "score": 4,
+  "difficulty": "challenging",
+  "objective": "조건부확률 적용",
+  "skill_tags": [
+    "conditional_probability"
+  ],
+  "choice_count": null,
+  "answer_type": "symbolic_or_numeric"
+}

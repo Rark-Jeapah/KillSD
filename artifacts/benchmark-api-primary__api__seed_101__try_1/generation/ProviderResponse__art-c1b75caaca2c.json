@@ -1,0 +1,58 @@
+{
+  "artifact_id": "art-c1b75caaca2c",
+  "artifact_type": "ProviderResponse",
+  "schema_version": "1.0",
+  "stage": "generation",
+  "run_id": "benchmark-api-primary__api__seed_101__try_1",
+  "spec_id": "csat_math_2028",
+  "created_at": "2026-03-12T06:49:33.802062Z",
+  "metadata": {
+    "stage_name": "draft_item",
+    "attempt": 1,
+    "source": "provider_response"
+  },
+  "payload": {
+    "provider_name": "mock_provider",
+    "prompt_packet_id": "pkt-19189310ad87",
+    "stage_name": "draft_item",
+    "output": {
+      "draft_id": "drf-1d21c29cfb7c",
+      "blueprint": {
+        "item_id": "ibl-7bd23eaf0af8",
+        "item_no": 20,
+        "domain": "calculus_1",
+        "format": "multiple_choice",
+        "score": 4,
+        "difficulty": "challenging",
+        "objective": "매개 조건 포함 최적화",
+        "skill_tags": [
+          "optimization",
+          "parameter"
+        ],
+        "choice_count": 5,
+        "answer_type": "symbolic_or_numeric"
+      },
+      "stem": "매개 조건 포함 최적화을 평가하는 모의 문항 20번이다.",
+      "choices": [
+        "61",
+        "62",
+        "63",
+        "64",
+        "65"
+      ],
+      "rubric": "매개 조건 포함 최적화에 맞는 핵심 풀이를 구성한다.",
+      "answer_constraints": [
+        "symbolic_or_numeric"
+      ]
+    },
+    "raw_text": "{\"draft_id\": \"drf-1d21c29cfb7c\", \"blueprint\": {\"item_id\": \"ibl-7bd23eaf0af8\", \"item_no\": 20, \"domain\": \"calculus_1\", \"format\": \"multiple_choice\", \"score\": 4, \"difficulty\": \"challenging\", \"objective\": \"매개 조건 포함 최적화\", \"skill_tags\": [\"optimization\", \"parameter\"], \"choice_count\": 5, \"answer_type\": \"symbolic_or_numeric\"}, \"stem\": \"매개 조건 포함 최적화을 평가하는 모의 문항 20번이다.\", \"choices\": [\"61\", \"62\", \"63\", \"64\", \"65\"], \"rubric\": \"매개 조건 포함 최적화에 맞는 핵심 풀이를 구성한다.\", \"answer_constraints\": [\"symbolic_or_numeric\"]}",
+    "prompt_hash": "e8b66745edb24286fd9805b66f1fa3d2d284b8016d127a6ea6a95f4e3ec83b1d",
+    "seed": 101,
+    "usage": {
+      "prompt_chars": 631,
+      "completion_chars": 494,
+      "estimated_cost_usd": 0.0,
+      "latency_ms": 0
+    }
+  }
+}

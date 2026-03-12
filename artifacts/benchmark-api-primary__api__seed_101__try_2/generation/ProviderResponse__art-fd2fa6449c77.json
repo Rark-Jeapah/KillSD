@@ -1,0 +1,52 @@
+{
+  "artifact_id": "art-fd2fa6449c77",
+  "artifact_type": "ProviderResponse",
+  "schema_version": "1.0",
+  "stage": "generation",
+  "run_id": "benchmark-api-primary__api__seed_101__try_2",
+  "spec_id": "csat_math_2028",
+  "created_at": "2026-03-12T13:20:23.912105Z",
+  "metadata": {
+    "stage_name": "draft_item",
+    "attempt": 1,
+    "source": "provider_response"
+  },
+  "payload": {
+    "provider_name": "mock_provider",
+    "prompt_packet_id": "pkt-6edac9521518",
+    "stage_name": "draft_item",
+    "output": {
+      "draft_id": "drf-25161a54f090",
+      "blueprint": {
+        "item_id": "ibl-55abf52eee62",
+        "item_no": 27,
+        "domain": "probability_statistics",
+        "format": "short_answer",
+        "score": 4,
+        "difficulty": "advanced",
+        "objective": "확률분포 함수식 결정",
+        "skill_tags": [
+          "distribution",
+          "function"
+        ],
+        "choice_count": null,
+        "answer_type": "symbolic_or_numeric"
+      },
+      "stem": "확률분포 함수식 결정을 평가하는 모의 문항 27번이다.",
+      "choices": [],
+      "rubric": "확률분포 함수식 결정에 맞는 핵심 풀이를 구성한다.",
+      "answer_constraints": [
+        "symbolic_or_numeric"
+      ]
+    },
+    "raw_text": "{\"draft_id\": \"drf-25161a54f090\", \"blueprint\": {\"item_id\": \"ibl-55abf52eee62\", \"item_no\": 27, \"domain\": \"probability_statistics\", \"format\": \"short_answer\", \"score\": 4, \"difficulty\": \"advanced\", \"objective\": \"확률분포 함수식 결정\", \"skill_tags\": [\"distribution\", \"function\"], \"choice_count\": null, \"answer_type\": \"symbolic_or_numeric\"}, \"stem\": \"확률분포 함수식 결정을 평가하는 모의 문항 27번이다.\", \"choices\": [], \"rubric\": \"확률분포 함수식 결정에 맞는 핵심 풀이를 구성한다.\", \"answer_constraints\": [\"symbolic_or_numeric\"]}",
+    "prompt_hash": "e8b66745edb24286fd9805b66f1fa3d2d284b8016d127a6ea6a95f4e3ec83b1d",
+    "seed": 101,
+    "usage": {
+      "prompt_chars": 638,
+      "completion_chars": 471,
+      "estimated_cost_usd": 0.0,
+      "latency_ms": 0
+    }
+  }
+}

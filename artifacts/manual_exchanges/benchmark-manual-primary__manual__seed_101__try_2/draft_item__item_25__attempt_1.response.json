@@ -1,0 +1,24 @@
+{
+  "draft_id": "drf-74ecc884933b",
+  "blueprint": {
+    "item_id": "ibl-6603f1f5a321",
+    "item_no": 25,
+    "domain": "probability_statistics",
+    "format": "short_answer",
+    "score": 4,
+    "difficulty": "advanced",
+    "objective": "표본평균 계산",
+    "skill_tags": [
+      "sampling",
+      "mean"
+    ],
+    "choice_count": null,
+    "answer_type": "symbolic_or_numeric"
+  },
+  "stem": "표본평균 계산을 평가하는 모의 문항 25번이다.",
+  "choices": [],
+  "rubric": "표본평균 계산에 맞는 핵심 풀이를 구성한다.",
+  "answer_constraints": [
+    "symbolic_or_numeric"
+  ]
+}

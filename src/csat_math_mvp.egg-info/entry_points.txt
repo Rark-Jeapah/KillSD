@@ -1,0 +1,3 @@
+[console_scripts]
+csat = src.cli.main:app
+csat-math-mvp = src.cli.main:app

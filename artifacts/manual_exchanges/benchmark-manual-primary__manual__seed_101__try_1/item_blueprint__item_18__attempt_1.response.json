@@ -1,0 +1,15 @@
+{
+  "item_id": "ibl-e54227b616c9",
+  "item_no": 18,
+  "domain": "calculus_1",
+  "format": "multiple_choice",
+  "score": 4,
+  "difficulty": "challenging",
+  "objective": "적분과 넓이 계산",
+  "skill_tags": [
+    "integral",
+    "area"
+  ],
+  "choice_count": 5,
+  "answer_type": "symbolic_or_numeric"
+}

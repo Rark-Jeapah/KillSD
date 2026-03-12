@@ -1,0 +1,98 @@
+{
+  "artifact_id": "art-a74ac6b5fb70",
+  "artifact_type": "ValidatedItem",
+  "schema_version": "1.0",
+  "stage": "validation",
+  "run_id": "smoke-api",
+  "spec_id": "csat_math_2028",
+  "created_at": "2026-03-12T04:48:13.871031Z",
+  "metadata": {
+    "stage_name": "validate",
+    "attempt": 1,
+    "source": "local"
+  },
+  "payload": {
+    "validated_id": "vld-38546d166a2f",
+    "solved": {
+      "solved_id": "slv-cde98c9084c6",
+      "draft": {
+        "draft_id": "drf-31708639cc9c",
+        "blueprint": {
+          "item_id": "ibl-2134d36e7ec2",
+          "item_no": 9,
+          "domain": "algebra",
+          "format": "multiple_choice",
+          "score": 3,
+          "difficulty": "standard",
+          "objective": "수열 합 계산",
+          "skill_tags": [
+            "sequence",
+            "series"
+          ],
+          "choice_count": 5,
+          "answer_type": "symbolic_or_numeric"
+        },
+        "stem": "수열 합 계산을 평가하는 모의 문항 9번이다.",
+        "choices": [
+          "29",
+          "30",
+          "31",
+          "32",
+          "33"
+        ],
+        "rubric": "수열 합 계산에 맞는 핵심 풀이를 구성한다.",
+        "answer_constraints": [
+          "symbolic_or_numeric"
+        ]
+      },
+      "final_answer": "32",
+      "solution_steps": [
+        "수열 합 계산에 필요한 조건을 먼저 정리한다.",
+        "핵심 계산 또는 추론을 수행한다.",
+        "정답 형식에 맞게 결과를 확정한다."
+      ],
+      "solution_summary": "수열 합 계산에 맞는 풀이가 완결되었다. [revised]"
+    },
+    "validation": {
+      "report_id": "val-21a63ef20259",
+      "item_no": 9,
+      "status": "pass",
+      "findings": [
+        {
+          "check_name": "stem_present",
+          "passed": true,
+          "severity": "error",
+          "message": "stem is present",
+          "context": {}
+        },
+        {
+          "check_name": "answer_present",
+          "passed": true,
+          "severity": "error",
+          "message": "final answer is present",
+          "context": {}
+        },
+        {
+          "check_name": "choice_layout",
+          "passed": true,
+          "severity": "error",
+          "message": "choice layout matches the blueprint",
+          "context": {}
+        },
+        {
+          "check_name": "critique_recorded",
+          "passed": true,
+          "severity": "info",
+          "message": "구조적 결함이 없어 다음 단계로 진행 가능하다.",
+          "context": {
+            "requires_revision": false
+          }
+        }
+      ],
+      "summary": "Local structural validation complete",
+      "checked_at": "2026-03-12T04:48:13.870954Z"
+    },
+    "approval_status": "approved",
+    "revision_notes": []
+  }
+}

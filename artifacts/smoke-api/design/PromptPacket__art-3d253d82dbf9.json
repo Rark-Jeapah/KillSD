@@ -1,0 +1,588 @@
+{
+  "artifact_id": "art-3d253d82dbf9",
+  "artifact_type": "PromptPacket",
+  "schema_version": "1.0",
+  "stage": "design",
+  "run_id": "smoke-api",
+  "spec_id": "csat_math_2028",
+  "created_at": "2026-03-12T04:48:13.737967Z",
+  "metadata": {
+    "stage_name": "item_blueprint",
+    "attempt": 1,
+    "prompt_hash": "726f6b8085a3e2db3ba3e7f82d59153e7507ac0cd92f2cc4a9f0c1c9f56bb261",
+    "prompt_version": "1.0.0"
+  },
+  "payload": {
+    "packet_id": "pkt-8359db475e62",
+    "mode": "api",
+    "stage": "design",
+    "stage_name": "item_blueprint",
+    "spec_id": "csat_math_2028",
+    "run_id": "smoke-api",
+    "blueprint_id": "bp-c5d84f18e180",
+    "item_no": 2,
+    "instructions": [
+      "<!-- version: 1.0.0 -->\n# Item Blueprint\n\nYou are generating a single `ItemBlueprint`.\n\n- Use the exam-level blueprint as context.\n- Produce one schema-valid item plan for `item_no`.\n- Do not write the full question stem yet.\n- Keep the score, format, difficulty, and domain aligned with the exam contract.\n- Return strict JSON only.\n"
+    ],
+    "input_artifact_ids": [
+      "art-83d8e1fa420c"
+    ],
+    "lineage_parent_ids": [
+      "art-83d8e1fa420c"
+    ],
+    "context": {
+      "exam_blueprint": {
+        "blueprint_id": "bp-c5d84f18e180",
+        "spec_id": "csat_math_2028",
+        "created_at": "2026-03-12T04:48:13.719626Z",
+        "generator": "default_blueprint_builder",
+        "notes": [
+          "Derived from exam_specs/csat_math_2028.yaml",
+          "Manual and API modes share PromptPacket/ManualExchangePacket contracts"
+        ],
+        "item_blueprints": [
+          {
+            "item_id": "ibl-00f1193f098f",
+            "item_no": 1,
+            "domain": "algebra",
+            "format": "multiple_choice",
+            "score": 2,
+            "difficulty": "basic",
+            "objective": "다항식 및 방정식 기본 이해",
+            "skill_tags": [
+              "polynomial",
+              "equation"
+            ],
+            "choice_count": 5,
+            "answer_type": "symbolic_or_numeric"
+          },
+          {
+            "item_id": "ibl-c33b5dbb56c6",
+            "item_no": 2,
+            "domain": "algebra",
+            "format": "multiple_choice",
+            "score": 2,
+            "difficulty": "basic",
+            "objective": "함수와 수열 기초 적용",
+            "skill_tags": [
+              "function",
+              "sequence"
+            ],
+            "choice_count": 5,
+            "answer_type": "symbolic_or_numeric"
+          },
+          {
+            "item_id": "ibl-b9a00fe42f95",
+            "item_no": 3,
+            "domain": "algebra",
+            "format": "multiple_choice",
+            "score": 2,
+            "difficulty": "basic",
+            "objective": "지수로그식 변형",
+            "skill_tags": [
+              "exponential",
+              "logarithm"
+            ],
+            "choice_count": 5,
+            "answer_type": "symbolic_or_numeric"
+          },
+          {
+            "item_id": "ibl-50e98d60b9ff",
+            "item_no": 4,
+            "domain": "algebra",
+            "format": "multiple_choice",
+            "score": 3,
+            "difficulty": "basic",
+            "objective": "삼각함수 기본 성질",
+            "skill_tags": [
+              "trigonometry"
+            ],
+            "choice_count": 5,
+            "answer_type": "symbolic_or_numeric"
+          },
+          {
+            "item_id": "ibl-31d69a704d45",
+            "item_no": 5,
+            "domain": "algebra",
+            "format": "multiple_choice",
+            "score": 3,
+            "difficulty": "basic",
+            "objective": "수열의 귀납적 구조 파악",
+            "skill_tags": [
+              "sequence",
+              "recurrence"
+            ],
+            "choice_count": 5,
+            "answer_type": "symbolic_or_numeric"
+          },
+          {
+            "item_id": "ibl-8c4372a0adc9",
+            "item_no": 6,
+            "domain": "algebra",
+            "format": "multiple_choice",
+            "score": 3,
+            "difficulty": "standard",
+            "objective": "함수의 그래프 해석",
+            "skill_tags": [
+              "function",
+              "graph"
+            ],
+            "choice_count": 5,
+            "answer_type": "symbolic_or_numeric"
+          },
+          {
+            "item_id": "ibl-89a0f2f1f712",
+            "item_no": 7,
+            "domain": "algebra",
+            "format": "multiple_choice",
+            "score": 3,
+            "difficulty": "standard",
+            "objective": "방정식과 부등식 결합",
+            "skill_tags": [
+              "equation",
+              "inequality"
+            ],
+            "choice_count": 5,
+            "answer_type": "symbolic_or_numeric"
+          },
+          {
+            "item_id": "ibl-b3399652edd1",
+            "item_no": 8,
+            "domain": "algebra",
+            "format": "multiple_choice",
+            "score": 3,
+            "difficulty": "standard",
+            "objective": "지수로그함수 실전 적용",
+            "skill_tags": [
+              "exponential",
+              "logarithm"
+            ],
+            "choice_count": 5,
+            "answer_type": "symbolic_or_numeric"
+          },
+          {
+            "item_id": "ibl-2134d36e7ec2",
+            "item_no": 9,
+            "domain": "algebra",
+            "format": "multiple_choice",
+            "score": 3,
+            "difficulty": "standard",
+            "objective": "수열 합 계산",
+            "skill_tags": [
+              "sequence",
+              "series"
+            ],
+            "choice_count": 5,
+            "answer_type": "symbolic_or_numeric"
+          },
+          {
+            "item_id": "ibl-9fcc4924b9df",
+            "item_no": 10,
+            "domain": "algebra",
+            "format": "multiple_choice",
+            "score": 3,
+            "difficulty": "standard",
+            "objective": "삼각함수 그래프 변환",
+            "skill_tags": [
+              "trigonometry",
+              "graph"
+            ],
+            "choice_count": 5,
+            "answer_type": "symbolic_or_numeric"
+          },
+          {
+            "item_id": "ibl-d81a55ce3d72",
+            "item_no": 11,
+            "domain": "calculus_1",
+            "format": "multiple_choice",
+            "score": 3,
+            "difficulty": "standard",
+            "objective": "극한의 기본 계산",
+            "skill_tags": [
+              "limit"
+            ],
+            "choice_count": 5,
+            "answer_type": "symbolic_or_numeric"
+          },
+          {
+            "item_id": "ibl-5ef013dc9a15",
+            "item_no": 12,
+            "domain": "calculus_1",
+            "format": "multiple_choice",
+            "score": 3,
+            "difficulty": "standard",
+            "objective": "연속성 판단",
+            "skill_tags": [
+              "continuity"
+            ],
+            "choice_count": 5,
+            "answer_type": "symbolic_or_numeric"
+          },
+          {
+            "item_id": "ibl-5c3528797fd8",
+            "item_no": 13,
+            "domain": "calculus_1",
+            "format": "multiple_choice",
+            "score": 3,
+            "difficulty": "standard",
+            "objective": "도함수 해석",
+            "skill_tags": [
+              "derivative"
+            ],
+            "choice_count": 5,
+            "answer_type": "symbolic_or_numeric"
+          },
+          {
+            "item_id": "ibl-2b40d8804563",
+            "item_no": 14,
+            "domain": "calculus_1",
+            "format": "multiple_choice",
+            "score": 3,
+            "difficulty": "standard",
+            "objective": "증가감소 구간 파악",
+            "skill_tags": [
+              "derivative",
+              "monotonicity"
+            ],
+            "choice_count": 5,
+            "answer_type": "symbolic_or_numeric"
+          },
+          {
+            "item_id": "ibl-90b15a5f6656",
+            "item_no": 15,
+            "domain": "calculus_1",
+            "format": "multiple_choice",
+            "score": 3,
+            "difficulty": "challenging",
+            "objective": "극대극소 조건 해석",
+            "skill_tags": [
+              "derivative",
+              "optimization"
+            ],
+            "choice_count": 5,
+            "answer_type": "symbolic_or_numeric"
+          },
+          {
+            "item_id": "ibl-f3f654dabb87",
+            "item_no": 16,
+            "domain": "calculus_1",
+            "format": "multiple_choice",
+            "score": 3,
+            "difficulty": "challenging",
+            "objective": "정적분 기초 활용",
+            "skill_tags": [
+              "integral"
+            ],
+            "choice_count": 5,
+            "answer_type": "symbolic_or_numeric"
+          },
+          {
+            "item_id": "ibl-5fe71a37bc1a",
+            "item_no": 17,
+            "domain": "calculus_1",
+            "format": "multiple_choice",
+            "score": 3,
+            "difficulty": "challenging",
+            "objective": "함수와 미분 결합 추론",
+            "skill_tags": [
+              "function",
+              "derivative"
+            ],
+            "choice_count": 5,
+            "answer_type": "symbolic_or_numeric"
+          },
+          {
+            "item_id": "ibl-ce66c95018ce",
+            "item_no": 18,
+            "domain": "calculus_1",
+            "format": "multiple_choice",
+            "score": 4,
+            "difficulty": "challenging",
+            "objective": "적분과 넓이 계산",
+            "skill_tags": [
+              "integral",
+              "area"
+            ],
+            "choice_count": 5,
+            "answer_type": "symbolic_or_numeric"
+          },
+          {
+            "item_id": "ibl-1b85f7768261",
+            "item_no": 19,
+            "domain": "calculus_1",
+            "format": "multiple_choice",
+            "score": 4,
+            "difficulty": "challenging",
+            "objective": "복합 함수 미분 추론",
+            "skill_tags": [
+              "composite_function",
+              "derivative"
+            ],
+            "choice_count": 5,
+            "answer_type": "symbolic_or_numeric"
+          },
+          {
+            "item_id": "ibl-64595f612df6",
+            "item_no": 20,
+            "domain": "calculus_1",
+            "format": "multiple_choice",
+            "score": 4,
+            "difficulty": "challenging",
+            "objective": "매개 조건 포함 최적화",
+            "skill_tags": [
+              "optimization",
+              "parameter"
+            ],
+            "choice_count": 5,
+            "answer_type": "symbolic_or_numeric"
+          },
+          {
+            "item_id": "ibl-46251c621c64",
+            "item_no": 21,
+            "domain": "probability_statistics",
+            "format": "multiple_choice",
+            "score": 4,
+            "difficulty": "challenging",
+            "objective": "경우의 수와 확률 결합",
+            "skill_tags": [
+              "counting",
+              "probability"
+            ],
+            "choice_count": 5,
+            "answer_type": "symbolic_or_numeric"
+          },
+          {
+            "item_id": "ibl-fd8f6ec6ae5a",
+            "item_no": 22,
+            "domain": "probability_statistics",
+            "format": "short_answer",
+            "score": 4,
+            "difficulty": "challenging",
+            "objective": "확률 변수 계산",
+            "skill_tags": [
+              "random_variable",
+              "expectation"
+            ],
+            "choice_count": null,
+            "answer_type": "symbolic_or_numeric"
+          },
+          {
+            "item_id": "ibl-c0dad3d07f1f",
+            "item_no": 23,
+            "domain": "probability_statistics",
+            "format": "short_answer",
+            "score": 4,
+            "difficulty": "challenging",
+            "objective": "조건부확률 적용",
+            "skill_tags": [
+              "conditional_probability"
+            ],
+            "choice_count": null,
+            "answer_type": "symbolic_or_numeric"
+          },
+          {
+            "item_id": "ibl-71d4ae594958",
+            "item_no": 24,
+            "domain": "probability_statistics",
+            "format": "short_answer",
+            "score": 4,
+            "difficulty": "advanced",
+            "objective": "분포 해석",
+            "skill_tags": [
+              "distribution"
+            ],
+            "choice_count": null,
+            "answer_type": "symbolic_or_numeric"
+          },
+          {
+            "item_id": "ibl-826985776ab2",
+            "item_no": 25,
+            "domain": "probability_statistics",
+            "format": "short_answer",
+            "score": 4,
+            "difficulty": "advanced",
+            "objective": "표본평균 계산",
+            "skill_tags": [
+              "sampling",
+              "mean"
+            ],
+            "choice_count": null,
+            "answer_type": "symbolic_or_numeric"
+          },
+          {
+            "item_id": "ibl-0360053857ce",
+            "item_no": 26,
+            "domain": "probability_statistics",
+            "format": "short_answer",
+            "score": 4,
+            "difficulty": "advanced",
+            "objective": "통계량 조건 추론",
+            "skill_tags": [
+              "statistic",
+              "parameter_estimation"
+            ],
+            "choice_count": null,
+            "answer_type": "symbolic_or_numeric"
+          },
+          {
+            "item_id": "ibl-e15e0d5ee34c",
+            "item_no": 27,
+            "domain": "probability_statistics",
+            "format": "short_answer",
+            "score": 4,
+            "difficulty": "advanced",
+            "objective": "확률분포 함수식 결정",
+            "skill_tags": [
+              "distribution",
+              "function"
+            ],
+            "choice_count": null,
+            "answer_type": "symbolic_or_numeric"
+          },
+          {
+            "item_id": "ibl-4b5887abc90f",
+            "item_no": 28,
+            "domain": "probability_statistics",
+            "format": "short_answer",
+            "score": 4,
+            "difficulty": "advanced",
+            "objective": "복합 사건의 확률값 산출",
+            "skill_tags": [
+              "probability",
+              "event_composition"
+            ],
+            "choice_count": null,
+            "answer_type": "symbolic_or_numeric"
+          },
+          {
+            "item_id": "ibl-378acacbcc71",
+            "item_no": 29,
+            "domain": "probability_statistics",
+            "format": "short_answer",
+            "score": 4,
+            "difficulty": "advanced",
+            "objective": "통계적 추론 계산",
+            "skill_tags": [
+              "inference",
+              "variance"
+            ],
+            "choice_count": null,
+            "answer_type": "symbolic_or_numeric"
+          },
+          {
+            "item_id": "ibl-c742001e43b9",
+            "item_no": 30,
+            "domain": "probability_statistics",
+            "format": "short_answer",
+            "score": 4,
+            "difficulty": "advanced",
+            "objective": "고난도 통합형 단답 추론",
+            "skill_tags": [
+              "integration",
+              "reasoning"
+            ],
+            "choice_count": null,
+            "answer_type": "symbolic_or_numeric"
+          }
+        ]
+      },
+      "item_no": 2
+    },
+    "expected_output_model": "ItemBlueprint",
+    "response_schema_version": "1.0",
+    "response_json_schema": {
+      "$defs": {
+        "DifficultyBand": {
+          "description": "Coarse difficulty buckets for MVP planning.",
+          "enum": [
+            "basic",
+            "standard",
+            "challenging",
+            "advanced"
+          ],
+          "title": "DifficultyBand",
+          "type": "string"
+        },
+        "ItemFormat": {
+          "description": "Supported item presentation formats.",
+          "enum": [
+            "multiple_choice",
+            "short_answer"
+          ],
+          "title": "ItemFormat",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Planning record for a single exam item before generation.",
+      "properties": {
+        "item_id": {
+          "title": "Item Id",
+          "type": "string"
+        },
+        "item_no": {
+          "title": "Item No",
+          "type": "integer"
+        },
+        "domain": {
+          "title": "Domain",
+          "type": "string"
+        },
+        "format": {
+          "$ref": "#/$defs/ItemFormat"
+        },
+        "score": {
+          "title": "Score",
+          "type": "integer"
+        },
+        "difficulty": {
+          "$ref": "#/$defs/DifficultyBand"
+        },
+        "objective": {
+          "title": "Objective",
+          "type": "string"
+        },
+        "skill_tags": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Skill Tags",
+          "type": "array"
+        },
+        "choice_count": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Choice Count"
+        },
+        "answer_type": {
+          "default": "symbolic_or_numeric",
+          "title": "Answer Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "item_no",
+        "domain",
+        "format",
+        "score",
+        "difficulty",
+        "objective"
+      ],
+      "title": "ItemBlueprint",
+      "type": "object"
+    },
+    "prompt_template_path": "/Users/j_mac/Desktop/KillSD/src/prompts/item_blueprint.md",
+    "prompt_version": "1.0.0",
+    "prompt_hash": "726f6b8085a3e2db3ba3e7f82d59153e7507ac0cd92f2cc4a9f0c1c9f56bb261",
+    "seed": 0,
+    "attempt": 1,
+    "provider_name": "mock_provider"
+  }
+}

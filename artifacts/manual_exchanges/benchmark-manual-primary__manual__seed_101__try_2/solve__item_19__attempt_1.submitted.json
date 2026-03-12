@@ -1,0 +1,297 @@
+{
+  "exchange_id": "mxl-c55b5611fe67",
+  "prompt_packet": {
+    "packet_id": "pkt-82e8094157d7",
+    "mode": "manual",
+    "stage": "solving",
+    "stage_name": "solve",
+    "spec_id": "csat_math_2028",
+    "run_id": "benchmark-manual-primary__manual__seed_101__try_2",
+    "blueprint_id": "bp-1b848385d43e",
+    "item_no": 19,
+    "instructions": [
+      "<!-- version: 1.0.0 -->\n# Solver\n\nYou are solving a `DraftItem` and must return a `SolvedItem`.\n\n- Preserve the original draft.\n- Provide a final answer and a concise but complete solution path.\n- Keep the solution steps explicit enough for later critique and validation.\n- Return strict JSON only.\n"
+    ],
+    "input_artifact_ids": [
+      "art-a9cd995ebf95"
+    ],
+    "lineage_parent_ids": [
+      "art-a9cd995ebf95"
+    ],
+    "context": {
+      "draft_item": {
+        "draft_id": "drf-d66274964d5a",
+        "blueprint": {
+          "item_id": "ibl-7f3e0b100295",
+          "item_no": 19,
+          "domain": "calculus_1",
+          "format": "multiple_choice",
+          "score": 4,
+          "difficulty": "challenging",
+          "objective": "복합 함수 미분 추론",
+          "skill_tags": [
+            "composite_function",
+            "derivative"
+          ],
+          "choice_count": 5,
+          "answer_type": "symbolic_or_numeric"
+        },
+        "stem": "복합 함수 미분 추론을 평가하는 모의 문항 19번이다.",
+        "choices": [
+          "58",
+          "59",
+          "60",
+          "61",
+          "62"
+        ],
+        "rubric": "복합 함수 미분 추론에 맞는 핵심 풀이를 구성한다.",
+        "answer_constraints": [
+          "symbolic_or_numeric"
+        ]
+      }
+    },
+    "expected_output_model": "SolvedItem",
+    "response_schema_version": "1.0",
+    "response_json_schema": {
+      "$defs": {
+        "DifficultyBand": {
+          "description": "Coarse difficulty buckets for MVP planning.",
+          "enum": [
+            "basic",
+            "standard",
+            "challenging",
+            "advanced"
+          ],
+          "title": "DifficultyBand",
+          "type": "string"
+        },
+        "DraftItem": {
+          "additionalProperties": false,
+          "description": "Drafted item content before solving/validation.",
+          "properties": {
+            "draft_id": {
+              "title": "Draft Id",
+              "type": "string"
+            },
+            "blueprint": {
+              "$ref": "#/$defs/ItemBlueprint"
+            },
+            "stem": {
+              "title": "Stem",
+              "type": "string"
+            },
+            "choices": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Choices",
+              "type": "array"
+            },
+            "rubric": {
+              "title": "Rubric",
+              "type": "string"
+            },
+            "answer_constraints": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Answer Constraints",
+              "type": "array"
+            }
+          },
+          "required": [
+            "blueprint",
+            "stem",
+            "rubric"
+          ],
+          "title": "DraftItem",
+          "type": "object"
+        },
+        "ItemBlueprint": {
+          "additionalProperties": false,
+          "description": "Planning record for a single exam item before generation.",
+          "properties": {
+            "item_id": {
+              "title": "Item Id",
+              "type": "string"
+            },
+            "item_no": {
+              "title": "Item No",
+              "type": "integer"
+            },
+            "domain": {
+              "title": "Domain",
+              "type": "string"
+            },
+            "format": {
+              "$ref": "#/$defs/ItemFormat"
+            },
+            "score": {
+              "title": "Score",
+              "type": "integer"
+            },
+            "difficulty": {
+              "$ref": "#/$defs/DifficultyBand"
+            },
+            "objective": {
+              "title": "Objective",
+              "type": "string"
+            },
+            "skill_tags": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Skill Tags",
+              "type": "array"
+            },
+            "choice_count": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Choice Count"
+            },
+            "answer_type": {
+              "default": "symbolic_or_numeric",
+              "title": "Answer Type",
+              "type": "string"
+            }
+          },
+          "required": [
+            "item_no",
+            "domain",
+            "format",
+            "score",
+            "difficulty",
+            "objective"
+          ],
+          "title": "ItemBlueprint",
+          "type": "object"
+        },
+        "ItemFormat": {
+          "description": "Supported item presentation formats.",
+          "enum": [
+            "multiple_choice",
+            "short_answer"
+          ],
+          "title": "ItemFormat",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Draft item enriched with a worked solution and answer.",
+      "properties": {
+        "solved_id": {
+          "title": "Solved Id",
+          "type": "string"
+        },
+        "draft": {
+          "$ref": "#/$defs/DraftItem"
+        },
+        "final_answer": {
+          "title": "Final Answer",
+          "type": "string"
+        },
+        "correct_choice_index": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Correct Choice Index"
+        },
+        "correct_choice_value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Correct Choice Value"
+        },
+        "solution_steps": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Solution Steps",
+          "type": "array"
+        },
+        "solution_summary": {
+          "title": "Solution Summary",
+          "type": "string"
+        }
+      },
+      "required": [
+        "draft",
+        "final_answer",
+        "solution_steps",
+        "solution_summary"
+      ],
+      "title": "SolvedItem",
+      "type": "object"
+    },
+    "prompt_template_path": "/Users/j_mac/Desktop/KillSD/src/prompts/solver.md",
+    "prompt_version": "1.0.0",
+    "prompt_hash": "bb39c429e643ddc7841878d9c1120217f0f7cd630c52aa272886ffff25399c2e",
+    "seed": 101,
+    "attempt": 1,
+    "provider_name": "mock_provider"
+  },
+  "submitted_output": {
+    "solved_id": "slv-f874476902cc",
+    "draft": {
+      "draft_id": "drf-d66274964d5a",
+      "blueprint": {
+        "item_id": "ibl-7f3e0b100295",
+        "item_no": 19,
+        "domain": "calculus_1",
+        "format": "multiple_choice",
+        "score": 4,
+        "difficulty": "challenging",
+        "objective": "복합 함수 미분 추론",
+        "skill_tags": [
+          "composite_function",
+          "derivative"
+        ],
+        "choice_count": 5,
+        "answer_type": "symbolic_or_numeric"
+      },
+      "stem": "복합 함수 미분 추론을 평가하는 모의 문항 19번이다.",
+      "choices": [
+        "58",
+        "59",
+        "60",
+        "61",
+        "62"
+      ],
+      "rubric": "복합 함수 미분 추론에 맞는 핵심 풀이를 구성한다.",
+      "answer_constraints": [
+        "symbolic_or_numeric"
+      ]
+    },
+    "final_answer": "4",
+    "correct_choice_index": 4,
+    "correct_choice_value": "61",
+    "solution_steps": [
+      "복합 함수 미분 추론에 필요한 조건을 먼저 정리한다.",
+      "핵심 계산 또는 추론을 수행한다.",
+      "정답 형식에 맞게 결과를 확정한다."
+    ],
+    "solution_summary": "복합 함수 미분 추론에 맞는 풀이가 완결되었다."
+  },
+  "operator_notes": [],
+  "status": "submitted",
+  "responded_at": "2026-03-12T13:20:25.496539Z"
+}

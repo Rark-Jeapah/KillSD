@@ -1,0 +1,33 @@
+{
+  "solved_id": "slv-bf543fbbf04c",
+  "draft": {
+    "draft_id": "drf-6da6e77d48e7",
+    "blueprint": {
+      "item_id": "ibl-c9895f22523a",
+      "item_no": 23,
+      "domain": "probability_statistics",
+      "format": "short_answer",
+      "score": 4,
+      "difficulty": "challenging",
+      "objective": "조건부확률 적용",
+      "skill_tags": [
+        "conditional_probability"
+      ],
+      "choice_count": null,
+      "answer_type": "symbolic_or_numeric"
+    },
+    "stem": "조건부확률 적용을 평가하는 모의 문항 23번이다.",
+    "choices": [],
+    "rubric": "조건부확률 적용에 맞는 핵심 풀이를 구성한다.",
+    "answer_constraints": [
+      "symbolic_or_numeric"
+    ]
+  },
+  "final_answer": "123",
+  "solution_steps": [
+    "조건부확률 적용에 필요한 조건을 먼저 정리한다.",
+    "핵심 계산 또는 추론을 수행한다.",
+    "정답 형식에 맞게 결과를 확정한다."
+  ],
+  "solution_summary": "조건부확률 적용에 맞는 풀이가 완결되었다. [revised]"
+}

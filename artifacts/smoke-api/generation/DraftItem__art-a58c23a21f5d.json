@@ -1,0 +1,45 @@
+{
+  "artifact_id": "art-a58c23a21f5d",
+  "artifact_type": "DraftItem",
+  "schema_version": "1.0",
+  "stage": "generation",
+  "run_id": "smoke-api",
+  "spec_id": "csat_math_2028",
+  "created_at": "2026-03-12T04:48:13.860934Z",
+  "metadata": {
+    "stage_name": "draft_item",
+    "attempt": 1,
+    "provider_name": "mock_provider",
+    "prompt_hash": "e8b66745edb24286fd9805b66f1fa3d2d284b8016d127a6ea6a95f4e3ec83b1d"
+  },
+  "payload": {
+    "draft_id": "drf-31708639cc9c",
+    "blueprint": {
+      "item_id": "ibl-2134d36e7ec2",
+      "item_no": 9,
+      "domain": "algebra",
+      "format": "multiple_choice",
+      "score": 3,
+      "difficulty": "standard",
+      "objective": "수열 합 계산",
+      "skill_tags": [
+        "sequence",
+        "series"
+      ],
+      "choice_count": 5,
+      "answer_type": "symbolic_or_numeric"
+    },
+    "stem": "수열 합 계산을 평가하는 모의 문항 9번이다.",
+    "choices": [
+      "29",
+      "30",
+      "31",
+      "32",
+      "33"
+    ],
+    "rubric": "수열 합 계산에 맞는 핵심 풀이를 구성한다.",
+    "answer_constraints": [
+      "symbolic_or_numeric"
+    ]
+  }
+}

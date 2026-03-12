@@ -1,0 +1,23 @@
+{
+  "artifact_id": "art-91077c4caf57",
+  "artifact_type": "CritiqueReport",
+  "schema_version": "1.0",
+  "stage": "validation",
+  "run_id": "benchmark-manual-primary__manual__seed_101__try_1",
+  "spec_id": "csat_math_2028",
+  "created_at": "2026-03-12T06:49:34.482420Z",
+  "metadata": {
+    "stage_name": "critique",
+    "attempt": 1,
+    "mode": "manual",
+    "source": "manual_import"
+  },
+  "payload": {
+    "critique_id": "crt-d6041f920bba",
+    "item_no": 11,
+    "summary": "구조적 결함이 없어 다음 단계로 진행 가능하다.",
+    "findings": [],
+    "requires_revision": false,
+    "reviewed_at": "2026-03-12T06:49:34.481544Z"
+  }
+}

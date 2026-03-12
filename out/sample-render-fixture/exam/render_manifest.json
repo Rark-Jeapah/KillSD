@@ -1,0 +1,60 @@
+{
+  "render_id": "rdr-20260312052722116193",
+  "run_id": "sample-render-fixture",
+  "spec_id": "csat_math_2028",
+  "bundle_artifact_id": "art-3d05e53f872a",
+  "validator_suite_artifact_ids": [
+    "art-eb4ac9eb468f",
+    "art-72f85ccd1ef7",
+    "art-9ca0a5aeb591",
+    "art-8a3b24ef8dc0",
+    "art-9c525053e68a",
+    "art-33f6be1e658d",
+    "art-c158691bc3e2",
+    "art-75c0e845aae2",
+    "art-84b1da33c9e1",
+    "art-8ec30fa0fdec",
+    "art-8db9aee562db",
+    "art-13833ff9fa09",
+    "art-f43b4ad8aa55",
+    "art-62cd145ed6bb",
+    "art-9e5338044245",
+    "art-9ad3f0c3fe5f",
+    "art-3888b4eb7c5e",
+    "art-eab023e9fcec",
+    "art-61b968686e13",
+    "art-55c9f48e112c",
+    "art-0a5a5ab6b7cb",
+    "art-1af9cb707afe",
+    "art-ec1f05ee4695",
+    "art-fe2f8dfe7609",
+    "art-6910f39e56a1",
+    "art-9b465051cb54",
+    "art-5665cab7a588",
+    "art-695502adfcf7",
+    "art-d8f337ff1bd5",
+    "art-79aa60c5daa1"
+  ],
+  "output_dir": "/Users/j_mac/Desktop/KillSD/out/sample-render-fixture/exam",
+  "documents": [
+    {
+      "kind": "exam",
+      "template_name": "exam.tex.j2",
+      "tex_path": "/Users/j_mac/Desktop/KillSD/out/sample-render-fixture/exam/exam.tex",
+      "pdf_path": null,
+      "compiled": false,
+      "compiler": null,
+      "debug_message": "xelatex not found. Install TeX Live or MacTeX with ko.TeX support."
+    },
+    {
+      "kind": "validation_report",
+      "template_name": "validation_report.tex.j2",
+      "tex_path": "/Users/j_mac/Desktop/KillSD/out/sample-render-fixture/exam/validation_report.tex",
+      "pdf_path": null,
+      "compiled": false,
+      "compiler": null,
+      "debug_message": "xelatex not found. Install TeX Live or MacTeX with ko.TeX support."
+    }
+  ],
+  "rendered_at": "2026-03-12T05:27:22.116366+00:00"
+}

@@ -1,0 +1,43 @@
+{
+  "artifact_id": "art-5cabf28207c2",
+  "artifact_type": "ProviderResponse",
+  "schema_version": "1.0",
+  "stage": "design",
+  "run_id": "benchmark-api-primary__api__seed_101__try_2",
+  "spec_id": "csat_math_2028",
+  "created_at": "2026-03-12T13:20:23.888223Z",
+  "metadata": {
+    "stage_name": "item_blueprint",
+    "attempt": 1,
+    "source": "provider_response"
+  },
+  "payload": {
+    "provider_name": "mock_provider",
+    "prompt_packet_id": "pkt-4785b979d7ec",
+    "stage_name": "item_blueprint",
+    "output": {
+      "item_id": "ibl-341c6a4ccd9d",
+      "item_no": 26,
+      "domain": "probability_statistics",
+      "format": "short_answer",
+      "score": 4,
+      "difficulty": "advanced",
+      "objective": "통계량 조건 추론",
+      "skill_tags": [
+        "statistic",
+        "parameter_estimation"
+      ],
+      "choice_count": null,
+      "answer_type": "symbolic_or_numeric"
+    },
+    "raw_text": "{\"item_id\": \"ibl-341c6a4ccd9d\", \"item_no\": 26, \"domain\": \"probability_statistics\", \"format\": \"short_answer\", \"score\": 4, \"difficulty\": \"advanced\", \"objective\": \"통계량 조건 추론\", \"skill_tags\": [\"statistic\", \"parameter_estimation\"], \"choice_count\": null, \"answer_type\": \"symbolic_or_numeric\"}",
+    "prompt_hash": "726f6b8085a3e2db3ba3e7f82d59153e7507ac0cd92f2cc4a9f0c1c9f56bb261",
+    "seed": 101,
+    "usage": {
+      "prompt_chars": 8674,
+      "completion_chars": 285,
+      "estimated_cost_usd": 0.0,
+      "latency_ms": 0
+    }
+  }
+}

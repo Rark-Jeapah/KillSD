@@ -1,0 +1,620 @@
+{
+  "spec_id": "csat_math_2028",
+  "generated_at": "2026-03-12T02:46:55.483214+00:00",
+  "source_path": "/Users/j_mac/Desktop/KillSD/data/source_fixtures/csat_math_2028/sample_items.json",
+  "atoms": [
+    {
+      "atom_id": "atom-5480edcc0dcb",
+      "label": "경우의 수 계산 [count_conditioned_cases]",
+      "topic": "conditional_probability_table",
+      "prerequisites": [
+        "conditional probability",
+        "sample space partition"
+      ],
+      "trigger_patterns": [
+        "조건 사건 제한",
+        "분모 재설정",
+        "교집합 계산"
+      ],
+      "canonical_moves": [
+        "count_conditioned_cases",
+        "B의 경우의 수와 A∩B의 경우의 수를 각각 센다."
+      ],
+      "common_failures": [
+        "unconditioned_ratio: P(A)/P(B) 또는 P(A∩B)/P(S)로 계산한다.",
+        "count_overlap_miss: 조건 사건에 포함되지 않는 경우를 함께 센다."
+      ],
+      "allowed_answer_forms": [
+        "reduced_fraction"
+      ],
+      "diagram_tags": [
+        "probability_table"
+      ],
+      "difficulty_delta": 1,
+      "source_item_ids": [
+        "fixture-conditional-03"
+      ],
+      "source_step_ids": [
+        "s2"
+      ]
+    },
+    {
+      "atom_id": "atom-aaa349a7160b",
+      "label": "조건 사건 정리 [condition_partition]",
+      "topic": "conditional_probability_table",
+      "prerequisites": [
+        "conditional probability",
+        "sample space partition"
+      ],
+      "trigger_patterns": [
+        "조건 사건 제한",
+        "분모 재설정",
+        "교집합 계산"
+      ],
+      "canonical_moves": [
+        "condition_partition",
+        "사건 B에 해당하는 경우만 표로 정리한다."
+      ],
+      "common_failures": [
+        "unconditioned_ratio: P(A)/P(B) 또는 P(A∩B)/P(S)로 계산한다.",
+        "count_overlap_miss: 조건 사건에 포함되지 않는 경우를 함께 센다."
+      ],
+      "allowed_answer_forms": [
+        "reduced_fraction"
+      ],
+      "diagram_tags": [
+        "probability_table"
+      ],
+      "difficulty_delta": 0,
+      "source_item_ids": [
+        "fixture-conditional-03"
+      ],
+      "source_step_ids": [
+        "s1"
+      ]
+    },
+    {
+      "atom_id": "atom-0ce427cc63df",
+      "label": "조건부확률 계산 [conditional_probability_ratio]",
+      "topic": "conditional_probability_table",
+      "prerequisites": [
+        "conditional probability",
+        "sample space partition"
+      ],
+      "trigger_patterns": [
+        "조건 사건 제한",
+        "분모 재설정",
+        "교집합 계산"
+      ],
+      "canonical_moves": [
+        "conditional_probability_ratio",
+        "P(A|B)=P(A∩B)/P(B)=2/3이다."
+      ],
+      "common_failures": [
+        "unconditioned_ratio: P(A)/P(B) 또는 P(A∩B)/P(S)로 계산한다.",
+        "count_overlap_miss: 조건 사건에 포함되지 않는 경우를 함께 센다."
+      ],
+      "allowed_answer_forms": [
+        "reduced_fraction"
+      ],
+      "diagram_tags": [
+        "probability_table"
+      ],
+      "difficulty_delta": 0,
+      "source_item_ids": [
+        "fixture-conditional-03"
+      ],
+      "source_step_ids": [
+        "s3"
+      ]
+    },
+    {
+      "atom_id": "atom-bba0fe482772",
+      "label": "꼭짓점 기반 조건 [quadratic_vertex_check]",
+      "topic": "derivative_monotonicity",
+      "prerequisites": [
+        "derivative",
+        "critical point"
+      ],
+      "trigger_patterns": [
+        "도함수 계산",
+        "꼭짓점 활용",
+        "전구간 부호 판단"
+      ],
+      "canonical_moves": [
+        "quadratic_vertex_check",
+        "문항 의도가 감소 함수 조건이라면 꼭짓점 x=2에서 g'(2)=b-12≤0을 얻는다."
+      ],
+      "common_failures": [
+        "direction_misread: 전구간에서 증가하지 않음을 f'(x)≥0으로 해석한다.",
+        "vertex_substitution_slip: x=1로 대입해 b-3≤0을 얻는다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "function_graph",
+        "sign_chart"
+      ],
+      "difficulty_delta": 1,
+      "source_item_ids": [
+        "fixture-derivative-05"
+      ],
+      "source_step_ids": [
+        "s3"
+      ]
+    },
+    {
+      "atom_id": "atom-f81b2ab6c767",
+      "label": "단조 조건 연결 [global_monotonicity_condition]",
+      "topic": "derivative_monotonicity",
+      "prerequisites": [
+        "derivative",
+        "critical point"
+      ],
+      "trigger_patterns": [
+        "도함수 계산",
+        "꼭짓점 활용",
+        "전구간 부호 판단"
+      ],
+      "canonical_moves": [
+        "global_monotonicity_condition",
+        "감소하지 않으려면 모든 x에 대해 f'(x)≥0 이어야 하므로 a-3≥0이다."
+      ],
+      "common_failures": [
+        "local_global_confusion: f'(1)=0이 되도록 a=3 하나만 답으로 본다.",
+        "sign_condition_flip: 감소하지 않음을 f'(x)≤0으로 잘못 해석한다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "function_graph",
+        "sign_chart"
+      ],
+      "difficulty_delta": 1,
+      "source_item_ids": [
+        "fixture-derivative-02"
+      ],
+      "source_step_ids": [
+        "s3"
+      ]
+    },
+    {
+      "atom_id": "atom-f9684d631a8c",
+      "label": "도함수 계산 [differentiate_polynomial]",
+      "topic": "derivative_monotonicity",
+      "prerequisites": [
+        "derivative",
+        "critical point"
+      ],
+      "trigger_patterns": [
+        "도함수 계산",
+        "꼭짓점 활용",
+        "전구간 부호 판단"
+      ],
+      "canonical_moves": [
+        "differentiate_polynomial",
+        "f'(x)=3x^2-6x+a를 구한다.",
+        "g'(x)=3x^2-12x+b를 구한다."
+      ],
+      "common_failures": [
+        "local_global_confusion: f'(1)=0이 되도록 a=3 하나만 답으로 본다.",
+        "sign_condition_flip: 감소하지 않음을 f'(x)≤0으로 잘못 해석한다.",
+        "direction_misread: 전구간에서 증가하지 않음을 f'(x)≥0으로 해석한다.",
+        "vertex_substitution_slip: x=1로 대입해 b-3≤0을 얻는다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "function_graph",
+        "sign_chart"
+      ],
+      "difficulty_delta": 0,
+      "source_item_ids": [
+        "fixture-derivative-02",
+        "fixture-derivative-05"
+      ],
+      "source_step_ids": [
+        "s1"
+      ]
+    },
+    {
+      "atom_id": "atom-bb0d073139cc",
+      "label": "정답 선택 [choice_alignment]",
+      "topic": "derivative_monotonicity",
+      "prerequisites": [
+        "derivative",
+        "critical point"
+      ],
+      "trigger_patterns": [
+        "도함수 계산",
+        "꼭짓점 활용",
+        "전구간 부호 판단"
+      ],
+      "canonical_moves": [
+        "choice_alignment",
+        "a≥3에 해당하는 선택지를 고른다.",
+        "b≤12에 해당하는 선택지를 고른다."
+      ],
+      "common_failures": [
+        "local_global_confusion: f'(1)=0이 되도록 a=3 하나만 답으로 본다.",
+        "sign_condition_flip: 감소하지 않음을 f'(x)≤0으로 잘못 해석한다.",
+        "direction_misread: 전구간에서 증가하지 않음을 f'(x)≥0으로 해석한다.",
+        "vertex_substitution_slip: x=1로 대입해 b-3≤0을 얻는다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "function_graph",
+        "sign_chart"
+      ],
+      "difficulty_delta": 0,
+      "source_item_ids": [
+        "fixture-derivative-02",
+        "fixture-derivative-05"
+      ],
+      "source_step_ids": [
+        "s4"
+      ]
+    },
+    {
+      "atom_id": "atom-1c4317d67e80",
+      "label": "최댓값 관찰 [global_monotonicity_direction_check]",
+      "topic": "derivative_monotonicity",
+      "prerequisites": [
+        "derivative",
+        "critical point"
+      ],
+      "trigger_patterns": [
+        "도함수 계산",
+        "꼭짓점 활용",
+        "전구간 부호 판단"
+      ],
+      "canonical_moves": [
+        "global_monotonicity_direction_check",
+        "증가하지 않으려면 g'(x)≤0 이어야 하는데 도함수는 위로 열린 이차함수라 조건 충족이 불가능한지 먼저 본다."
+      ],
+      "common_failures": [
+        "direction_misread: 전구간에서 증가하지 않음을 f'(x)≥0으로 해석한다.",
+        "vertex_substitution_slip: x=1로 대입해 b-3≤0을 얻는다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "function_graph",
+        "sign_chart"
+      ],
+      "difficulty_delta": 1,
+      "source_item_ids": [
+        "fixture-derivative-05"
+      ],
+      "source_step_ids": [
+        "s2"
+      ]
+    },
+    {
+      "atom_id": "atom-d1170f7c15a9",
+      "label": "최솟값 관찰 [quadratic_vertex_check]",
+      "topic": "derivative_monotonicity",
+      "prerequisites": [
+        "derivative",
+        "critical point"
+      ],
+      "trigger_patterns": [
+        "도함수 계산",
+        "꼭짓점 활용",
+        "전구간 부호 판단"
+      ],
+      "canonical_moves": [
+        "quadratic_vertex_check",
+        "이차함수인 도함수의 꼭짓점 x=1에서 최솟값을 가진다."
+      ],
+      "common_failures": [
+        "local_global_confusion: f'(1)=0이 되도록 a=3 하나만 답으로 본다.",
+        "sign_condition_flip: 감소하지 않음을 f'(x)≤0으로 잘못 해석한다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "function_graph",
+        "sign_chart"
+      ],
+      "difficulty_delta": 1,
+      "source_item_ids": [
+        "fixture-derivative-02"
+      ],
+      "source_step_ids": [
+        "s2"
+      ]
+    },
+    {
+      "atom_id": "atom-d9598b47182d",
+      "label": "교점 확인 [root_identification]",
+      "topic": "integral_area_split",
+      "prerequisites": [
+        "integral",
+        "graph symmetry"
+      ],
+      "trigger_patterns": [
+        "교점 확인",
+        "부호 판단",
+        "정적분 계산"
+      ],
+      "canonical_moves": [
+        "root_identification",
+        "x축과의 교점은 x=0, 2이다."
+      ],
+      "common_failures": [
+        "signed_area_confusion: ∫_0^2 x(x-2)dx = -4/3을 그대로 답으로 쓴다.",
+        "antiderivative_slip: x^3/3-2x^2를 대입해 8/3으로 계산한다."
+      ],
+      "allowed_answer_forms": [
+        "reduced_fraction"
+      ],
+      "diagram_tags": [
+        "function_graph",
+        "area_under_curve"
+      ],
+      "difficulty_delta": 0,
+      "source_item_ids": [
+        "fixture-integral-04"
+      ],
+      "source_step_ids": [
+        "s1"
+      ]
+    },
+    {
+      "atom_id": "atom-513ab206a642",
+      "label": "답 형식 확정 [answer_form_finalize]",
+      "topic": "integral_area_split",
+      "prerequisites": [
+        "integral",
+        "graph symmetry"
+      ],
+      "trigger_patterns": [
+        "교점 확인",
+        "부호 판단",
+        "정적분 계산"
+      ],
+      "canonical_moves": [
+        "answer_form_finalize",
+        "기약분수 4/3으로 정리한다."
+      ],
+      "common_failures": [
+        "signed_area_confusion: ∫_0^2 x(x-2)dx = -4/3을 그대로 답으로 쓴다.",
+        "antiderivative_slip: x^3/3-2x^2를 대입해 8/3으로 계산한다."
+      ],
+      "allowed_answer_forms": [
+        "reduced_fraction"
+      ],
+      "diagram_tags": [
+        "function_graph",
+        "area_under_curve"
+      ],
+      "difficulty_delta": 0,
+      "source_item_ids": [
+        "fixture-integral-04"
+      ],
+      "source_step_ids": [
+        "s4"
+      ]
+    },
+    {
+      "atom_id": "atom-a9c6d7c169b3",
+      "label": "부호 판단 [signed_area_check]",
+      "topic": "integral_area_split",
+      "prerequisites": [
+        "integral",
+        "graph symmetry"
+      ],
+      "trigger_patterns": [
+        "교점 확인",
+        "부호 판단",
+        "정적분 계산"
+      ],
+      "canonical_moves": [
+        "signed_area_check",
+        "구간 (0,2)에서 함수값이 음수이므로 넓이는 절댓값 적분으로 계산한다."
+      ],
+      "common_failures": [
+        "signed_area_confusion: ∫_0^2 x(x-2)dx = -4/3을 그대로 답으로 쓴다.",
+        "antiderivative_slip: x^3/3-2x^2를 대입해 8/3으로 계산한다."
+      ],
+      "allowed_answer_forms": [
+        "reduced_fraction"
+      ],
+      "diagram_tags": [
+        "function_graph",
+        "area_under_curve"
+      ],
+      "difficulty_delta": 1,
+      "source_item_ids": [
+        "fixture-integral-04"
+      ],
+      "source_step_ids": [
+        "s2"
+      ]
+    },
+    {
+      "atom_id": "atom-76000528b58f",
+      "label": "적분 계산 [definite_integral_evaluation]",
+      "topic": "integral_area_split",
+      "prerequisites": [
+        "integral",
+        "graph symmetry"
+      ],
+      "trigger_patterns": [
+        "교점 확인",
+        "부호 판단",
+        "정적분 계산"
+      ],
+      "canonical_moves": [
+        "definite_integral_evaluation",
+        "-∫_0^2 (x^2-2x)dx = 4/3을 계산한다."
+      ],
+      "common_failures": [
+        "signed_area_confusion: ∫_0^2 x(x-2)dx = -4/3을 그대로 답으로 쓴다.",
+        "antiderivative_slip: x^3/3-2x^2를 대입해 8/3으로 계산한다."
+      ],
+      "allowed_answer_forms": [
+        "reduced_fraction"
+      ],
+      "diagram_tags": [
+        "function_graph",
+        "area_under_curve"
+      ],
+      "difficulty_delta": 1,
+      "source_item_ids": [
+        "fixture-integral-04"
+      ],
+      "source_step_ids": [
+        "s3"
+      ]
+    },
+    {
+      "atom_id": "atom-991b78d60850",
+      "label": "로그 결합 [log_merge]",
+      "topic": "log_equation_domain",
+      "prerequisites": [
+        "logarithm",
+        "equation"
+      ],
+      "trigger_patterns": [
+        "로그식 결합",
+        "정의역 제한",
+        "근의 선택"
+      ],
+      "canonical_moves": [
+        "log_merge",
+        "log_2((x-1)(x-3))=2로 정리한다."
+      ],
+      "common_failures": [
+        "domain_omission: x>1만 확인하고 x=2를 후보로 남긴다.",
+        "algebraic_slip: (x-1)(x-3)=2로 잘못 두고 계산한다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "number_line"
+      ],
+      "difficulty_delta": 0,
+      "source_item_ids": [
+        "fixture-log-domain-01"
+      ],
+      "source_step_ids": [
+        "s2"
+      ]
+    },
+    {
+      "atom_id": "atom-c2ed46456b9d",
+      "label": "방정식 풀이 [quadratic_filter]",
+      "topic": "log_equation_domain",
+      "prerequisites": [
+        "logarithm",
+        "equation"
+      ],
+      "trigger_patterns": [
+        "로그식 결합",
+        "정의역 제한",
+        "근의 선택"
+      ],
+      "canonical_moves": [
+        "quadratic_filter",
+        "x^2-4x-1=0의 해를 구하고 정의역에 맞는 해를 고른다."
+      ],
+      "common_failures": [
+        "domain_omission: x>1만 확인하고 x=2를 후보로 남긴다.",
+        "algebraic_slip: (x-1)(x-3)=2로 잘못 두고 계산한다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "number_line"
+      ],
+      "difficulty_delta": 1,
+      "source_item_ids": [
+        "fixture-log-domain-01"
+      ],
+      "source_step_ids": [
+        "s3"
+      ]
+    },
+    {
+      "atom_id": "atom-5d39a6b6e0f6",
+      "label": "선택지 대응 [choice_alignment]",
+      "topic": "log_equation_domain",
+      "prerequisites": [
+        "logarithm",
+        "equation"
+      ],
+      "trigger_patterns": [
+        "로그식 결합",
+        "정의역 제한",
+        "근의 선택"
+      ],
+      "canonical_moves": [
+        "choice_alignment",
+        "근삿값을 비교해 4에 대응되는 선택지를 고른다."
+      ],
+      "common_failures": [
+        "domain_omission: x>1만 확인하고 x=2를 후보로 남긴다.",
+        "algebraic_slip: (x-1)(x-3)=2로 잘못 두고 계산한다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "number_line"
+      ],
+      "difficulty_delta": 0,
+      "source_item_ids": [
+        "fixture-log-domain-01"
+      ],
+      "source_step_ids": [
+        "s4"
+      ]
+    },
+    {
+      "atom_id": "atom-311a529ea04c",
+      "label": "정의역 확인 [domain_check]",
+      "topic": "log_equation_domain",
+      "prerequisites": [
+        "logarithm",
+        "equation"
+      ],
+      "trigger_patterns": [
+        "로그식 결합",
+        "정의역 제한",
+        "근의 선택"
+      ],
+      "canonical_moves": [
+        "domain_check",
+        "로그의 진수가 양수이므로 x>3이어야 한다."
+      ],
+      "common_failures": [
+        "domain_omission: x>1만 확인하고 x=2를 후보로 남긴다.",
+        "algebraic_slip: (x-1)(x-3)=2로 잘못 두고 계산한다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "number_line"
+      ],
+      "difficulty_delta": 0,
+      "source_item_ids": [
+        "fixture-log-domain-01"
+      ],
+      "source_step_ids": [
+        "s1"
+      ]
+    }
+  ]
+}

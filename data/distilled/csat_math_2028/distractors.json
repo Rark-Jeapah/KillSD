@@ -1,0 +1,127 @@
+{
+  "spec_id": "csat_math_2028",
+  "generated_at": "2026-03-12T02:46:55.483244+00:00",
+  "source_path": "/Users/j_mac/Desktop/KillSD/data/source_fixtures/csat_math_2028/sample_items.json",
+  "distractors": [
+    {
+      "distractor_id": "dst-b35c3975049e",
+      "error_type": "count_overlap_miss",
+      "trigger": "A∩B를 셀 때",
+      "wrong_move": "조건 사건에 포함되지 않는 경우를 함께 센다.",
+      "plausible_choice_shape": "분자만 1 크게 잡힌 분수",
+      "reject_if_too_obvious": true,
+      "topic": "conditional_probability_table",
+      "source_item_ids": [
+        "fixture-conditional-03"
+      ]
+    },
+    {
+      "distractor_id": "dst-e7ecc4d851d9",
+      "error_type": "unconditioned_ratio",
+      "trigger": "전체 표본공간으로 바로 나눌 때",
+      "wrong_move": "P(A)/P(B) 또는 P(A∩B)/P(S)로 계산한다.",
+      "plausible_choice_shape": "분모가 전체 경우의 수인 분수",
+      "reject_if_too_obvious": true,
+      "topic": "conditional_probability_table",
+      "source_item_ids": [
+        "fixture-conditional-03"
+      ]
+    },
+    {
+      "distractor_id": "dst-f6ea3430f262",
+      "error_type": "direction_misread",
+      "trigger": "증가/감소 조건을 읽을 때",
+      "wrong_move": "전구간에서 증가하지 않음을 f'(x)≥0으로 해석한다.",
+      "plausible_choice_shape": "부등호 방향이 뒤집힌 범위 선택지",
+      "reject_if_too_obvious": true,
+      "topic": "derivative_monotonicity",
+      "source_item_ids": [
+        "fixture-derivative-05"
+      ]
+    },
+    {
+      "distractor_id": "dst-69b0e869e0d8",
+      "error_type": "local_global_confusion",
+      "trigger": "도함수의 한 점 값만 볼 때",
+      "wrong_move": "f'(1)=0이 되도록 a=3 하나만 답으로 본다.",
+      "plausible_choice_shape": "경계값 단일 선택지",
+      "reject_if_too_obvious": true,
+      "topic": "derivative_monotonicity",
+      "source_item_ids": [
+        "fixture-derivative-02"
+      ]
+    },
+    {
+      "distractor_id": "dst-b3076ae0562e",
+      "error_type": "sign_condition_flip",
+      "trigger": "증가/감소 조건을 연결할 때",
+      "wrong_move": "감소하지 않음을 f'(x)≤0으로 잘못 해석한다.",
+      "plausible_choice_shape": "부등호 방향이 반대인 범위 선택지",
+      "reject_if_too_obvious": true,
+      "topic": "derivative_monotonicity",
+      "source_item_ids": [
+        "fixture-derivative-02"
+      ]
+    },
+    {
+      "distractor_id": "dst-cd93bfae189a",
+      "error_type": "vertex_substitution_slip",
+      "trigger": "꼭짓점 x값을 찾을 때",
+      "wrong_move": "x=1로 대입해 b-3≤0을 얻는다.",
+      "plausible_choice_shape": "숫자만 바뀐 경계값 선택지",
+      "reject_if_too_obvious": true,
+      "topic": "derivative_monotonicity",
+      "source_item_ids": [
+        "fixture-derivative-05"
+      ]
+    },
+    {
+      "distractor_id": "dst-1e1a2fdf215c",
+      "error_type": "antiderivative_slip",
+      "trigger": "원시함수를 계산할 때",
+      "wrong_move": "x^3/3-2x^2를 대입해 8/3으로 계산한다.",
+      "plausible_choice_shape": "계수 계산 실수형 분수 답",
+      "reject_if_too_obvious": true,
+      "topic": "integral_area_split",
+      "source_item_ids": [
+        "fixture-integral-04"
+      ]
+    },
+    {
+      "distractor_id": "dst-c50e16a616bc",
+      "error_type": "signed_area_confusion",
+      "trigger": "정적분 값과 넓이를 동일시할 때",
+      "wrong_move": "∫_0^2 x(x-2)dx = -4/3을 그대로 답으로 쓴다.",
+      "plausible_choice_shape": "부호만 틀린 분수 답",
+      "reject_if_too_obvious": true,
+      "topic": "integral_area_split",
+      "source_item_ids": [
+        "fixture-integral-04"
+      ]
+    },
+    {
+      "distractor_id": "dst-f8229aadacca",
+      "error_type": "algebraic_slip",
+      "trigger": "로그를 결합한 뒤 전개할 때",
+      "wrong_move": "(x-1)(x-3)=2로 잘못 두고 계산한다.",
+      "plausible_choice_shape": "정수 근처럼 보이는 근사값 선택지",
+      "reject_if_too_obvious": true,
+      "topic": "log_equation_domain",
+      "source_item_ids": [
+        "fixture-log-domain-01"
+      ]
+    },
+    {
+      "distractor_id": "dst-77213c8cc40a",
+      "error_type": "domain_omission",
+      "trigger": "로그 방정식을 바로 전개할 때",
+      "wrong_move": "x>1만 확인하고 x=2를 후보로 남긴다.",
+      "plausible_choice_shape": "정의역 밖 해를 포함한 수치 선택지",
+      "reject_if_too_obvious": true,
+      "topic": "log_equation_domain",
+      "source_item_ids": [
+        "fixture-log-domain-01"
+      ]
+    }
+  ]
+}

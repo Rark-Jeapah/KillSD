@@ -1,0 +1,301 @@
+{
+  "spec_id": "csat_math_2028",
+  "generated_at": "2026-03-12T02:46:55.482978+00:00",
+  "source_path": "/Users/j_mac/Desktop/KillSD/data/source_fixtures/csat_math_2028/sample_items.json",
+  "items": [
+    {
+      "card_id": "card-2f533910aaad",
+      "spec_id": "csat_math_2028",
+      "source_item_id": "fixture-log-domain-01",
+      "source_kind": "manual_fixture",
+      "source_label": "Synthetic algebra source item",
+      "source_year": 2028,
+      "source_path": null,
+      "subject_area": "algebra",
+      "topic": "log_equation_domain",
+      "subtopics": [
+        "logarithm",
+        "equation",
+        "domain restriction"
+      ],
+      "item_format": "multiple_choice",
+      "score": 3,
+      "difficulty": "standard",
+      "stem": "실수 x에 대하여 log_2(x-1)+log_2(x-3)=2를 만족하는 x의 값을 구하는 과정을 묻는 문항이다.",
+      "choices": [
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "answer": "4",
+      "trigger_patterns": [
+        "로그식 결합",
+        "정의역 제한",
+        "근의 선택"
+      ],
+      "canonical_moves": [
+        "domain_check",
+        "log_merge",
+        "quadratic_filter",
+        "choice_alignment",
+        "정의역 확인",
+        "로그 결합",
+        "방정식 풀이",
+        "선택지 대응"
+      ],
+      "common_failures": [
+        "domain_omission: x>1만 확인하고 x=2를 후보로 남긴다.",
+        "algebraic_slip: (x-1)(x-3)=2로 잘못 두고 계산한다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "number_line"
+      ],
+      "style_notes": [
+        "정의역 조건은 문장으로 먼저 드러내고 수식 조작은 그 다음에 배치한다.",
+        "선택지는 근삿값 유혹을 주되 지나치게 쉬운 배제형은 피한다."
+      ],
+      "source_metadata": {
+        "fixture_group": "sample",
+        "notes": "Synthetic fixture for offline distillation"
+      }
+    },
+    {
+      "card_id": "card-11ae605f39b1",
+      "spec_id": "csat_math_2028",
+      "source_item_id": "fixture-derivative-02",
+      "source_kind": "manual_fixture",
+      "source_label": "Synthetic calculus source item A",
+      "source_year": 2026,
+      "source_path": null,
+      "subject_area": "calculus_1",
+      "topic": "derivative_monotonicity",
+      "subtopics": [
+        "derivative",
+        "critical point",
+        "monotonicity"
+      ],
+      "item_format": "multiple_choice",
+      "score": 3,
+      "difficulty": "challenging",
+      "stem": "함수 f(x)=x^3-3x^2+ax가 구간 전체에서 감소하지 않도록 하는 실수 a의 범위를 추론하는 문항이다.",
+      "choices": [
+        "a≤0",
+        "0≤a≤3",
+        "a≥3",
+        "a≥1",
+        "a≤3"
+      ],
+      "answer": "3",
+      "trigger_patterns": [
+        "도함수 계산",
+        "꼭짓점 활용",
+        "전구간 부호 판단"
+      ],
+      "canonical_moves": [
+        "differentiate_polynomial",
+        "quadratic_vertex_check",
+        "global_monotonicity_condition",
+        "choice_alignment",
+        "도함수 계산",
+        "최솟값 관찰",
+        "단조 조건 연결",
+        "정답 선택"
+      ],
+      "common_failures": [
+        "local_global_confusion: f'(1)=0이 되도록 a=3 하나만 답으로 본다.",
+        "sign_condition_flip: 감소하지 않음을 f'(x)≤0으로 잘못 해석한다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "function_graph",
+        "sign_chart"
+      ],
+      "style_notes": [
+        "그래프를 직접 주지 않아도 수험생이 도함수 그래프를 머릿속에 그리게 만드는 문장 구성이 효과적이다.",
+        "경계값만 답으로 오인하는 오답 선택지를 반드시 포함한다."
+      ],
+      "source_metadata": {
+        "fixture_group": "sample",
+        "notes": "Near-duplicate seed A"
+      }
+    },
+    {
+      "card_id": "card-f1b5f0985f48",
+      "spec_id": "csat_math_2028",
+      "source_item_id": "fixture-conditional-03",
+      "source_kind": "manual_fixture",
+      "source_label": "Synthetic probability source item",
+      "source_year": 2025,
+      "source_path": null,
+      "subject_area": "probability_statistics",
+      "topic": "conditional_probability_table",
+      "subtopics": [
+        "conditional probability",
+        "sample space partition",
+        "counting"
+      ],
+      "item_format": "short_answer",
+      "score": 4,
+      "difficulty": "challenging",
+      "stem": "서로 다른 색 구슬이 들어 있는 주머니에서 두 번 꺼낼 때 사건 A, B가 주어질 때 P(A|B)를 구하는 단답형 문항이다.",
+      "choices": [],
+      "answer": "2/3",
+      "trigger_patterns": [
+        "조건 사건 제한",
+        "분모 재설정",
+        "교집합 계산"
+      ],
+      "canonical_moves": [
+        "condition_partition",
+        "count_conditioned_cases",
+        "conditional_probability_ratio",
+        "조건 사건 정리",
+        "경우의 수 계산",
+        "조건부확률 계산"
+      ],
+      "common_failures": [
+        "unconditioned_ratio: P(A)/P(B) 또는 P(A∩B)/P(S)로 계산한다.",
+        "count_overlap_miss: 조건 사건에 포함되지 않는 경우를 함께 센다."
+      ],
+      "allowed_answer_forms": [
+        "reduced_fraction"
+      ],
+      "diagram_tags": [
+        "probability_table"
+      ],
+      "style_notes": [
+        "조건부확률 문항은 표나 나무도표로 재구성 가능해야 한다.",
+        "단답형이라도 답 형식은 기약분수인지 여부를 명시하는 편이 안전하다."
+      ],
+      "source_metadata": {
+        "fixture_group": "sample",
+        "notes": "Conditional probability template"
+      }
+    },
+    {
+      "card_id": "card-3e364f1ab56e",
+      "spec_id": "csat_math_2028",
+      "source_item_id": "fixture-integral-04",
+      "source_kind": "manual_fixture",
+      "source_label": "Synthetic integral source item",
+      "source_year": 2024,
+      "source_path": null,
+      "subject_area": "calculus_1",
+      "topic": "integral_area_split",
+      "subtopics": [
+        "integral",
+        "graph symmetry",
+        "signed area"
+      ],
+      "item_format": "short_answer",
+      "score": 4,
+      "difficulty": "advanced",
+      "stem": "곡선 y=x(x-2)와 x축으로 둘러싸인 부분의 넓이를 구하는 단답형 문항이다.",
+      "choices": [],
+      "answer": "4/3",
+      "trigger_patterns": [
+        "교점 확인",
+        "부호 판단",
+        "정적분 계산"
+      ],
+      "canonical_moves": [
+        "root_identification",
+        "signed_area_check",
+        "definite_integral_evaluation",
+        "answer_form_finalize",
+        "교점 확인",
+        "부호 판단",
+        "적분 계산",
+        "답 형식 확정"
+      ],
+      "common_failures": [
+        "signed_area_confusion: ∫_0^2 x(x-2)dx = -4/3을 그대로 답으로 쓴다.",
+        "antiderivative_slip: x^3/3-2x^2를 대입해 8/3으로 계산한다."
+      ],
+      "allowed_answer_forms": [
+        "reduced_fraction"
+      ],
+      "diagram_tags": [
+        "function_graph",
+        "area_under_curve"
+      ],
+      "style_notes": [
+        "곡선과 x축 사이 넓이는 부호 판단을 먼저 유도해야 한다.",
+        "그래프를 직접 그리지 않아도 교점과 부호를 떠올릴 수 있게 서술한다."
+      ],
+      "source_metadata": {
+        "fixture_group": "sample",
+        "notes": "Signed area template"
+      }
+    },
+    {
+      "card_id": "card-bdc63c51ee21",
+      "spec_id": "csat_math_2028",
+      "source_item_id": "fixture-derivative-05",
+      "source_kind": "manual_fixture",
+      "source_label": "Synthetic calculus source item B",
+      "source_year": 2028,
+      "source_path": null,
+      "subject_area": "calculus_1",
+      "topic": "derivative_monotonicity",
+      "subtopics": [
+        "derivative",
+        "critical point",
+        "monotonicity"
+      ],
+      "item_format": "multiple_choice",
+      "score": 4,
+      "difficulty": "advanced",
+      "stem": "함수 g(x)=x^3-6x^2+bx가 전구간에서 증가하지 않도록 하는 실수 b의 범위를 판단하는 문항이다.",
+      "choices": [
+        "b≤0",
+        "b≤12",
+        "b≥12",
+        "0≤b≤12",
+        "b=12"
+      ],
+      "answer": "2",
+      "trigger_patterns": [
+        "도함수 계산",
+        "꼭짓점 활용",
+        "전구간 부호 판단"
+      ],
+      "canonical_moves": [
+        "differentiate_polynomial",
+        "global_monotonicity_direction_check",
+        "quadratic_vertex_check",
+        "choice_alignment",
+        "도함수 계산",
+        "최댓값 관찰",
+        "꼭짓점 기반 조건",
+        "정답 선택"
+      ],
+      "common_failures": [
+        "direction_misread: 전구간에서 증가하지 않음을 f'(x)≥0으로 해석한다.",
+        "vertex_substitution_slip: x=1로 대입해 b-3≤0을 얻는다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "function_graph",
+        "sign_chart"
+      ],
+      "style_notes": [
+        "유사 문항끼리는 계수만 바꾼 재출제를 피하기 위해 fingerprint로 근접도를 확인한다.",
+        "증가/감소 해석 오류를 노리는 선택지는 지나치게 직접적이면 안 된다."
+      ],
+      "source_metadata": {
+        "fixture_group": "sample",
+        "notes": "Near-duplicate seed B"
+      }
+    }
+  ]
+}

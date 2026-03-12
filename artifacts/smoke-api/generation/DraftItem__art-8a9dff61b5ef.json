@@ -1,0 +1,39 @@
+{
+  "artifact_id": "art-8a9dff61b5ef",
+  "artifact_type": "DraftItem",
+  "schema_version": "1.0",
+  "stage": "generation",
+  "run_id": "smoke-api",
+  "spec_id": "csat_math_2028",
+  "created_at": "2026-03-12T04:48:14.148407Z",
+  "metadata": {
+    "stage_name": "draft_item",
+    "attempt": 1,
+    "provider_name": "mock_provider",
+    "prompt_hash": "e8b66745edb24286fd9805b66f1fa3d2d284b8016d127a6ea6a95f4e3ec83b1d"
+  },
+  "payload": {
+    "draft_id": "drf-4cd6623059b5",
+    "blueprint": {
+      "item_id": "ibl-4b5887abc90f",
+      "item_no": 28,
+      "domain": "probability_statistics",
+      "format": "short_answer",
+      "score": 4,
+      "difficulty": "advanced",
+      "objective": "복합 사건의 확률값 산출",
+      "skill_tags": [
+        "probability",
+        "event_composition"
+      ],
+      "choice_count": null,
+      "answer_type": "symbolic_or_numeric"
+    },
+    "stem": "복합 사건의 확률값 산출을 평가하는 모의 문항 28번이다.",
+    "choices": [],
+    "rubric": "복합 사건의 확률값 산출에 맞는 핵심 풀이를 구성한다.",
+    "answer_constraints": [
+      "symbolic_or_numeric"
+    ]
+  }
+}

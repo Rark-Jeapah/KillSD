@@ -1,0 +1,15 @@
+{
+  "item_id": "ibl-1940a9e2f227",
+  "item_no": 1,
+  "domain": "algebra",
+  "format": "multiple_choice",
+  "score": 2,
+  "difficulty": "basic",
+  "objective": "다항식 및 방정식 기본 이해",
+  "skill_tags": [
+    "polynomial",
+    "equation"
+  ],
+  "choice_count": 5,
+  "answer_type": "symbolic_or_numeric"
+}

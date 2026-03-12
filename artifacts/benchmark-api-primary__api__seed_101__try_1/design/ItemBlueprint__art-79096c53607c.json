@@ -1,0 +1,30 @@
+{
+  "artifact_id": "art-79096c53607c",
+  "artifact_type": "ItemBlueprint",
+  "schema_version": "1.0",
+  "stage": "design",
+  "run_id": "benchmark-api-primary__api__seed_101__try_1",
+  "spec_id": "csat_math_2028",
+  "created_at": "2026-03-12T06:49:33.888243Z",
+  "metadata": {
+    "stage_name": "item_blueprint",
+    "attempt": 1,
+    "provider_name": "mock_provider",
+    "prompt_hash": "726f6b8085a3e2db3ba3e7f82d59153e7507ac0cd92f2cc4a9f0c1c9f56bb261"
+  },
+  "payload": {
+    "item_id": "ibl-bb165b896662",
+    "item_no": 25,
+    "domain": "probability_statistics",
+    "format": "short_answer",
+    "score": 4,
+    "difficulty": "advanced",
+    "objective": "표본평균 계산",
+    "skill_tags": [
+      "sampling",
+      "mean"
+    ],
+    "choice_count": null,
+    "answer_type": "symbolic_or_numeric"
+  }
+}

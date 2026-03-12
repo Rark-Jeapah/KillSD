@@ -1,0 +1,163 @@
+{
+  "exchange_id": "mxl-95724ef5b4f7",
+  "prompt_packet": {
+    "packet_id": "pkt-1d769ff6953a",
+    "mode": "manual",
+    "stage": "validation",
+    "stage_name": "critique",
+    "spec_id": "csat_math_2028",
+    "run_id": "benchmark-manual-primary__manual__seed_101__try_1",
+    "blueprint_id": "bp-ad654eb42770",
+    "item_no": 22,
+    "instructions": [
+      "<!-- version: 1.0.0 -->\n# Critic\n\nYou are critiquing a `SolvedItem` and must return a `CritiqueReport`.\n\n- Identify hidden ambiguity, structural issues, weak distractors, or answer-form problems.\n- Use blocking findings only when the issue would invalidate the item.\n- If the item is acceptable, return an empty findings list and `requires_revision=false`.\n- Return strict JSON only.\n"
+    ],
+    "input_artifact_ids": [
+      "art-07dd6d951578"
+    ],
+    "lineage_parent_ids": [
+      "art-07dd6d951578"
+    ],
+    "context": {
+      "solved_item": {
+        "solved_id": "slv-4f6eab231168",
+        "draft": {
+          "draft_id": "drf-995d1fe85da3",
+          "blueprint": {
+            "item_id": "ibl-6101949bbe6f",
+            "item_no": 22,
+            "domain": "probability_statistics",
+            "format": "short_answer",
+            "score": 4,
+            "difficulty": "challenging",
+            "objective": "확률 변수 계산",
+            "skill_tags": [
+              "random_variable",
+              "expectation"
+            ],
+            "choice_count": null,
+            "answer_type": "symbolic_or_numeric"
+          },
+          "stem": "확률 변수 계산을 평가하는 모의 문항 22번이다.",
+          "choices": [],
+          "rubric": "확률 변수 계산에 맞는 핵심 풀이를 구성한다.",
+          "answer_constraints": [
+            "symbolic_or_numeric"
+          ]
+        },
+        "final_answer": "122",
+        "solution_steps": [
+          "확률 변수 계산에 필요한 조건을 먼저 정리한다.",
+          "핵심 계산 또는 추론을 수행한다.",
+          "정답 형식에 맞게 결과를 확정한다."
+        ],
+        "solution_summary": "확률 변수 계산에 맞는 풀이가 완결되었다."
+      }
+    },
+    "expected_output_model": "CritiqueReport",
+    "response_schema_version": "1.0",
+    "response_json_schema": {
+      "$defs": {
+        "CritiqueFinding": {
+          "additionalProperties": false,
+          "description": "Issue found during the critique stage before final validation.",
+          "properties": {
+            "issue_id": {
+              "title": "Issue Id",
+              "type": "string"
+            },
+            "severity": {
+              "$ref": "#/$defs/ValidationSeverity"
+            },
+            "message": {
+              "title": "Message",
+              "type": "string"
+            },
+            "recommendation": {
+              "title": "Recommendation",
+              "type": "string"
+            },
+            "blocking": {
+              "default": false,
+              "title": "Blocking",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "severity",
+            "message",
+            "recommendation"
+          ],
+          "title": "CritiqueFinding",
+          "type": "object"
+        },
+        "ValidationSeverity": {
+          "description": "Severity for validation findings.",
+          "enum": [
+            "info",
+            "warning",
+            "error"
+          ],
+          "title": "ValidationSeverity",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Critique output used to drive revision decisions.",
+      "properties": {
+        "critique_id": {
+          "title": "Critique Id",
+          "type": "string"
+        },
+        "item_no": {
+          "title": "Item No",
+          "type": "integer"
+        },
+        "summary": {
+          "title": "Summary",
+          "type": "string"
+        },
+        "findings": {
+          "items": {
+            "$ref": "#/$defs/CritiqueFinding"
+          },
+          "title": "Findings",
+          "type": "array"
+        },
+        "requires_revision": {
+          "default": false,
+          "title": "Requires Revision",
+          "type": "boolean"
+        },
+        "reviewed_at": {
+          "format": "date-time",
+          "title": "Reviewed At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "item_no",
+        "summary"
+      ],
+      "title": "CritiqueReport",
+      "type": "object"
+    },
+    "prompt_template_path": "/Users/j_mac/Desktop/KillSD/src/prompts/critic.md",
+    "prompt_version": "1.0.0",
+    "prompt_hash": "b4c2ae3b7743976f6d3015892d9f2dfd1151a50e1d88d5b912f47f94c6691891",
+    "seed": 101,
+    "attempt": 1,
+    "provider_name": "mock_provider"
+  },
+  "submitted_output": {
+    "critique_id": "crt-858aa0bfede3",
+    "item_no": 22,
+    "summary": "구조적 결함이 없어 다음 단계로 진행 가능하다.",
+    "findings": [],
+    "requires_revision": false,
+    "reviewed_at": "2026-03-12T06:49:34.875580Z"
+  },
+  "operator_notes": [],
+  "status": "submitted",
+  "responded_at": "2026-03-12T06:49:34.876694Z"
+}

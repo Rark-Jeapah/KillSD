@@ -1,0 +1,24 @@
+{
+  "draft_id": "drf-a3db73c93d9e",
+  "blueprint": {
+    "item_id": "ibl-5f4fd7fdb352",
+    "item_no": 30,
+    "domain": "probability_statistics",
+    "format": "short_answer",
+    "score": 4,
+    "difficulty": "advanced",
+    "objective": "고난도 통합형 단답 추론",
+    "skill_tags": [
+      "integration",
+      "reasoning"
+    ],
+    "choice_count": null,
+    "answer_type": "symbolic_or_numeric"
+  },
+  "stem": "고난도 통합형 단답 추론을 평가하는 모의 문항 30번이다.",
+  "choices": [],
+  "rubric": "고난도 통합형 단답 추론에 맞는 핵심 풀이를 구성한다.",
+  "answer_constraints": [
+    "symbolic_or_numeric"
+  ]
+}

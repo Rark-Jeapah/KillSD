@@ -1,0 +1,270 @@
+{
+  "artifact_id": "art-fdbbdff44b9f",
+  "artifact_type": "ValidatedItem",
+  "schema_version": "1.0",
+  "stage": "validation",
+  "run_id": "benchmark-manual-primary__manual__seed_101__try_1",
+  "spec_id": "csat_math_2028",
+  "created_at": "2026-03-12T06:49:34.407675Z",
+  "metadata": {
+    "stage_name": "validate",
+    "attempt": 1,
+    "source": "local"
+  },
+  "payload": {
+    "validated_id": "vld-0443f6a12fe1",
+    "solved": {
+      "solved_id": "slv-1016b4fa2a58",
+      "draft": {
+        "draft_id": "drf-be35655f0c5b",
+        "blueprint": {
+          "item_id": "ibl-8a0f9fd8b443",
+          "item_no": 8,
+          "domain": "algebra",
+          "format": "multiple_choice",
+          "score": 3,
+          "difficulty": "standard",
+          "objective": "지수로그함수 실전 적용",
+          "skill_tags": [
+            "exponential",
+            "logarithm"
+          ],
+          "choice_count": 5,
+          "answer_type": "symbolic_or_numeric"
+        },
+        "stem": "지수로그함수 실전 적용을 평가하는 모의 문항 8번이다.",
+        "choices": [
+          "26",
+          "27",
+          "28",
+          "29",
+          "30"
+        ],
+        "rubric": "지수로그함수 실전 적용에 맞는 핵심 풀이를 구성한다.",
+        "answer_constraints": [
+          "symbolic_or_numeric"
+        ]
+      },
+      "final_answer": "28",
+      "solution_steps": [
+        "지수로그함수 실전 적용에 필요한 조건을 먼저 정리한다.",
+        "핵심 계산 또는 추론을 수행한다.",
+        "정답 형식에 맞게 결과를 확정한다."
+      ],
+      "solution_summary": "지수로그함수 실전 적용에 맞는 풀이가 완결되었다. [revised]"
+    },
+    "validation": {
+      "report_id": "val-9f063f68b2a6",
+      "item_no": 8,
+      "status": "pass",
+      "findings": [
+        {
+          "check_name": "item_number_range",
+          "passed": true,
+          "severity": "error",
+          "message": "item_no=8 is within 1..30",
+          "reason_code": "format.item_number_range",
+          "failure_level": "hard",
+          "validator_name": "format_validator",
+          "recommendation": null,
+          "context": {}
+        },
+        {
+          "check_name": "score_allowed",
+          "passed": true,
+          "severity": "error",
+          "message": "score is permitted by the exam spec",
+          "reason_code": "format.score_invalid",
+          "failure_level": "hard",
+          "validator_name": "format_validator",
+          "recommendation": null,
+          "context": {}
+        },
+        {
+          "check_name": "choice_count",
+          "passed": true,
+          "severity": "error",
+          "message": "multiple-choice item contains exactly 5 options",
+          "reason_code": "format.choice_count_invalid",
+          "failure_level": "hard",
+          "validator_name": "format_validator",
+          "recommendation": null,
+          "context": {}
+        },
+        {
+          "check_name": "domain_allowed",
+          "passed": true,
+          "severity": "error",
+          "message": "blueprint domain is allowed by the exam spec",
+          "reason_code": "curriculum.domain_forbidden",
+          "failure_level": "hard",
+          "validator_name": "curriculum_validator",
+          "recommendation": null,
+          "context": {}
+        },
+        {
+          "check_name": "forbidden_topics_absent",
+          "passed": true,
+          "severity": "error",
+          "message": "no forbidden topics were detected in the item text",
+          "reason_code": "curriculum.forbidden_topic_detected",
+          "failure_level": "hard",
+          "validator_name": "curriculum_validator",
+          "recommendation": null,
+          "context": {
+            "forbidden_hits": []
+          }
+        },
+        {
+          "check_name": "allowed_topic_overlap",
+          "passed": true,
+          "severity": "warning",
+          "message": "item text overlaps with known allowed topics or subtopics",
+          "reason_code": "curriculum.allowed_topic_miss",
+          "failure_level": "soft",
+          "validator_name": "curriculum_validator",
+          "recommendation": null,
+          "context": {
+            "allowed_hits": [
+              "algebra",
+              "logarithm"
+            ]
+          }
+        },
+        {
+          "check_name": "final_answer_in_choices",
+          "passed": true,
+          "severity": "error",
+          "message": "multiple-choice final answer appears among the choices",
+          "reason_code": "answer.choice_answer_missing",
+          "failure_level": "hard",
+          "validator_name": "answer_validator",
+          "recommendation": null,
+          "context": {}
+        },
+        {
+          "check_name": "reference_answer_available",
+          "passed": true,
+          "severity": "info",
+          "message": "No external reference answer was supplied; direct answer verification was skipped.",
+          "reason_code": "answer.reference_not_available",
+          "failure_level": "soft",
+          "validator_name": "answer_validator",
+          "recommendation": null,
+          "context": {}
+        },
+        {
+          "check_name": "surface_similarity",
+          "passed": true,
+          "severity": "warning",
+          "message": "surface-level stem similarity stays below the configured threshold",
+          "reason_code": "similarity.surface_too_high",
+          "failure_level": "soft",
+          "validator_name": "similarity_validator",
+          "recommendation": null,
+          "context": {
+            "score": 0.3488,
+            "matched_source_item_id": "fixture-derivative-05"
+          }
+        },
+        {
+          "check_name": "expression_similarity",
+          "passed": true,
+          "severity": "warning",
+          "message": "normalized math-expression similarity stays below the configured threshold",
+          "reason_code": "similarity.expression_too_high",
+          "failure_level": "soft",
+          "validator_name": "similarity_validator",
+          "recommendation": null,
+          "context": {
+            "score": 0.3636,
+            "matched_source_item_id": "fixture-derivative-02"
+          }
+        },
+        {
+          "check_name": "solution_graph_similarity",
+          "passed": true,
+          "severity": "warning",
+          "message": "solution-graph fingerprint similarity stays below the configured threshold",
+          "reason_code": "similarity.solution_graph_too_high",
+          "failure_level": "soft",
+          "validator_name": "similarity_validator",
+          "recommendation": null,
+          "context": {
+            "score": 0.0,
+            "matched_source_item_id": null
+          }
+        },
+        {
+          "check_name": "balanced_inline_math",
+          "passed": true,
+          "severity": "error",
+          "message": "inline math delimiters are balanced",
+          "reason_code": "render.unbalanced_inline_math",
+          "failure_level": "hard",
+          "validator_name": "render_validator",
+          "recommendation": null,
+          "context": {}
+        },
+        {
+          "check_name": "balanced_braces",
+          "passed": true,
+          "severity": "error",
+          "message": "brace structure is balanced",
+          "reason_code": "render.unbalanced_braces",
+          "failure_level": "hard",
+          "validator_name": "render_validator",
+          "recommendation": null,
+          "context": {}
+        },
+        {
+          "check_name": "diagram_assets_present",
+          "passed": true,
+          "severity": "info",
+          "message": "all referenced diagram assets are available",
+          "reason_code": "render.missing_diagram_asset",
+          "failure_level": "hard",
+          "validator_name": "render_validator",
+          "recommendation": null,
+          "context": {
+            "missing_assets": []
+          }
+        },
+        {
+          "check_name": "latex_compile_dry_run",
+          "passed": true,
+          "severity": "info",
+          "message": "LaTeX compiler unavailable; compile dry-run skipped.",
+          "reason_code": "render.latex_compile_ok",
+          "failure_level": "soft",
+          "validator_name": "render_validator",
+          "recommendation": null,
+          "context": {}
+        },
+        {
+          "check_name": "difficulty_band_alignment",
+          "passed": true,
+          "severity": "info",
+          "message": "proxy difficulty remains close to the blueprint difficulty band",
+          "reason_code": "difficulty.band_mismatch",
+          "failure_level": "soft",
+          "validator_name": "difficulty_estimator",
+          "recommendation": null,
+          "context": {
+            "target_band": "standard",
+            "predicted_band": "challenging",
+            "delta": 1
+          }
+        }
+      ],
+      "summary": "All validator checks passed.",
+      "reason_codes": [],
+      "hard_fail": false,
+      "soft_fail": false,
+      "regenerate_recommendation": "keep",
+      "checked_at": "2026-03-12T06:49:34.406706Z"
+    },
+    "approval_status": "approved",
+    "revision_notes": []
+  }
+}

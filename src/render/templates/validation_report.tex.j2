@@ -1,0 +1,39 @@
+\documentclass[9pt]{article}
+\usepackage[a4paper,margin=14mm]{geometry}
+\usepackage{kotex}
+\usepackage{amsmath,amssymb,booktabs,longtable,tabularx,array,xcolor}
+\setlength{\parindent}{0pt}
+\begin{document}
+\begin{center}
+  {\LARGE\bfseries {{ title }}}\\[0.4em]
+  {\large 검증 리포트}\\[0.2em]
+  {\small generated at {{ generated_at }}}
+\end{center}
+\vspace{0.5em}
+\begin{longtable}{
+  >{\centering\arraybackslash}p{0.05\linewidth}
+  >{\centering\arraybackslash}p{0.11\linewidth}
+  >{\raggedright\arraybackslash}p{0.16\linewidth}
+  >{\centering\arraybackslash}p{0.12\linewidth}
+  >{\centering\arraybackslash}p{0.10\linewidth}
+  >{\centering\arraybackslash}p{0.10\linewidth}
+  >{\raggedright\arraybackslash}p{0.26\linewidth}
+}
+\toprule
+문항 & 상태 & 이유 코드 & 권고 & 난도 추정 & 단계 수 & 요약\\
+\midrule
+\endhead
+{% for report in reports %}
+{{ report.item_no }} &
+{{ report.status }} &
+{{ report.reason_codes }} &
+{{ report.recommendation }} &
+{{ report.difficulty_band }} &
+{{ report.step_count }} &
+{{ report.summary }} \\
+{% endfor %}
+\bottomrule
+\end{longtable}
+\vspace{0.4em}
+\small branching factor와 solver disagreement score는 JSON render manifest에서 추가 확인 가능하다.
+\end{document}

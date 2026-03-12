@@ -1,0 +1,83 @@
+{
+  "artifact_id": "art-2ac35252a8ca",
+  "artifact_type": "RenderJobResult",
+  "schema_version": "1.0",
+  "stage": "render",
+  "run_id": "benchmark-api-replay__api__seed_101__try_2",
+  "spec_id": "csat_math_2028",
+  "created_at": "2026-03-12T13:20:27.985968Z",
+  "metadata": {
+    "source": "benchmark_runner",
+    "case_id": "api_replay",
+    "attempt_index": 2
+  },
+  "payload": {
+    "render_id": "rdr-20260312132027985327",
+    "run_id": "benchmark-api-replay__api__seed_101__try_2",
+    "spec_id": "csat_math_2028",
+    "bundle_artifact_id": "art-35d63f466767",
+    "validator_suite_artifact_ids": [
+      "art-51fe9bdb5cb0",
+      "art-d79219bf7685",
+      "art-3af2e92e1888",
+      "art-9229b3142c53",
+      "art-d5b194fef1df",
+      "art-03e40c32a369",
+      "art-b0b6ceaba300",
+      "art-4e6374cc6d41",
+      "art-8d41f92a9483",
+      "art-7f083fc8d969",
+      "art-ac62abc01810",
+      "art-ed890b44e4cb",
+      "art-b9988138363e",
+      "art-11a95cbfc530",
+      "art-d824532d91a7",
+      "art-3610c7390dab",
+      "art-9a6f98ff7762",
+      "art-d6d6b3a2b886",
+      "art-6d96f73bbc85",
+      "art-74b4637f4228",
+      "art-9cecf7e896f0",
+      "art-cea8f0e7c98c",
+      "art-1b203bea15a1",
+      "art-779ab684e28f",
+      "art-0ca2a3cc030f",
+      "art-e34a139d1221",
+      "art-9ac7845636e5",
+      "art-1c78dc34c31d",
+      "art-df36cf56aaa4",
+      "art-e3d13a5e1a13"
+    ],
+    "output_dir": "/var/folders/h0/ljv31m3x6fl00g2p_z1lt9lc0000gn/T/tmp.vAtT00NZHd/out/api_replay/attempt_2",
+    "documents": [
+      {
+        "kind": "exam",
+        "template_name": "exam.tex.j2",
+        "tex_path": "/var/folders/h0/ljv31m3x6fl00g2p_z1lt9lc0000gn/T/tmp.vAtT00NZHd/out/api_replay/attempt_2/exam.tex",
+        "pdf_path": "/var/folders/h0/ljv31m3x6fl00g2p_z1lt9lc0000gn/T/tmp.vAtT00NZHd/out/api_replay/attempt_2/exam.pdf",
+        "compiled": true,
+        "compiler": "/private/var/folders/h0/ljv31m3x6fl00g2p_z1lt9lc0000gn/T/tmp.vAtT00NZHd/bin/xelatex",
+        "debug_message": null
+      },
+      {
+        "kind": "answer_key",
+        "template_name": "answer_key.tex.j2",
+        "tex_path": "/var/folders/h0/ljv31m3x6fl00g2p_z1lt9lc0000gn/T/tmp.vAtT00NZHd/out/api_replay/attempt_2/answer_key.tex",
+        "pdf_path": "/var/folders/h0/ljv31m3x6fl00g2p_z1lt9lc0000gn/T/tmp.vAtT00NZHd/out/api_replay/attempt_2/answer_key.pdf",
+        "compiled": true,
+        "compiler": "/private/var/folders/h0/ljv31m3x6fl00g2p_z1lt9lc0000gn/T/tmp.vAtT00NZHd/bin/xelatex",
+        "debug_message": null
+      },
+      {
+        "kind": "validation_report",
+        "template_name": "validation_report.tex.j2",
+        "tex_path": "/var/folders/h0/ljv31m3x6fl00g2p_z1lt9lc0000gn/T/tmp.vAtT00NZHd/out/api_replay/attempt_2/validation_report.tex",
+        "pdf_path": "/var/folders/h0/ljv31m3x6fl00g2p_z1lt9lc0000gn/T/tmp.vAtT00NZHd/out/api_replay/attempt_2/validation_report.pdf",
+        "compiled": true,
+        "compiler": "/private/var/folders/h0/ljv31m3x6fl00g2p_z1lt9lc0000gn/T/tmp.vAtT00NZHd/bin/xelatex",
+        "debug_message": null
+      }
+    ],
+    "rendered_at": "2026-03-12T13:20:27.985386+00:00"
+  }
+}

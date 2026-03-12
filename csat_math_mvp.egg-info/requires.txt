@@ -1,0 +1,9 @@
+fastapi<1.0,>=0.115
+jinja2<4.0,>=3.1
+pydantic<3.0,>=2.8
+sympy<2.0,>=1.13
+typer<1.0,>=0.12
+uvicorn<1.0,>=0.30
+
+[dev]
+pytest<9.0,>=8.0

@@ -1,0 +1,52 @@
+{
+  "artifact_id": "art-9f92cfc20c4e",
+  "artifact_type": "ProviderResponse",
+  "schema_version": "1.0",
+  "stage": "generation",
+  "run_id": "benchmark-api-replay__api__seed_101__try_1",
+  "spec_id": "csat_math_2028",
+  "created_at": "2026-03-12T06:49:35.903535Z",
+  "metadata": {
+    "stage_name": "draft_item",
+    "attempt": 1,
+    "source": "provider_response"
+  },
+  "payload": {
+    "provider_name": "mock_provider",
+    "prompt_packet_id": "pkt-61ab37f5491f",
+    "stage_name": "draft_item",
+    "output": {
+      "draft_id": "drf-1ccdf75a0323",
+      "blueprint": {
+        "item_id": "ibl-b348530590fd",
+        "item_no": 29,
+        "domain": "probability_statistics",
+        "format": "short_answer",
+        "score": 4,
+        "difficulty": "advanced",
+        "objective": "통계적 추론 계산",
+        "skill_tags": [
+          "inference",
+          "variance"
+        ],
+        "choice_count": null,
+        "answer_type": "symbolic_or_numeric"
+      },
+      "stem": "통계적 추론 계산을 평가하는 모의 문항 29번이다.",
+      "choices": [],
+      "rubric": "통계적 추론 계산에 맞는 핵심 풀이를 구성한다.",
+      "answer_constraints": [
+        "symbolic_or_numeric"
+      ]
+    },
+    "raw_text": "{\"draft_id\": \"drf-1ccdf75a0323\", \"blueprint\": {\"item_id\": \"ibl-b348530590fd\", \"item_no\": 29, \"domain\": \"probability_statistics\", \"format\": \"short_answer\", \"score\": 4, \"difficulty\": \"advanced\", \"objective\": \"통계적 추론 계산\", \"skill_tags\": [\"inference\", \"variance\"], \"choice_count\": null, \"answer_type\": \"symbolic_or_numeric\"}, \"stem\": \"통계적 추론 계산을 평가하는 모의 문항 29번이다.\", \"choices\": [], \"rubric\": \"통계적 추론 계산에 맞는 핵심 풀이를 구성한다.\", \"answer_constraints\": [\"symbolic_or_numeric\"]}",
+    "prompt_hash": "e8b66745edb24286fd9805b66f1fa3d2d284b8016d127a6ea6a95f4e3ec83b1d",
+    "seed": 101,
+    "usage": {
+      "prompt_chars": 633,
+      "completion_chars": 462,
+      "estimated_cost_usd": 0.0,
+      "latency_ms": 0
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "fixture_id": "internal_metadata_artifact_id_leak",
+  "kind": "item",
+  "expected_reason_codes": [
+    "format.internal_metadata_leak"
+  ],
+  "expected_status": "fail",
+  "expected_hard_fail": true,
+  "expected_soft_fail": false,
+  "item": {
+    "blueprint": {
+      "item_no": 7,
+      "domain": "calculus_1",
+      "format": "multiple_choice",
+      "score": 3,
+      "difficulty": "challenging",
+      "objective": "derivative_monotonicity",
+      "skill_tags": ["derivative", "monotonicity"],
+      "choice_count": 5,
+      "answer_type": "choice_index"
+    },
+    "draft": {
+      "stem": "The math is fine, but the solution text still exposes artifact_id=art-123456.",
+      "choices": ["a<0", "0<a<3", "a>=3", "a>=1", "a<=3"],
+      "rubric": "Any artifact id leak is a discard condition.",
+      "answer_constraints": ["choice_index"]
+    },
+    "solved": {
+      "final_answer": "3",
+      "correct_choice_index": 3,
+      "correct_choice_value": "a>=3",
+      "solution_steps": [
+        "Differentiate the function.",
+        "Check the minimum derivative value.",
+        "artifact_id=art-123456 should never be shown."
+      ],
+      "solution_summary": "The solution steps leak internal artifact metadata."
+    }
+  },
+  "context": {}
+}

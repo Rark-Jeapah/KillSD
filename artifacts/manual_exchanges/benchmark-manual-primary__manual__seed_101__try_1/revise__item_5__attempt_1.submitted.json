@@ -1,0 +1,291 @@
+{
+  "exchange_id": "mxl-34c2546397cb",
+  "prompt_packet": {
+    "packet_id": "pkt-bbaf43a8a314",
+    "mode": "manual",
+    "stage": "revision",
+    "stage_name": "revise",
+    "spec_id": "csat_math_2028",
+    "run_id": "benchmark-manual-primary__manual__seed_101__try_1",
+    "blueprint_id": "bp-ad654eb42770",
+    "item_no": 5,
+    "instructions": [
+      "<!-- version: 1.0.0 -->\n# Reviser\n\nYou are revising a `SolvedItem` using a `CritiqueReport`.\n\n- Apply critique feedback while preserving the intended blueprint.\n- If there are no findings, you may return the solved item unchanged.\n- The output must still be a schema-valid `SolvedItem`.\n- Return strict JSON only.\n"
+    ],
+    "input_artifact_ids": [
+      "art-20b070a390e2",
+      "art-6a328839125a"
+    ],
+    "lineage_parent_ids": [
+      "art-20b070a390e2",
+      "art-6a328839125a"
+    ],
+    "context": {
+      "solved_item": {
+        "solved_id": "slv-bfcc324ce35b",
+        "draft": {
+          "draft_id": "drf-a00251a6e6ee",
+          "blueprint": {
+            "item_id": "ibl-01b4ccc118a4",
+            "item_no": 5,
+            "domain": "algebra",
+            "format": "multiple_choice",
+            "score": 3,
+            "difficulty": "basic",
+            "objective": "수열의 귀납적 구조 파악",
+            "skill_tags": [
+              "sequence",
+              "recurrence"
+            ],
+            "choice_count": 5,
+            "answer_type": "symbolic_or_numeric"
+          },
+          "stem": "수열의 귀납적 구조 파악을 평가하는 모의 문항 5번이다.",
+          "choices": [
+            "17",
+            "18",
+            "19",
+            "20",
+            "21"
+          ],
+          "rubric": "수열의 귀납적 구조 파악에 맞는 핵심 풀이를 구성한다.",
+          "answer_constraints": [
+            "symbolic_or_numeric"
+          ]
+        },
+        "final_answer": "21",
+        "solution_steps": [
+          "수열의 귀납적 구조 파악에 필요한 조건을 먼저 정리한다.",
+          "핵심 계산 또는 추론을 수행한다.",
+          "정답 형식에 맞게 결과를 확정한다."
+        ],
+        "solution_summary": "수열의 귀납적 구조 파악에 맞는 풀이가 완결되었다."
+      },
+      "critique_report": {
+        "critique_id": "crt-9137e7ec00fa",
+        "item_no": 5,
+        "summary": "구조적 결함이 없어 다음 단계로 진행 가능하다.",
+        "findings": [],
+        "requires_revision": false,
+        "reviewed_at": "2026-03-12T06:49:34.319254Z"
+      }
+    },
+    "expected_output_model": "SolvedItem",
+    "response_schema_version": "1.0",
+    "response_json_schema": {
+      "$defs": {
+        "DifficultyBand": {
+          "description": "Coarse difficulty buckets for MVP planning.",
+          "enum": [
+            "basic",
+            "standard",
+            "challenging",
+            "advanced"
+          ],
+          "title": "DifficultyBand",
+          "type": "string"
+        },
+        "DraftItem": {
+          "additionalProperties": false,
+          "description": "Drafted item content before solving/validation.",
+          "properties": {
+            "draft_id": {
+              "title": "Draft Id",
+              "type": "string"
+            },
+            "blueprint": {
+              "$ref": "#/$defs/ItemBlueprint"
+            },
+            "stem": {
+              "title": "Stem",
+              "type": "string"
+            },
+            "choices": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Choices",
+              "type": "array"
+            },
+            "rubric": {
+              "title": "Rubric",
+              "type": "string"
+            },
+            "answer_constraints": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Answer Constraints",
+              "type": "array"
+            }
+          },
+          "required": [
+            "blueprint",
+            "stem",
+            "rubric"
+          ],
+          "title": "DraftItem",
+          "type": "object"
+        },
+        "ItemBlueprint": {
+          "additionalProperties": false,
+          "description": "Planning record for a single exam item before generation.",
+          "properties": {
+            "item_id": {
+              "title": "Item Id",
+              "type": "string"
+            },
+            "item_no": {
+              "title": "Item No",
+              "type": "integer"
+            },
+            "domain": {
+              "title": "Domain",
+              "type": "string"
+            },
+            "format": {
+              "$ref": "#/$defs/ItemFormat"
+            },
+            "score": {
+              "title": "Score",
+              "type": "integer"
+            },
+            "difficulty": {
+              "$ref": "#/$defs/DifficultyBand"
+            },
+            "objective": {
+              "title": "Objective",
+              "type": "string"
+            },
+            "skill_tags": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Skill Tags",
+              "type": "array"
+            },
+            "choice_count": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Choice Count"
+            },
+            "answer_type": {
+              "default": "symbolic_or_numeric",
+              "title": "Answer Type",
+              "type": "string"
+            }
+          },
+          "required": [
+            "item_no",
+            "domain",
+            "format",
+            "score",
+            "difficulty",
+            "objective"
+          ],
+          "title": "ItemBlueprint",
+          "type": "object"
+        },
+        "ItemFormat": {
+          "description": "Supported item presentation formats.",
+          "enum": [
+            "multiple_choice",
+            "short_answer"
+          ],
+          "title": "ItemFormat",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Draft item enriched with a worked solution and answer.",
+      "properties": {
+        "solved_id": {
+          "title": "Solved Id",
+          "type": "string"
+        },
+        "draft": {
+          "$ref": "#/$defs/DraftItem"
+        },
+        "final_answer": {
+          "title": "Final Answer",
+          "type": "string"
+        },
+        "solution_steps": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Solution Steps",
+          "type": "array"
+        },
+        "solution_summary": {
+          "title": "Solution Summary",
+          "type": "string"
+        }
+      },
+      "required": [
+        "draft",
+        "final_answer",
+        "solution_steps",
+        "solution_summary"
+      ],
+      "title": "SolvedItem",
+      "type": "object"
+    },
+    "prompt_template_path": "/Users/j_mac/Desktop/KillSD/src/prompts/reviser.md",
+    "prompt_version": "1.0.0",
+    "prompt_hash": "074486d66a25c1d71d220ba81599c7f0b1224a35725220dc08f0b84b9b6df9c8",
+    "seed": 101,
+    "attempt": 1,
+    "provider_name": "mock_provider"
+  },
+  "submitted_output": {
+    "solved_id": "slv-bfcc324ce35b",
+    "draft": {
+      "draft_id": "drf-a00251a6e6ee",
+      "blueprint": {
+        "item_id": "ibl-01b4ccc118a4",
+        "item_no": 5,
+        "domain": "algebra",
+        "format": "multiple_choice",
+        "score": 3,
+        "difficulty": "basic",
+        "objective": "수열의 귀납적 구조 파악",
+        "skill_tags": [
+          "sequence",
+          "recurrence"
+        ],
+        "choice_count": 5,
+        "answer_type": "symbolic_or_numeric"
+      },
+      "stem": "수열의 귀납적 구조 파악을 평가하는 모의 문항 5번이다.",
+      "choices": [
+        "17",
+        "18",
+        "19",
+        "20",
+        "21"
+      ],
+      "rubric": "수열의 귀납적 구조 파악에 맞는 핵심 풀이를 구성한다.",
+      "answer_constraints": [
+        "symbolic_or_numeric"
+      ]
+    },
+    "final_answer": "21",
+    "solution_steps": [
+      "수열의 귀납적 구조 파악에 필요한 조건을 먼저 정리한다.",
+      "핵심 계산 또는 추론을 수행한다.",
+      "정답 형식에 맞게 결과를 확정한다."
+    ],
+    "solution_summary": "수열의 귀납적 구조 파악에 맞는 풀이가 완결되었다. [revised]"
+  },
+  "operator_notes": [],
+  "status": "submitted",
+  "responded_at": "2026-03-12T06:49:34.324107Z"
+}

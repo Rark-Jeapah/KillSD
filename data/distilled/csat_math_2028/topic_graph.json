@@ -1,0 +1,266 @@
+{
+  "spec_id": "csat_math_2028",
+  "generated_at": "2026-03-12T02:46:55.483293+00:00",
+  "nodes": [
+    {
+      "node_id": "area:algebra",
+      "label": "algebra",
+      "node_type": "subject_area",
+      "source_count": 1
+    },
+    {
+      "node_id": "area:calculus_1",
+      "label": "calculus_1",
+      "node_type": "subject_area",
+      "source_count": 3
+    },
+    {
+      "node_id": "area:probability_statistics",
+      "label": "probability_statistics",
+      "node_type": "subject_area",
+      "source_count": 1
+    },
+    {
+      "node_id": "subtopic:conditional probability",
+      "label": "conditional probability",
+      "node_type": "subtopic",
+      "source_count": 4
+    },
+    {
+      "node_id": "subtopic:counting",
+      "label": "counting",
+      "node_type": "subtopic",
+      "source_count": 1
+    },
+    {
+      "node_id": "subtopic:critical point",
+      "label": "critical point",
+      "node_type": "subtopic",
+      "source_count": 8
+    },
+    {
+      "node_id": "subtopic:derivative",
+      "label": "derivative",
+      "node_type": "subtopic",
+      "source_count": 8
+    },
+    {
+      "node_id": "subtopic:domain restriction",
+      "label": "domain restriction",
+      "node_type": "subtopic",
+      "source_count": 1
+    },
+    {
+      "node_id": "subtopic:equation",
+      "label": "equation",
+      "node_type": "subtopic",
+      "source_count": 5
+    },
+    {
+      "node_id": "subtopic:graph symmetry",
+      "label": "graph symmetry",
+      "node_type": "subtopic",
+      "source_count": 5
+    },
+    {
+      "node_id": "subtopic:integral",
+      "label": "integral",
+      "node_type": "subtopic",
+      "source_count": 5
+    },
+    {
+      "node_id": "subtopic:logarithm",
+      "label": "logarithm",
+      "node_type": "subtopic",
+      "source_count": 5
+    },
+    {
+      "node_id": "subtopic:monotonicity",
+      "label": "monotonicity",
+      "node_type": "subtopic",
+      "source_count": 2
+    },
+    {
+      "node_id": "subtopic:sample space partition",
+      "label": "sample space partition",
+      "node_type": "subtopic",
+      "source_count": 4
+    },
+    {
+      "node_id": "subtopic:signed area",
+      "label": "signed area",
+      "node_type": "subtopic",
+      "source_count": 1
+    },
+    {
+      "node_id": "topic:conditional_probability_table",
+      "label": "conditional_probability_table",
+      "node_type": "topic",
+      "source_count": 1
+    },
+    {
+      "node_id": "topic:derivative_monotonicity",
+      "label": "derivative_monotonicity",
+      "node_type": "topic",
+      "source_count": 2
+    },
+    {
+      "node_id": "topic:integral_area_split",
+      "label": "integral_area_split",
+      "node_type": "topic",
+      "source_count": 1
+    },
+    {
+      "node_id": "topic:log_equation_domain",
+      "label": "log_equation_domain",
+      "node_type": "topic",
+      "source_count": 1
+    }
+  ],
+  "edges": [
+    {
+      "from": "area:algebra",
+      "to": "topic:log_equation_domain",
+      "relation": "contains",
+      "weight": 1
+    },
+    {
+      "from": "area:calculus_1",
+      "to": "topic:derivative_monotonicity",
+      "relation": "contains",
+      "weight": 2
+    },
+    {
+      "from": "area:calculus_1",
+      "to": "topic:integral_area_split",
+      "relation": "contains",
+      "weight": 1
+    },
+    {
+      "from": "area:probability_statistics",
+      "to": "topic:conditional_probability_table",
+      "relation": "contains",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:conditional probability",
+      "to": "topic:conditional_probability_table",
+      "relation": "prerequisite",
+      "weight": 3
+    },
+    {
+      "from": "subtopic:critical point",
+      "to": "topic:derivative_monotonicity",
+      "relation": "prerequisite",
+      "weight": 6
+    },
+    {
+      "from": "subtopic:derivative",
+      "to": "topic:derivative_monotonicity",
+      "relation": "prerequisite",
+      "weight": 6
+    },
+    {
+      "from": "subtopic:equation",
+      "to": "topic:log_equation_domain",
+      "relation": "prerequisite",
+      "weight": 4
+    },
+    {
+      "from": "subtopic:graph symmetry",
+      "to": "topic:integral_area_split",
+      "relation": "prerequisite",
+      "weight": 4
+    },
+    {
+      "from": "subtopic:integral",
+      "to": "topic:integral_area_split",
+      "relation": "prerequisite",
+      "weight": 4
+    },
+    {
+      "from": "subtopic:logarithm",
+      "to": "topic:log_equation_domain",
+      "relation": "prerequisite",
+      "weight": 4
+    },
+    {
+      "from": "subtopic:sample space partition",
+      "to": "topic:conditional_probability_table",
+      "relation": "prerequisite",
+      "weight": 3
+    },
+    {
+      "from": "subtopic:conditional probability",
+      "to": "topic:conditional_probability_table",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:counting",
+      "to": "topic:conditional_probability_table",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:critical point",
+      "to": "topic:derivative_monotonicity",
+      "relation": "supports",
+      "weight": 2
+    },
+    {
+      "from": "subtopic:derivative",
+      "to": "topic:derivative_monotonicity",
+      "relation": "supports",
+      "weight": 2
+    },
+    {
+      "from": "subtopic:domain restriction",
+      "to": "topic:log_equation_domain",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:equation",
+      "to": "topic:log_equation_domain",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:graph symmetry",
+      "to": "topic:integral_area_split",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:integral",
+      "to": "topic:integral_area_split",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:logarithm",
+      "to": "topic:log_equation_domain",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:monotonicity",
+      "to": "topic:derivative_monotonicity",
+      "relation": "supports",
+      "weight": 2
+    },
+    {
+      "from": "subtopic:sample space partition",
+      "to": "topic:conditional_probability_table",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:signed area",
+      "to": "topic:integral_area_split",
+      "relation": "supports",
+      "weight": 1
+    }
+  ]
+}

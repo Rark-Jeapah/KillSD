@@ -1,0 +1,15 @@
+{
+  "item_id": "ibl-f0942050fefd",
+  "item_no": 29,
+  "domain": "probability_statistics",
+  "format": "short_answer",
+  "score": 4,
+  "difficulty": "advanced",
+  "objective": "통계적 추론 계산",
+  "skill_tags": [
+    "inference",
+    "variance"
+  ],
+  "choice_count": null,
+  "answer_type": "symbolic_or_numeric"
+}

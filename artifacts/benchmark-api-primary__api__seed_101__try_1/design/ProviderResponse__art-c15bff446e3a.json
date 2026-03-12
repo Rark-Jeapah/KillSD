@@ -1,0 +1,43 @@
+{
+  "artifact_id": "art-c15bff446e3a",
+  "artifact_type": "ProviderResponse",
+  "schema_version": "1.0",
+  "stage": "design",
+  "run_id": "benchmark-api-primary__api__seed_101__try_1",
+  "spec_id": "csat_math_2028",
+  "created_at": "2026-03-12T06:49:33.541660Z",
+  "metadata": {
+    "stage_name": "item_blueprint",
+    "attempt": 1,
+    "source": "provider_response"
+  },
+  "payload": {
+    "provider_name": "mock_provider",
+    "prompt_packet_id": "pkt-0eafa3da3e3c",
+    "stage_name": "item_blueprint",
+    "output": {
+      "item_id": "ibl-9610977c00cf",
+      "item_no": 5,
+      "domain": "algebra",
+      "format": "multiple_choice",
+      "score": 3,
+      "difficulty": "basic",
+      "objective": "수열의 귀납적 구조 파악",
+      "skill_tags": [
+        "sequence",
+        "recurrence"
+      ],
+      "choice_count": 5,
+      "answer_type": "symbolic_or_numeric"
+    },
+    "raw_text": "{\"item_id\": \"ibl-9610977c00cf\", \"item_no\": 5, \"domain\": \"algebra\", \"format\": \"multiple_choice\", \"score\": 3, \"difficulty\": \"basic\", \"objective\": \"수열의 귀납적 구조 파악\", \"skill_tags\": [\"sequence\", \"recurrence\"], \"choice_count\": 5, \"answer_type\": \"symbolic_or_numeric\"}",
+    "prompt_hash": "726f6b8085a3e2db3ba3e7f82d59153e7507ac0cd92f2cc4a9f0c1c9f56bb261",
+    "seed": 101,
+    "usage": {
+      "prompt_chars": 8673,
+      "completion_chars": 259,
+      "estimated_cost_usd": 0.0,
+      "latency_ms": 0
+    }
+  }
+}

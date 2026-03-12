@@ -1,0 +1,62 @@
+{
+  "artifact_id": "art-225c83e59eb2",
+  "artifact_type": "ProviderResponse",
+  "schema_version": "1.0",
+  "stage": "revision",
+  "run_id": "smoke-api-validator",
+  "spec_id": "csat_math_2028",
+  "created_at": "2026-03-12T04:58:02.065390Z",
+  "metadata": {
+    "stage_name": "revise",
+    "attempt": 1,
+    "source": "provider_response"
+  },
+  "payload": {
+    "provider_name": "mock_provider",
+    "prompt_packet_id": "pkt-b6d3d97daaab",
+    "stage_name": "revise",
+    "output": {
+      "solved_id": "slv-abffaf2983d0",
+      "draft": {
+        "draft_id": "drf-f49bd147b9e4",
+        "blueprint": {
+          "item_id": "ibl-61b598d60a1a",
+          "item_no": 2,
+          "domain": "algebra",
+          "format": "multiple_choice",
+          "score": 2,
+          "difficulty": "basic",
+          "objective": "함수와 수열 기초 적용",
+          "skill_tags": [
+            "function",
+            "sequence"
+          ],
+          "choice_count": 5,
+          "answer_type": "symbolic_or_numeric"
+        },
+        "stem": "함수와 수열 기초 적용을 평가하는 모의 문항 2번이다.",
+        "choices": [
+          "7",
+          "8",
+          "9",
+          "10",
+          "11"
+        ],
+        "rubric": "함수와 수열 기초 적용에 맞는 핵심 풀이를 구성한다.",
+        "answer_constraints": [
+          "symbolic_or_numeric"
+        ]
+      },
+      "final_answer": "8",
+      "solution_steps": [
+        "함수와 수열 기초 적용에 필요한 조건을 먼저 정리한다.",
+        "핵심 계산 또는 추론을 수행한다.",
+        "정답 형식에 맞게 결과를 확정한다."
+      ],
+      "solution_summary": "함수와 수열 기초 적용에 맞는 풀이가 완결되었다. [revised]"
+    },
+    "raw_text": "{\"solved_id\": \"slv-abffaf2983d0\", \"draft\": {\"draft_id\": \"drf-f49bd147b9e4\", \"blueprint\": {\"item_id\": \"ibl-61b598d60a1a\", \"item_no\": 2, \"domain\": \"algebra\", \"format\": \"multiple_choice\", \"score\": 2, \"difficulty\": \"basic\", \"objective\": \"함수와 수열 기초 적용\", \"skill_tags\": [\"function\", \"sequence\"], \"choice_count\": 5, \"answer_type\": \"symbolic_or_numeric\"}, \"stem\": \"함수와 수열 기초 적용을 평가하는 모의 문항 2번이다.\", \"choices\": [\"7\", \"8\", \"9\", \"10\", \"11\"], \"rubric\": \"함수와 수열 기초 적용에 맞는 핵심 풀이를 구성한다.\", \"answer_constraints\": [\"symbolic_or_numeric\"]}, \"final_answer\": \"8\", \"solution_steps\": [\"함수와 수열 기초 적용에 필요한 조건을 먼저 정리한다.\", \"핵심 계산 또는 추론을 수행한다.\", \"정답 형식에 맞게 결과를 확정한다.\"], \"solution_summary\": \"함수와 수열 기초 적용에 맞는 풀이가 완결되었다. [revised]\"}",
+    "prompt_hash": "074486d66a25c1d71d220ba81599c7f0b1224a35725220dc08f0b84b9b6df9c8",
+    "seed": 0
+  }
+}

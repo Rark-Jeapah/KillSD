@@ -1,0 +1,165 @@
+{
+  "exchange_id": "mxl-543b13b5c6e6",
+  "prompt_packet": {
+    "packet_id": "pkt-a6e5310f2348",
+    "mode": "manual",
+    "stage": "validation",
+    "stage_name": "critique",
+    "spec_id": "csat_math_2028",
+    "run_id": "benchmark-manual-primary__manual__seed_101__try_2",
+    "blueprint_id": "bp-1b848385d43e",
+    "item_no": 29,
+    "instructions": [
+      "<!-- version: 1.0.0 -->\n# Critic\n\nYou are critiquing a `SolvedItem` and must return a `CritiqueReport`.\n\n- Identify hidden ambiguity, structural issues, weak distractors, or answer-form problems.\n- Use blocking findings only when the issue would invalidate the item.\n- If the item is acceptable, return an empty findings list and `requires_revision=false`.\n- Return strict JSON only.\n"
+    ],
+    "input_artifact_ids": [
+      "art-7604e1008b6b"
+    ],
+    "lineage_parent_ids": [
+      "art-7604e1008b6b"
+    ],
+    "context": {
+      "solved_item": {
+        "solved_id": "slv-ab66c6018219",
+        "draft": {
+          "draft_id": "drf-4532bfea7700",
+          "blueprint": {
+            "item_id": "ibl-595815323363",
+            "item_no": 29,
+            "domain": "probability_statistics",
+            "format": "short_answer",
+            "score": 4,
+            "difficulty": "advanced",
+            "objective": "통계적 추론 계산",
+            "skill_tags": [
+              "inference",
+              "variance"
+            ],
+            "choice_count": null,
+            "answer_type": "symbolic_or_numeric"
+          },
+          "stem": "통계적 추론 계산을 평가하는 모의 문항 29번이다.",
+          "choices": [],
+          "rubric": "통계적 추론 계산에 맞는 핵심 풀이를 구성한다.",
+          "answer_constraints": [
+            "symbolic_or_numeric"
+          ]
+        },
+        "final_answer": "129",
+        "correct_choice_index": null,
+        "correct_choice_value": null,
+        "solution_steps": [
+          "통계적 추론 계산에 필요한 조건을 먼저 정리한다.",
+          "핵심 계산 또는 추론을 수행한다.",
+          "정답 형식에 맞게 결과를 확정한다."
+        ],
+        "solution_summary": "통계적 추론 계산에 맞는 풀이가 완결되었다."
+      }
+    },
+    "expected_output_model": "CritiqueReport",
+    "response_schema_version": "1.0",
+    "response_json_schema": {
+      "$defs": {
+        "CritiqueFinding": {
+          "additionalProperties": false,
+          "description": "Issue found during the critique stage before final validation.",
+          "properties": {
+            "issue_id": {
+              "title": "Issue Id",
+              "type": "string"
+            },
+            "severity": {
+              "$ref": "#/$defs/ValidationSeverity"
+            },
+            "message": {
+              "title": "Message",
+              "type": "string"
+            },
+            "recommendation": {
+              "title": "Recommendation",
+              "type": "string"
+            },
+            "blocking": {
+              "default": false,
+              "title": "Blocking",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "severity",
+            "message",
+            "recommendation"
+          ],
+          "title": "CritiqueFinding",
+          "type": "object"
+        },
+        "ValidationSeverity": {
+          "description": "Severity for validation findings.",
+          "enum": [
+            "info",
+            "warning",
+            "error"
+          ],
+          "title": "ValidationSeverity",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Critique output used to drive revision decisions.",
+      "properties": {
+        "critique_id": {
+          "title": "Critique Id",
+          "type": "string"
+        },
+        "item_no": {
+          "title": "Item No",
+          "type": "integer"
+        },
+        "summary": {
+          "title": "Summary",
+          "type": "string"
+        },
+        "findings": {
+          "items": {
+            "$ref": "#/$defs/CritiqueFinding"
+          },
+          "title": "Findings",
+          "type": "array"
+        },
+        "requires_revision": {
+          "default": false,
+          "title": "Requires Revision",
+          "type": "boolean"
+        },
+        "reviewed_at": {
+          "format": "date-time",
+          "title": "Reviewed At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "item_no",
+        "summary"
+      ],
+      "title": "CritiqueReport",
+      "type": "object"
+    },
+    "prompt_template_path": "/Users/j_mac/Desktop/KillSD/src/prompts/critic.md",
+    "prompt_version": "1.0.0",
+    "prompt_hash": "b4c2ae3b7743976f6d3015892d9f2dfd1151a50e1d88d5b912f47f94c6691891",
+    "seed": 101,
+    "attempt": 1,
+    "provider_name": "mock_provider"
+  },
+  "submitted_output": {
+    "critique_id": "crt-f6b5aa14ab36",
+    "item_no": 29,
+    "summary": "구조적 결함이 없어 다음 단계로 진행 가능하다.",
+    "findings": [],
+    "requires_revision": false,
+    "reviewed_at": "2026-03-12T13:20:26.238242Z"
+  },
+  "operator_notes": [],
+  "status": "submitted",
+  "responded_at": "2026-03-12T13:20:26.240443Z"
+}

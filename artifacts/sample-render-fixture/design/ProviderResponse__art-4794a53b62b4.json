@@ -1,0 +1,37 @@
+{
+  "artifact_id": "art-4794a53b62b4",
+  "artifact_type": "ProviderResponse",
+  "schema_version": "1.0",
+  "stage": "design",
+  "run_id": "sample-render-fixture",
+  "spec_id": "csat_math_2028",
+  "created_at": "2026-03-12T05:27:08.019667Z",
+  "metadata": {
+    "stage_name": "item_blueprint",
+    "attempt": 1,
+    "source": "provider_response"
+  },
+  "payload": {
+    "provider_name": "mock_provider",
+    "prompt_packet_id": "pkt-2aeb1ad147f0",
+    "stage_name": "item_blueprint",
+    "output": {
+      "item_id": "ibl-0a9f61fc5992",
+      "item_no": 30,
+      "domain": "probability_statistics",
+      "format": "short_answer",
+      "score": 4,
+      "difficulty": "advanced",
+      "objective": "고난도 통합형 단답 추론",
+      "skill_tags": [
+        "integration",
+        "reasoning"
+      ],
+      "choice_count": null,
+      "answer_type": "symbolic_or_numeric"
+    },
+    "raw_text": "{\"item_id\": \"ibl-0a9f61fc5992\", \"item_no\": 30, \"domain\": \"probability_statistics\", \"format\": \"short_answer\", \"score\": 4, \"difficulty\": \"advanced\", \"objective\": \"고난도 통합형 단답 추론\", \"skill_tags\": [\"integration\", \"reasoning\"], \"choice_count\": null, \"answer_type\": \"symbolic_or_numeric\"}",
+    "prompt_hash": "726f6b8085a3e2db3ba3e7f82d59153e7507ac0cd92f2cc4a9f0c1c9f56bb261",
+    "seed": 0
+  }
+}

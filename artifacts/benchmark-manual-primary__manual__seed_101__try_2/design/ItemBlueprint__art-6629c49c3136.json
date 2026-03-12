@@ -1,0 +1,30 @@
+{
+  "artifact_id": "art-6629c49c3136",
+  "artifact_type": "ItemBlueprint",
+  "schema_version": "1.0",
+  "stage": "design",
+  "run_id": "benchmark-manual-primary__manual__seed_101__try_2",
+  "spec_id": "csat_math_2028",
+  "created_at": "2026-03-12T13:20:25.055080Z",
+  "metadata": {
+    "stage_name": "item_blueprint",
+    "attempt": 1,
+    "mode": "manual",
+    "source": "manual_import"
+  },
+  "payload": {
+    "item_id": "ibl-d5e5013591fe",
+    "item_no": 8,
+    "domain": "algebra",
+    "format": "multiple_choice",
+    "score": 3,
+    "difficulty": "standard",
+    "objective": "지수로그함수 실전 적용",
+    "skill_tags": [
+      "exponential",
+      "logarithm"
+    ],
+    "choice_count": 5,
+    "answer_type": "symbolic_or_numeric"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "item_id": "ibl-5f4fd7fdb352",
+  "item_no": 30,
+  "domain": "probability_statistics",
+  "format": "short_answer",
+  "score": 4,
+  "difficulty": "advanced",
+  "objective": "고난도 통합형 단답 추론",
+  "skill_tags": [
+    "integration",
+    "reasoning"
+  ],
+  "choice_count": null,
+  "answer_type": "symbolic_or_numeric"
+}

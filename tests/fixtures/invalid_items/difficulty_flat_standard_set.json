@@ -1,0 +1,47 @@
+{
+  "fixture_id": "difficulty_flat_standard_set",
+  "kind": "difficulty_set",
+  "expected_reason_codes": [
+    "difficulty.variance_too_flat"
+  ],
+  "expected_status": "fail",
+  "expected_hard_fail": true,
+  "expected_soft_fail": false,
+  "estimates": [
+    {
+      "expected_step_count": 4,
+      "concept_count": 2,
+      "branching_factor": 1.2,
+      "solver_disagreement_score": 0.0,
+      "predicted_band": "standard"
+    },
+    {
+      "expected_step_count": 4,
+      "concept_count": 2,
+      "branching_factor": 1.2,
+      "solver_disagreement_score": 0.0,
+      "predicted_band": "standard"
+    },
+    {
+      "expected_step_count": 4,
+      "concept_count": 2,
+      "branching_factor": 1.2,
+      "solver_disagreement_score": 0.0,
+      "predicted_band": "standard"
+    },
+    {
+      "expected_step_count": 4,
+      "concept_count": 2,
+      "branching_factor": 1.2,
+      "solver_disagreement_score": 0.0,
+      "predicted_band": "standard"
+    },
+    {
+      "expected_step_count": 4,
+      "concept_count": 2,
+      "branching_factor": 1.2,
+      "solver_disagreement_score": 0.0,
+      "predicted_band": "standard"
+    }
+  ]
+}

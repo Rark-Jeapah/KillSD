@@ -1,0 +1,30 @@
+{
+  "draft_id": "drf-48be2520969b",
+  "blueprint": {
+    "item_id": "ibl-73731a76a21c",
+    "item_no": 5,
+    "domain": "algebra",
+    "format": "multiple_choice",
+    "score": 3,
+    "difficulty": "basic",
+    "objective": "수열의 귀납적 구조 파악",
+    "skill_tags": [
+      "sequence",
+      "recurrence"
+    ],
+    "choice_count": 5,
+    "answer_type": "symbolic_or_numeric"
+  },
+  "stem": "수열의 귀납적 구조 파악을 평가하는 모의 문항 5번이다.",
+  "choices": [
+    "17",
+    "18",
+    "19",
+    "20",
+    "21"
+  ],
+  "rubric": "수열의 귀납적 구조 파악에 맞는 핵심 풀이를 구성한다.",
+  "answer_constraints": [
+    "symbolic_or_numeric"
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "artifact_id": "art-e82bb2962fa6",
+  "artifact_type": "SolvedItem",
+  "schema_version": "1.0",
+  "stage": "solving",
+  "run_id": "smoke-api-validator",
+  "spec_id": "csat_math_2028",
+  "created_at": "2026-03-12T04:58:02.262362Z",
+  "metadata": {
+    "stage_name": "solve",
+    "attempt": 1,
+    "provider_name": "mock_provider",
+    "prompt_hash": "bb39c429e643ddc7841878d9c1120217f0f7cd630c52aa272886ffff25399c2e"
+  },
+  "payload": {
+    "solved_id": "slv-dda0c8979614",
+    "draft": {
+      "draft_id": "drf-3d71a200f869",
+      "blueprint": {
+        "item_id": "ibl-76a159817e95",
+        "item_no": 12,
+        "domain": "calculus_1",
+        "format": "multiple_choice",
+        "score": 3,
+        "difficulty": "standard",
+        "objective": "연속성 판단",
+        "skill_tags": [
+          "continuity"
+        ],
+        "choice_count": 5,
+        "answer_type": "symbolic_or_numeric"
+      },
+      "stem": "연속성 판단을 평가하는 모의 문항 12번이다.",
+      "choices": [
+        "38",
+        "39",
+        "40",
+        "41",
+        "42"
+      ],
+      "rubric": "연속성 판단에 맞는 핵심 풀이를 구성한다.",
+      "answer_constraints": [
+        "symbolic_or_numeric"
+      ]
+    },
+    "final_answer": "39",
+    "solution_steps": [
+      "연속성 판단에 필요한 조건을 먼저 정리한다.",
+      "핵심 계산 또는 추론을 수행한다.",
+      "정답 형식에 맞게 결과를 확정한다."
+    ],
+    "solution_summary": "연속성 판단에 맞는 풀이가 완결되었다."
+  }
+}

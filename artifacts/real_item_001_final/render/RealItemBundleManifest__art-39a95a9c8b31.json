@@ -1,0 +1,25 @@
+{
+  "artifact_id": "art-39a95a9c8b31",
+  "artifact_type": "RealItemBundleManifest",
+  "schema_version": "1.0",
+  "stage": "render",
+  "run_id": "real_item_001_final",
+  "spec_id": "csat_math_2028",
+  "created_at": "2026-03-12T13:50:57.390331Z",
+  "metadata": {
+    "stage_name": "render_bundle",
+    "source": "local"
+  },
+  "payload": {
+    "item_id": "real_item_001",
+    "run_id": "real_item_001_final",
+    "output_dir": "/Users/j_mac/Desktop/KillSD/out/real_item_001_final",
+    "item_json_path": "/Users/j_mac/Desktop/KillSD/out/real_item_001_final/item.json",
+    "solution_json_path": "/Users/j_mac/Desktop/KillSD/out/real_item_001_final/solution.json",
+    "validation_json_path": "/Users/j_mac/Desktop/KillSD/out/real_item_001_final/validation.json",
+    "review_sheet_path": "/Users/j_mac/Desktop/KillSD/out/real_item_001_final/review_sheet.md",
+    "item_pdf_path": "/Users/j_mac/Desktop/KillSD/out/real_item_001_final/item.pdf",
+    "lineage_json_path": "/Users/j_mac/Desktop/KillSD/out/real_item_001_final/lineage.json",
+    "generated_at": "2026-03-12T13:50:57.390217Z"
+  }
+}

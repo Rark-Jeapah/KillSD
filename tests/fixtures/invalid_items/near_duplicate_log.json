@@ -1,0 +1,43 @@
+{
+  "fixture_id": "near_duplicate_log",
+  "kind": "item",
+  "expected_reason_codes": [
+    "similarity.expression_too_high",
+    "similarity.surface_too_high"
+  ],
+  "expected_status": "fail",
+  "expected_hard_fail": true,
+  "expected_soft_fail": false,
+  "item": {
+    "blueprint": {
+      "item_no": 12,
+      "domain": "algebra",
+      "format": "multiple_choice",
+      "score": 3,
+      "difficulty": "standard",
+      "objective": "log_equation_domain",
+      "skill_tags": ["logarithm", "equation"],
+      "choice_count": 5,
+      "answer_type": "choice_index"
+    },
+    "draft": {
+      "stem": "실수 x에 대하여 log_2(x-1)+log_2(x-3)=2를 만족하는 x의 값을 구하는 과정을 묻는 문항이다.",
+      "choices": ["2", "3", "4", "5", "6"],
+      "rubric": "This should collide with the distilled logarithm fixture.",
+      "answer_constraints": ["choice_index"]
+    },
+    "solved": {
+      "final_answer": "3",
+      "correct_choice_index": 3,
+      "correct_choice_value": "4",
+      "solution_steps": [
+        "정의역 확인",
+        "로그 결합",
+        "방정식 풀이",
+        "선택지 대응"
+      ],
+      "solution_summary": "This fixture intentionally shadows an existing log-equation item."
+    }
+  },
+  "context": {}
+}

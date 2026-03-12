@@ -1,0 +1,224 @@
+{
+  "artifact_id": "art-595ba2ca6152",
+  "artifact_type": "ValidationReport",
+  "schema_version": "1.0",
+  "stage": "validation",
+  "run_id": "smoke-api-validator",
+  "spec_id": "csat_math_2028",
+  "created_at": "2026-03-12T04:58:02.482255Z",
+  "metadata": {
+    "stage_name": "validation_report",
+    "item_no": 22,
+    "source": "local"
+  },
+  "payload": {
+    "report_id": "val-bf9e2f79d7ed",
+    "item_no": 22,
+    "status": "pass",
+    "findings": [
+      {
+        "check_name": "item_number_range",
+        "passed": true,
+        "severity": "error",
+        "message": "item_no=22 is within 1..30",
+        "reason_code": "format.item_number_range",
+        "failure_level": "hard",
+        "validator_name": "format_validator",
+        "recommendation": null,
+        "context": {}
+      },
+      {
+        "check_name": "score_allowed",
+        "passed": true,
+        "severity": "error",
+        "message": "score is permitted by the exam spec",
+        "reason_code": "format.score_invalid",
+        "failure_level": "hard",
+        "validator_name": "format_validator",
+        "recommendation": null,
+        "context": {}
+      },
+      {
+        "check_name": "short_answer_natural",
+        "passed": true,
+        "severity": "error",
+        "message": "short-answer final answer uses natural-number format",
+        "reason_code": "format.short_answer_not_natural",
+        "failure_level": "hard",
+        "validator_name": "format_validator",
+        "recommendation": null,
+        "context": {}
+      },
+      {
+        "check_name": "short_answer_no_choices",
+        "passed": true,
+        "severity": "error",
+        "message": "short-answer item does not include multiple-choice options",
+        "reason_code": "format.short_answer_choices_present",
+        "failure_level": "hard",
+        "validator_name": "format_validator",
+        "recommendation": null,
+        "context": {}
+      },
+      {
+        "check_name": "domain_allowed",
+        "passed": true,
+        "severity": "error",
+        "message": "blueprint domain is allowed by the exam spec",
+        "reason_code": "curriculum.domain_forbidden",
+        "failure_level": "hard",
+        "validator_name": "curriculum_validator",
+        "recommendation": null,
+        "context": {}
+      },
+      {
+        "check_name": "forbidden_topics_absent",
+        "passed": true,
+        "severity": "error",
+        "message": "no forbidden topics were detected in the item text",
+        "reason_code": "curriculum.forbidden_topic_detected",
+        "failure_level": "hard",
+        "validator_name": "curriculum_validator",
+        "recommendation": null,
+        "context": {
+          "forbidden_hits": []
+        }
+      },
+      {
+        "check_name": "allowed_topic_overlap",
+        "passed": true,
+        "severity": "warning",
+        "message": "item text overlaps with known allowed topics or subtopics",
+        "reason_code": "curriculum.allowed_topic_miss",
+        "failure_level": "soft",
+        "validator_name": "curriculum_validator",
+        "recommendation": null,
+        "context": {
+          "allowed_hits": [
+            "probability_statistics"
+          ]
+        }
+      },
+      {
+        "check_name": "reference_answer_available",
+        "passed": true,
+        "severity": "info",
+        "message": "No external reference answer was supplied; direct answer verification was skipped.",
+        "reason_code": "answer.reference_not_available",
+        "failure_level": "soft",
+        "validator_name": "answer_validator",
+        "recommendation": null,
+        "context": {}
+      },
+      {
+        "check_name": "surface_similarity",
+        "passed": true,
+        "severity": "warning",
+        "message": "surface-level stem similarity stays below the configured threshold",
+        "reason_code": "similarity.surface_too_high",
+        "failure_level": "soft",
+        "validator_name": "similarity_validator",
+        "recommendation": null,
+        "context": {
+          "score": 0.3188,
+          "matched_source_item_id": "fixture-integral-04"
+        }
+      },
+      {
+        "check_name": "expression_similarity",
+        "passed": true,
+        "severity": "warning",
+        "message": "normalized math-expression similarity stays below the configured threshold",
+        "reason_code": "similarity.expression_too_high",
+        "failure_level": "soft",
+        "validator_name": "similarity_validator",
+        "recommendation": null,
+        "context": {
+          "score": 0.6667,
+          "matched_source_item_id": "fixture-integral-04"
+        }
+      },
+      {
+        "check_name": "solution_graph_similarity",
+        "passed": true,
+        "severity": "warning",
+        "message": "solution-graph fingerprint similarity stays below the configured threshold",
+        "reason_code": "similarity.solution_graph_too_high",
+        "failure_level": "soft",
+        "validator_name": "similarity_validator",
+        "recommendation": null,
+        "context": {
+          "score": 0.0,
+          "matched_source_item_id": null
+        }
+      },
+      {
+        "check_name": "balanced_inline_math",
+        "passed": true,
+        "severity": "error",
+        "message": "inline math delimiters are balanced",
+        "reason_code": "render.unbalanced_inline_math",
+        "failure_level": "hard",
+        "validator_name": "render_validator",
+        "recommendation": null,
+        "context": {}
+      },
+      {
+        "check_name": "balanced_braces",
+        "passed": true,
+        "severity": "error",
+        "message": "brace structure is balanced",
+        "reason_code": "render.unbalanced_braces",
+        "failure_level": "hard",
+        "validator_name": "render_validator",
+        "recommendation": null,
+        "context": {}
+      },
+      {
+        "check_name": "diagram_assets_present",
+        "passed": true,
+        "severity": "info",
+        "message": "all referenced diagram assets are available",
+        "reason_code": "render.missing_diagram_asset",
+        "failure_level": "hard",
+        "validator_name": "render_validator",
+        "recommendation": null,
+        "context": {
+          "missing_assets": []
+        }
+      },
+      {
+        "check_name": "latex_compile_dry_run",
+        "passed": true,
+        "severity": "info",
+        "message": "LaTeX compiler unavailable; compile dry-run skipped.",
+        "reason_code": "render.latex_compile_ok",
+        "failure_level": "soft",
+        "validator_name": "render_validator",
+        "recommendation": null,
+        "context": {}
+      },
+      {
+        "check_name": "difficulty_band_alignment",
+        "passed": true,
+        "severity": "info",
+        "message": "proxy difficulty remains close to the blueprint difficulty band",
+        "reason_code": "difficulty.band_mismatch",
+        "failure_level": "soft",
+        "validator_name": "difficulty_estimator",
+        "recommendation": null,
+        "context": {
+          "target_band": "challenging",
+          "predicted_band": "challenging",
+          "delta": 0
+        }
+      }
+    ],
+    "summary": "All validator checks passed.",
+    "reason_codes": [],
+    "hard_fail": false,
+    "soft_fail": false,
+    "regenerate_recommendation": "keep",
+    "checked_at": "2026-03-12T04:58:02.482145Z"
+  }
+}

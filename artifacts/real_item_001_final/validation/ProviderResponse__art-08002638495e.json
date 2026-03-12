@@ -1,0 +1,44 @@
+{
+  "artifact_id": "art-08002638495e",
+  "artifact_type": "ProviderResponse",
+  "schema_version": "1.0",
+  "stage": "validation",
+  "run_id": "real_item_001_final",
+  "spec_id": "csat_math_2028",
+  "created_at": "2026-03-12T13:50:57.265869Z",
+  "metadata": {
+    "stage_name": "critique",
+    "attempt": 1,
+    "source": "provider_response"
+  },
+  "payload": {
+    "provider_name": "real_item_provider",
+    "prompt_packet_id": "pkt-0a6ee8b780c5",
+    "stage_name": "critique",
+    "output": {
+      "critique_id": "crt-4414d06484c5",
+      "item_no": 14,
+      "summary": "핵심 수학은 타당하지만 선지 부등호 표기를 수식형으로 통일하는 편이 낫다.",
+      "findings": [
+        {
+          "issue_id": "crf-8416d47d6fef",
+          "severity": "warning",
+          "message": "선지에 <=, >=가 섞여 있어 최종 렌더에서 수식 일관성이 떨어질 수 있다.",
+          "recommendation": "부등호를 \\le, \\ge 표기로 통일해 최종본을 다시 저장한다.",
+          "blocking": false
+        }
+      ],
+      "requires_revision": true,
+      "reviewed_at": "2026-03-12T13:50:57.265332Z"
+    },
+    "raw_text": "{\n  \"critique_id\": \"crt-4414d06484c5\",\n  \"item_no\": 14,\n  \"summary\": \"핵심 수학은 타당하지만 선지 부등호 표기를 수식형으로 통일하는 편이 낫다.\",\n  \"findings\": [\n    {\n      \"issue_id\": \"crf-8416d47d6fef\",\n      \"severity\": \"warning\",\n      \"message\": \"선지에 <=, >=가 섞여 있어 최종 렌더에서 수식 일관성이 떨어질 수 있다.\",\n      \"recommendation\": \"부등호를 \\\\le, \\\\ge 표기로 통일해 최종본을 다시 저장한다.\",\n      \"blocking\": false\n    }\n  ],\n  \"requires_revision\": true,\n  \"reviewed_at\": \"2026-03-12T13:50:57.265332Z\"\n}",
+    "prompt_hash": "b4c2ae3b7743976f6d3015892d9f2dfd1151a50e1d88d5b912f47f94c6691891",
+    "seed": 0,
+    "usage": {
+      "prompt_chars": 1455,
+      "completion_chars": 444,
+      "estimated_cost_usd": 0.000887,
+      "latency_ms": 1
+    }
+  }
+}

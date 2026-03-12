@@ -1,0 +1,14 @@
+{
+  "item_id": "ibl-96b797466e4c",
+  "item_no": 24,
+  "domain": "probability_statistics",
+  "format": "short_answer",
+  "score": 4,
+  "difficulty": "advanced",
+  "objective": "분포 해석",
+  "skill_tags": [
+    "distribution"
+  ],
+  "choice_count": null,
+  "answer_type": "symbolic_or_numeric"
+}

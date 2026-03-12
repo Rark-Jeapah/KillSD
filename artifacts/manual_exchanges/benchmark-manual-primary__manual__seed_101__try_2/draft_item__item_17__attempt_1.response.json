@@ -1,0 +1,30 @@
+{
+  "draft_id": "drf-a90ac83cb4c1",
+  "blueprint": {
+    "item_id": "ibl-4ecf086b8992",
+    "item_no": 17,
+    "domain": "calculus_1",
+    "format": "multiple_choice",
+    "score": 3,
+    "difficulty": "challenging",
+    "objective": "함수와 미분 결합 추론",
+    "skill_tags": [
+      "function",
+      "derivative"
+    ],
+    "choice_count": 5,
+    "answer_type": "symbolic_or_numeric"
+  },
+  "stem": "함수와 미분 결합 추론을 평가하는 모의 문항 17번이다.",
+  "choices": [
+    "52",
+    "53",
+    "54",
+    "55",
+    "56"
+  ],
+  "rubric": "함수와 미분 결합 추론에 맞는 핵심 풀이를 구성한다.",
+  "answer_constraints": [
+    "symbolic_or_numeric"
+  ]
+}

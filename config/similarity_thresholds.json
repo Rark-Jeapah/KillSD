@@ -1,0 +1,8 @@
+{
+  "surface_soft_fail": 0.58,
+  "surface_hard_fail": 0.75,
+  "expression_soft_fail": 0.72,
+  "expression_hard_fail": 0.88,
+  "solution_graph_soft_fail": 0.62,
+  "solution_graph_hard_fail": 0.8
+}

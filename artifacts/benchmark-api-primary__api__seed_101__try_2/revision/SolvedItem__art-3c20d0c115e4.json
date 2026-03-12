@@ -1,0 +1,57 @@
+{
+  "artifact_id": "art-3c20d0c115e4",
+  "artifact_type": "SolvedItem",
+  "schema_version": "1.0",
+  "stage": "revision",
+  "run_id": "benchmark-api-primary__api__seed_101__try_2",
+  "spec_id": "csat_math_2028",
+  "created_at": "2026-03-12T13:20:23.729531Z",
+  "metadata": {
+    "stage_name": "revise",
+    "attempt": 1,
+    "provider_name": "mock_provider",
+    "prompt_hash": "074486d66a25c1d71d220ba81599c7f0b1224a35725220dc08f0b84b9b6df9c8"
+  },
+  "payload": {
+    "solved_id": "slv-fe6bcd4fadd5",
+    "draft": {
+      "draft_id": "drf-a38396d94ca6",
+      "blueprint": {
+        "item_id": "ibl-88d2925a7e70",
+        "item_no": 18,
+        "domain": "calculus_1",
+        "format": "multiple_choice",
+        "score": 4,
+        "difficulty": "challenging",
+        "objective": "적분과 넓이 계산",
+        "skill_tags": [
+          "integral",
+          "area"
+        ],
+        "choice_count": 5,
+        "answer_type": "symbolic_or_numeric"
+      },
+      "stem": "적분과 넓이 계산을 평가하는 모의 문항 18번이다.",
+      "choices": [
+        "56",
+        "57",
+        "58",
+        "59",
+        "60"
+      ],
+      "rubric": "적분과 넓이 계산에 맞는 핵심 풀이를 구성한다.",
+      "answer_constraints": [
+        "symbolic_or_numeric"
+      ]
+    },
+    "final_answer": "3",
+    "correct_choice_index": 3,
+    "correct_choice_value": "58",
+    "solution_steps": [
+      "적분과 넓이 계산에 필요한 조건을 먼저 정리한다.",
+      "핵심 계산 또는 추론을 수행한다.",
+      "정답 형식에 맞게 결과를 확정한다."
+    ],
+    "solution_summary": "적분과 넓이 계산에 맞는 풀이가 완결되었다. [revised]"
+  }
+}

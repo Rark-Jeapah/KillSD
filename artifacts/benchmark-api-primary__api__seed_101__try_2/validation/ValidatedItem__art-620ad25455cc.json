@@ -1,0 +1,284 @@
+{
+  "artifact_id": "art-620ad25455cc",
+  "artifact_type": "ValidatedItem",
+  "schema_version": "1.0",
+  "stage": "validation",
+  "run_id": "benchmark-api-primary__api__seed_101__try_2",
+  "spec_id": "csat_math_2028",
+  "created_at": "2026-03-12T13:20:23.651357Z",
+  "metadata": {
+    "stage_name": "validate",
+    "attempt": 1,
+    "source": "local"
+  },
+  "payload": {
+    "validated_id": "vld-f725da866559",
+    "solved": {
+      "solved_id": "slv-ec2faf448722",
+      "draft": {
+        "draft_id": "drf-3306fc6ceaed",
+        "blueprint": {
+          "item_id": "ibl-f9eee18449f9",
+          "item_no": 14,
+          "domain": "calculus_1",
+          "format": "multiple_choice",
+          "score": 3,
+          "difficulty": "standard",
+          "objective": "증가감소 구간 파악",
+          "skill_tags": [
+            "derivative",
+            "monotonicity"
+          ],
+          "choice_count": 5,
+          "answer_type": "symbolic_or_numeric"
+        },
+        "stem": "증가감소 구간 파악을 평가하는 모의 문항 14번이다.",
+        "choices": [
+          "44",
+          "45",
+          "46",
+          "47",
+          "48"
+        ],
+        "rubric": "증가감소 구간 파악에 맞는 핵심 풀이를 구성한다.",
+        "answer_constraints": [
+          "symbolic_or_numeric"
+        ]
+      },
+      "final_answer": "4",
+      "correct_choice_index": 4,
+      "correct_choice_value": "47",
+      "solution_steps": [
+        "증가감소 구간 파악에 필요한 조건을 먼저 정리한다.",
+        "핵심 계산 또는 추론을 수행한다.",
+        "정답 형식에 맞게 결과를 확정한다."
+      ],
+      "solution_summary": "증가감소 구간 파악에 맞는 풀이가 완결되었다. [revised]"
+    },
+    "validation": {
+      "report_id": "val-b618bf3dd78b",
+      "item_no": 14,
+      "status": "pass",
+      "findings": [
+        {
+          "check_name": "item_number_range",
+          "passed": true,
+          "severity": "error",
+          "message": "item_no=14 is within 1..30",
+          "reason_code": "format.item_number_range",
+          "failure_level": "hard",
+          "validator_name": "format_validator",
+          "recommendation": null,
+          "context": {}
+        },
+        {
+          "check_name": "score_allowed",
+          "passed": true,
+          "severity": "error",
+          "message": "score is permitted by the exam spec",
+          "reason_code": "format.score_invalid",
+          "failure_level": "hard",
+          "validator_name": "format_validator",
+          "recommendation": null,
+          "context": {}
+        },
+        {
+          "check_name": "choice_count",
+          "passed": true,
+          "severity": "error",
+          "message": "multiple-choice item contains exactly 5 options",
+          "reason_code": "format.choice_count_invalid",
+          "failure_level": "hard",
+          "validator_name": "format_validator",
+          "recommendation": null,
+          "context": {}
+        },
+        {
+          "check_name": "mcq_answer_key_integer",
+          "passed": true,
+          "severity": "error",
+          "message": "MCQ answer key must be integer 1..5",
+          "reason_code": "format.mcq_answer_key_not_integer",
+          "failure_level": "hard",
+          "validator_name": "format_validator",
+          "recommendation": null,
+          "context": {}
+        },
+        {
+          "check_name": "domain_allowed",
+          "passed": true,
+          "severity": "error",
+          "message": "blueprint domain is allowed by the exam spec",
+          "reason_code": "curriculum.domain_forbidden",
+          "failure_level": "hard",
+          "validator_name": "curriculum_validator",
+          "recommendation": null,
+          "context": {}
+        },
+        {
+          "check_name": "forbidden_topics_absent",
+          "passed": true,
+          "severity": "error",
+          "message": "no forbidden topics were detected in the item text",
+          "reason_code": "curriculum.forbidden_topic_detected",
+          "failure_level": "hard",
+          "validator_name": "curriculum_validator",
+          "recommendation": null,
+          "context": {
+            "forbidden_hits": []
+          }
+        },
+        {
+          "check_name": "allowed_topic_overlap",
+          "passed": true,
+          "severity": "warning",
+          "message": "item text overlaps with known allowed topics or subtopics",
+          "reason_code": "curriculum.allowed_topic_miss",
+          "failure_level": "soft",
+          "validator_name": "curriculum_validator",
+          "recommendation": null,
+          "context": {
+            "allowed_hits": [
+              "calculus_1",
+              "derivative",
+              "monotonicity"
+            ]
+          }
+        },
+        {
+          "check_name": "final_answer_matches_choice_index",
+          "passed": true,
+          "severity": "error",
+          "message": "multiple-choice answer key uses an index and matches the indexed choice text",
+          "reason_code": "answer.choice_index_mismatch",
+          "failure_level": "hard",
+          "validator_name": "answer_validator",
+          "recommendation": null,
+          "context": {}
+        },
+        {
+          "check_name": "reference_answer_available",
+          "passed": true,
+          "severity": "info",
+          "message": "No external reference answer was supplied; direct answer verification was skipped.",
+          "reason_code": "answer.reference_not_available",
+          "failure_level": "soft",
+          "validator_name": "answer_validator",
+          "recommendation": null,
+          "context": {}
+        },
+        {
+          "check_name": "surface_similarity",
+          "passed": true,
+          "severity": "warning",
+          "message": "surface-level stem similarity stays below the configured threshold",
+          "reason_code": "similarity.surface_too_high",
+          "failure_level": "soft",
+          "validator_name": "similarity_validator",
+          "recommendation": null,
+          "context": {
+            "score": 0.3448,
+            "matched_source_item_id": "fixture-derivative-02"
+          }
+        },
+        {
+          "check_name": "expression_similarity",
+          "passed": true,
+          "severity": "warning",
+          "message": "normalized math-expression similarity stays below the configured threshold",
+          "reason_code": "similarity.expression_too_high",
+          "failure_level": "soft",
+          "validator_name": "similarity_validator",
+          "recommendation": null,
+          "context": {
+            "score": 0.2941,
+            "matched_source_item_id": "fixture-log-domain-01"
+          }
+        },
+        {
+          "check_name": "solution_graph_similarity",
+          "passed": true,
+          "severity": "warning",
+          "message": "solution-graph fingerprint similarity stays below the configured threshold",
+          "reason_code": "similarity.solution_graph_too_high",
+          "failure_level": "soft",
+          "validator_name": "similarity_validator",
+          "recommendation": null,
+          "context": {
+            "score": 0.0,
+            "matched_source_item_id": null
+          }
+        },
+        {
+          "check_name": "balanced_inline_math",
+          "passed": true,
+          "severity": "error",
+          "message": "inline math delimiters are balanced",
+          "reason_code": "render.unbalanced_inline_math",
+          "failure_level": "hard",
+          "validator_name": "render_validator",
+          "recommendation": null,
+          "context": {}
+        },
+        {
+          "check_name": "balanced_braces",
+          "passed": true,
+          "severity": "error",
+          "message": "brace structure is balanced",
+          "reason_code": "render.unbalanced_braces",
+          "failure_level": "hard",
+          "validator_name": "render_validator",
+          "recommendation": null,
+          "context": {}
+        },
+        {
+          "check_name": "diagram_assets_present",
+          "passed": true,
+          "severity": "info",
+          "message": "all referenced diagram assets are available",
+          "reason_code": "render.missing_diagram_asset",
+          "failure_level": "hard",
+          "validator_name": "render_validator",
+          "recommendation": null,
+          "context": {
+            "missing_assets": []
+          }
+        },
+        {
+          "check_name": "latex_compile_dry_run",
+          "passed": true,
+          "severity": "info",
+          "message": "LaTeX compiler unavailable; compile dry-run skipped.",
+          "reason_code": "render.latex_compile_ok",
+          "failure_level": "soft",
+          "validator_name": "render_validator",
+          "recommendation": null,
+          "context": {}
+        },
+        {
+          "check_name": "difficulty_band_alignment",
+          "passed": true,
+          "severity": "info",
+          "message": "proxy difficulty remains close to the blueprint difficulty band",
+          "reason_code": "difficulty.band_mismatch",
+          "failure_level": "soft",
+          "validator_name": "difficulty_estimator",
+          "recommendation": null,
+          "context": {
+            "target_band": "standard",
+            "predicted_band": "challenging",
+            "delta": 1
+          }
+        }
+      ],
+      "summary": "All validator checks passed.",
+      "reason_codes": [],
+      "hard_fail": false,
+      "soft_fail": false,
+      "regenerate_recommendation": "keep",
+      "checked_at": "2026-03-12T13:20:23.650135Z"
+    },
+    "approval_status": "approved",
+    "revision_notes": []
+  }
+}

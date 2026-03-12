@@ -1,0 +1,49 @@
+{
+  "artifact_id": "art-01207f6a1634",
+  "artifact_type": "DraftItem",
+  "schema_version": "1.0",
+  "stage": "generation",
+  "run_id": "real_item_001_final",
+  "spec_id": "csat_math_2028",
+  "created_at": "2026-03-12T13:50:57.259410Z",
+  "metadata": {
+    "stage_name": "draft_item",
+    "attempt": 1,
+    "input_artifact_ids": [
+      "art-0476eecf5937",
+      "art-b7f3ce6ffa0d"
+    ]
+  },
+  "payload": {
+    "draft_id": "drf-5c203de025a4",
+    "blueprint": {
+      "item_id": "ibl-d9f454beebbd",
+      "item_no": 14,
+      "domain": "calculus_1",
+      "format": "multiple_choice",
+      "score": 3,
+      "difficulty": "standard",
+      "objective": "도함수의 부호와 꼭짓점 판단",
+      "skill_tags": [
+        "derivative",
+        "monotonicity",
+        "quadratic_vertex_check",
+        "critical_point"
+      ],
+      "choice_count": 5,
+      "answer_type": "choice_index"
+    },
+    "stem": "매개변수 a에 대하여 곡선 y=x^3-6x^2+ax의 접선 기울기가 어떤 실수 x에서도 음수가 되지 않게 하려 한다. 이에 필요한 조건은?",
+    "choices": [
+      "a <= 12",
+      "a = 12",
+      "a >= 3",
+      "a >= 12",
+      "a <= 3"
+    ],
+    "rubric": "도함수의 최솟값을 이용해 전구간 부호 조건을 판정한다.",
+    "answer_constraints": [
+      "choice_index"
+    ]
+  }
+}

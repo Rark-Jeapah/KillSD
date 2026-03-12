@@ -1,0 +1,15 @@
+{
+  "item_id": "ibl-16f9b749fd56",
+  "item_no": 21,
+  "domain": "probability_statistics",
+  "format": "multiple_choice",
+  "score": 4,
+  "difficulty": "challenging",
+  "objective": "경우의 수와 확률 결합",
+  "skill_tags": [
+    "counting",
+    "probability"
+  ],
+  "choice_count": 5,
+  "answer_type": "symbolic_or_numeric"
+}

@@ -1,0 +1,52 @@
+{
+  "artifact_id": "art-6f2538cb80ea",
+  "artifact_type": "ProviderResponse",
+  "schema_version": "1.0",
+  "stage": "generation",
+  "run_id": "benchmark-api-primary__api__seed_101__try_1",
+  "spec_id": "csat_math_2028",
+  "created_at": "2026-03-12T06:49:33.983393Z",
+  "metadata": {
+    "stage_name": "draft_item",
+    "attempt": 1,
+    "source": "provider_response"
+  },
+  "payload": {
+    "provider_name": "mock_provider",
+    "prompt_packet_id": "pkt-77bc96d3f78b",
+    "stage_name": "draft_item",
+    "output": {
+      "draft_id": "drf-6b2f10b93f3a",
+      "blueprint": {
+        "item_id": "ibl-4afcdb20c0d2",
+        "item_no": 30,
+        "domain": "probability_statistics",
+        "format": "short_answer",
+        "score": 4,
+        "difficulty": "advanced",
+        "objective": "고난도 통합형 단답 추론",
+        "skill_tags": [
+          "integration",
+          "reasoning"
+        ],
+        "choice_count": null,
+        "answer_type": "symbolic_or_numeric"
+      },
+      "stem": "고난도 통합형 단답 추론을 평가하는 모의 문항 30번이다.",
+      "choices": [],
+      "rubric": "고난도 통합형 단답 추론에 맞는 핵심 풀이를 구성한다.",
+      "answer_constraints": [
+        "symbolic_or_numeric"
+      ]
+    },
+    "raw_text": "{\"draft_id\": \"drf-6b2f10b93f3a\", \"blueprint\": {\"item_id\": \"ibl-4afcdb20c0d2\", \"item_no\": 30, \"domain\": \"probability_statistics\", \"format\": \"short_answer\", \"score\": 4, \"difficulty\": \"advanced\", \"objective\": \"고난도 통합형 단답 추론\", \"skill_tags\": [\"integration\", \"reasoning\"], \"choice_count\": null, \"answer_type\": \"symbolic_or_numeric\"}, \"stem\": \"고난도 통합형 단답 추론을 평가하는 모의 문항 30번이다.\", \"choices\": [], \"rubric\": \"고난도 통합형 단답 추론에 맞는 핵심 풀이를 구성한다.\", \"answer_constraints\": [\"symbolic_or_numeric\"]}",
+    "prompt_hash": "e8b66745edb24286fd9805b66f1fa3d2d284b8016d127a6ea6a95f4e3ec83b1d",
+    "seed": 101,
+    "usage": {
+      "prompt_chars": 640,
+      "completion_chars": 477,
+      "estimated_cost_usd": 0.0,
+      "latency_ms": 0
+    }
+  }
+}

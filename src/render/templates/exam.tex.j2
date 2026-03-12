@@ -1,0 +1,56 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,top=16mm,bottom=18mm,left=16mm,right=16mm]{geometry}
+\usepackage{kotex}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{array,booktabs,enumitem,fancyhdr,needspace,tabularx,tikz,xcolor}
+\usetikzlibrary{arrows.meta,calc,positioning}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.45em}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\textbf{ {{ title }} }}
+\rhead{\small 수학 문제지}
+\cfoot{\thepage}
+{% raw %}
+\newcommand{\scorebox}[1]{\fcolorbox{black}{gray!8}{\rule{0pt}{1.8ex}\hspace{0.5em}\textbf{#1점}\hspace{0.5em}}}
+{% endraw %}
+\begin{document}
+\begin{center}
+  {\LARGE\bfseries {{ title }}}\\[0.5em]
+  {\large 시험 시간 {{ duration_minutes }}분 \quad 만점 {{ total_score }}점}
+\end{center}
+\vspace{0.4em}
+\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{0.31\linewidth} X}
+\toprule
+문항 구성 & 1번부터 21번까지는 5지선다형, 22번부터 30번까지는 단답형이다.\\
+출제 범위 & 대수, 미적분Ⅰ, 확률과 통계 범위 안에서 구성한 중립적 레이아웃의 시험지다.\\
+\bottomrule
+\end{tabularx}
+\vspace{0.5em}
+{% for item in items %}
+\needspace{12\baselineskip}
+\textbf{문항 {{ item.item_no }}.} \hfill \scorebox{ {{ item.score }} }\\
+{{ item.stem }}\\
+{% if item.diagram %}
+\begin{center}
+{{ item.diagram }}
+\end{center}
+{% endif %}
+{% if item.format == "multiple_choice" %}
+\begin{enumerate}[label=\arabic*), leftmargin=2.2em, itemsep=0.25em, topsep=0.35em]
+{% for choice in item.choices %}
+\item {{ choice }}
+{% endfor %}
+\end{enumerate}
+{% else %}
+\begin{center}
+\fbox{
+  \begin{minipage}[c][3.2em][c]{0.62\linewidth}
+    \centering \textbf{정답을 자연수로 쓰시오.}
+  \end{minipage}
+}
+\end{center}
+{% endif %}
+\vspace{0.7em}
+{% endfor %}
+\end{document}

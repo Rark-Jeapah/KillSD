@@ -1,0 +1,29 @@
+{
+  "draft_id": "drf-789a36126612",
+  "blueprint": {
+    "item_id": "ibl-c3e5438dde92",
+    "item_no": 16,
+    "domain": "calculus_1",
+    "format": "multiple_choice",
+    "score": 3,
+    "difficulty": "challenging",
+    "objective": "정적분 기초 활용",
+    "skill_tags": [
+      "integral"
+    ],
+    "choice_count": 5,
+    "answer_type": "symbolic_or_numeric"
+  },
+  "stem": "정적분 기초 활용을 평가하는 모의 문항 16번이다.",
+  "choices": [
+    "49",
+    "50",
+    "51",
+    "52",
+    "53"
+  ],
+  "rubric": "정적분 기초 활용에 맞는 핵심 풀이를 구성한다.",
+  "answer_constraints": [
+    "symbolic_or_numeric"
+  ]
+}

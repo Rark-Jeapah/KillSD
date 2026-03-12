@@ -1,0 +1,30 @@
+{
+  "artifact_id": "art-f6be2f36ecec",
+  "artifact_type": "ProviderResponse",
+  "schema_version": "1.0",
+  "stage": "validation",
+  "run_id": "smoke-api-validator",
+  "spec_id": "csat_math_2028",
+  "created_at": "2026-03-12T04:58:02.078623Z",
+  "metadata": {
+    "stage_name": "critique",
+    "attempt": 1,
+    "source": "provider_response"
+  },
+  "payload": {
+    "provider_name": "mock_provider",
+    "prompt_packet_id": "pkt-7471252704e2",
+    "stage_name": "critique",
+    "output": {
+      "critique_id": "crt-3247f869cf33",
+      "item_no": 3,
+      "summary": "구조적 결함이 없어 다음 단계로 진행 가능하다.",
+      "findings": [],
+      "requires_revision": false,
+      "reviewed_at": "2026-03-12T04:58:02.078165Z"
+    },
+    "raw_text": "{\"critique_id\": \"crt-3247f869cf33\", \"item_no\": 3, \"summary\": \"구조적 결함이 없어 다음 단계로 진행 가능하다.\", \"findings\": [], \"requires_revision\": false, \"reviewed_at\": \"2026-03-12T04:58:02.078165Z\"}",
+    "prompt_hash": "b4c2ae3b7743976f6d3015892d9f2dfd1151a50e1d88d5b912f47f94c6691891",
+    "seed": 0
+  }
+}

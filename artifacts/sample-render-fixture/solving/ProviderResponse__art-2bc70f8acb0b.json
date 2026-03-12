@@ -1,0 +1,62 @@
+{
+  "artifact_id": "art-2bc70f8acb0b",
+  "artifact_type": "ProviderResponse",
+  "schema_version": "1.0",
+  "stage": "solving",
+  "run_id": "sample-render-fixture",
+  "spec_id": "csat_math_2028",
+  "created_at": "2026-03-12T05:27:07.639249Z",
+  "metadata": {
+    "stage_name": "solve",
+    "attempt": 1,
+    "source": "provider_response"
+  },
+  "payload": {
+    "provider_name": "mock_provider",
+    "prompt_packet_id": "pkt-ebce48a44436",
+    "stage_name": "solve",
+    "output": {
+      "solved_id": "slv-16173156fb43",
+      "draft": {
+        "draft_id": "drf-0bcb453ccecf",
+        "blueprint": {
+          "item_id": "ibl-a7e029b44354",
+          "item_no": 8,
+          "domain": "algebra",
+          "format": "multiple_choice",
+          "score": 3,
+          "difficulty": "standard",
+          "objective": "지수로그함수 실전 적용",
+          "skill_tags": [
+            "exponential",
+            "logarithm"
+          ],
+          "choice_count": 5,
+          "answer_type": "symbolic_or_numeric"
+        },
+        "stem": "지수로그함수 실전 적용을 평가하는 모의 문항 8번이다.",
+        "choices": [
+          "25",
+          "26",
+          "27",
+          "28",
+          "29"
+        ],
+        "rubric": "지수로그함수 실전 적용에 맞는 핵심 풀이를 구성한다.",
+        "answer_constraints": [
+          "symbolic_or_numeric"
+        ]
+      },
+      "final_answer": "27",
+      "solution_steps": [
+        "지수로그함수 실전 적용에 필요한 조건을 먼저 정리한다.",
+        "핵심 계산 또는 추론을 수행한다.",
+        "정답 형식에 맞게 결과를 확정한다."
+      ],
+      "solution_summary": "지수로그함수 실전 적용에 맞는 풀이가 완결되었다."
+    },
+    "raw_text": "{\"solved_id\": \"slv-16173156fb43\", \"draft\": {\"draft_id\": \"drf-0bcb453ccecf\", \"blueprint\": {\"item_id\": \"ibl-a7e029b44354\", \"item_no\": 8, \"domain\": \"algebra\", \"format\": \"multiple_choice\", \"score\": 3, \"difficulty\": \"standard\", \"objective\": \"지수로그함수 실전 적용\", \"skill_tags\": [\"exponential\", \"logarithm\"], \"choice_count\": 5, \"answer_type\": \"symbolic_or_numeric\"}, \"stem\": \"지수로그함수 실전 적용을 평가하는 모의 문항 8번이다.\", \"choices\": [\"25\", \"26\", \"27\", \"28\", \"29\"], \"rubric\": \"지수로그함수 실전 적용에 맞는 핵심 풀이를 구성한다.\", \"answer_constraints\": [\"symbolic_or_numeric\"]}, \"final_answer\": \"27\", \"solution_steps\": [\"지수로그함수 실전 적용에 필요한 조건을 먼저 정리한다.\", \"핵심 계산 또는 추론을 수행한다.\", \"정답 형식에 맞게 결과를 확정한다.\"], \"solution_summary\": \"지수로그함수 실전 적용에 맞는 풀이가 완결되었다.\"}",
+    "prompt_hash": "bb39c429e643ddc7841878d9c1120217f0f7cd630c52aa272886ffff25399c2e",
+    "seed": 0
+  }
+}

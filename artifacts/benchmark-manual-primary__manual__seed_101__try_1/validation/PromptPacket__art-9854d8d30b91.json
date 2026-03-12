@@ -1,0 +1,170 @@
+{
+  "artifact_id": "art-9854d8d30b91",
+  "artifact_type": "PromptPacket",
+  "schema_version": "1.0",
+  "stage": "validation",
+  "run_id": "benchmark-manual-primary__manual__seed_101__try_1",
+  "spec_id": "csat_math_2028",
+  "created_at": "2026-03-12T06:49:34.164159Z",
+  "metadata": {
+    "stage_name": "critique",
+    "attempt": 1,
+    "prompt_hash": "b4c2ae3b7743976f6d3015892d9f2dfd1151a50e1d88d5b912f47f94c6691891",
+    "prompt_version": "1.0.0"
+  },
+  "payload": {
+    "packet_id": "pkt-25d3b776a828",
+    "mode": "manual",
+    "stage": "validation",
+    "stage_name": "critique",
+    "spec_id": "csat_math_2028",
+    "run_id": "benchmark-manual-primary__manual__seed_101__try_1",
+    "blueprint_id": "bp-ad654eb42770",
+    "item_no": 1,
+    "instructions": [
+      "<!-- version: 1.0.0 -->\n# Critic\n\nYou are critiquing a `SolvedItem` and must return a `CritiqueReport`.\n\n- Identify hidden ambiguity, structural issues, weak distractors, or answer-form problems.\n- Use blocking findings only when the issue would invalidate the item.\n- If the item is acceptable, return an empty findings list and `requires_revision=false`.\n- Return strict JSON only.\n"
+    ],
+    "input_artifact_ids": [
+      "art-6974c5723150"
+    ],
+    "lineage_parent_ids": [
+      "art-6974c5723150"
+    ],
+    "context": {
+      "solved_item": {
+        "solved_id": "slv-12d92bb43b43",
+        "draft": {
+          "draft_id": "drf-baadf3ec4587",
+          "blueprint": {
+            "item_id": "ibl-ba6ec05b3b6f",
+            "item_no": 1,
+            "domain": "algebra",
+            "format": "multiple_choice",
+            "score": 2,
+            "difficulty": "basic",
+            "objective": "다항식 및 방정식 기본 이해",
+            "skill_tags": [
+              "polynomial",
+              "equation"
+            ],
+            "choice_count": 5,
+            "answer_type": "symbolic_or_numeric"
+          },
+          "stem": "다항식 및 방정식 기본 이해을 평가하는 모의 문항 1번이다.",
+          "choices": [
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+          ],
+          "rubric": "다항식 및 방정식 기본 이해에 맞는 핵심 풀이를 구성한다.",
+          "answer_constraints": [
+            "symbolic_or_numeric"
+          ]
+        },
+        "final_answer": "4",
+        "solution_steps": [
+          "다항식 및 방정식 기본 이해에 필요한 조건을 먼저 정리한다.",
+          "핵심 계산 또는 추론을 수행한다.",
+          "정답 형식에 맞게 결과를 확정한다."
+        ],
+        "solution_summary": "다항식 및 방정식 기본 이해에 맞는 풀이가 완결되었다."
+      }
+    },
+    "expected_output_model": "CritiqueReport",
+    "response_schema_version": "1.0",
+    "response_json_schema": {
+      "$defs": {
+        "CritiqueFinding": {
+          "additionalProperties": false,
+          "description": "Issue found during the critique stage before final validation.",
+          "properties": {
+            "issue_id": {
+              "title": "Issue Id",
+              "type": "string"
+            },
+            "severity": {
+              "$ref": "#/$defs/ValidationSeverity"
+            },
+            "message": {
+              "title": "Message",
+              "type": "string"
+            },
+            "recommendation": {
+              "title": "Recommendation",
+              "type": "string"
+            },
+            "blocking": {
+              "default": false,
+              "title": "Blocking",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "severity",
+            "message",
+            "recommendation"
+          ],
+          "title": "CritiqueFinding",
+          "type": "object"
+        },
+        "ValidationSeverity": {
+          "description": "Severity for validation findings.",
+          "enum": [
+            "info",
+            "warning",
+            "error"
+          ],
+          "title": "ValidationSeverity",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Critique output used to drive revision decisions.",
+      "properties": {
+        "critique_id": {
+          "title": "Critique Id",
+          "type": "string"
+        },
+        "item_no": {
+          "title": "Item No",
+          "type": "integer"
+        },
+        "summary": {
+          "title": "Summary",
+          "type": "string"
+        },
+        "findings": {
+          "items": {
+            "$ref": "#/$defs/CritiqueFinding"
+          },
+          "title": "Findings",
+          "type": "array"
+        },
+        "requires_revision": {
+          "default": false,
+          "title": "Requires Revision",
+          "type": "boolean"
+        },
+        "reviewed_at": {
+          "format": "date-time",
+          "title": "Reviewed At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "item_no",
+        "summary"
+      ],
+      "title": "CritiqueReport",
+      "type": "object"
+    },
+    "prompt_template_path": "/Users/j_mac/Desktop/KillSD/src/prompts/critic.md",
+    "prompt_version": "1.0.0",
+    "prompt_hash": "b4c2ae3b7743976f6d3015892d9f2dfd1151a50e1d88d5b912f47f94c6691891",
+    "seed": 101,
+    "attempt": 1,
+    "provider_name": "mock_provider"
+  }
+}

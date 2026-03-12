@@ -1,0 +1,38 @@
+{
+  "fixture_id": "short_answer_zero",
+  "kind": "item",
+  "expected_reason_codes": [
+    "format.short_answer_not_natural"
+  ],
+  "expected_status": "fail",
+  "expected_hard_fail": true,
+  "expected_soft_fail": false,
+  "item": {
+    "blueprint": {
+      "item_no": 23,
+      "domain": "probability_statistics",
+      "format": "short_answer",
+      "score": 4,
+      "difficulty": "challenging",
+      "objective": "counting_with_restrictions",
+      "skill_tags": ["counting"],
+      "answer_type": "natural_number"
+    },
+    "draft": {
+      "stem": "Count the restricted arrangements and return the final number.",
+      "choices": [],
+      "rubric": "Zero is not a valid final format in this short-answer slot.",
+      "answer_constraints": ["natural_number"]
+    },
+    "solved": {
+      "final_answer": "0",
+      "solution_steps": [
+        "Break the cases apart.",
+        "Count the valid arrangements.",
+        "Summarize the total."
+      ],
+      "solution_summary": "The short answer format should reject zero."
+    }
+  },
+  "context": {}
+}

@@ -1,0 +1,40 @@
+{
+  "dataset_id": "release_smoke",
+  "spec_id": "csat_math_2028",
+  "cases": [
+    {
+      "case_id": "api_primary",
+      "run_id_prefix": "benchmark-api-primary",
+      "mode": "api",
+      "seed": 101,
+      "provider_name": "mock",
+      "compile_pdf": false,
+      "max_retries": 2,
+      "rollback_on_failure": true,
+      "compare_group": "seed101_equivalence",
+      "reproducibility_group": "seed101_replay"
+    },
+    {
+      "case_id": "manual_primary",
+      "run_id_prefix": "benchmark-manual-primary",
+      "mode": "manual",
+      "seed": 101,
+      "provider_name": "mock",
+      "compile_pdf": false,
+      "max_retries": 2,
+      "rollback_on_failure": true,
+      "compare_group": "seed101_equivalence"
+    },
+    {
+      "case_id": "api_replay",
+      "run_id_prefix": "benchmark-api-replay",
+      "mode": "api",
+      "seed": 101,
+      "provider_name": "mock",
+      "compile_pdf": false,
+      "max_retries": 2,
+      "rollback_on_failure": true,
+      "reproducibility_group": "seed101_replay"
+    }
+  ]
+}

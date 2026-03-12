@@ -1,0 +1,23 @@
+\documentclass[10pt]{article}
+\usepackage[a4paper,margin=16mm]{geometry}
+\usepackage{kotex}
+\usepackage{amsmath,amssymb,booktabs,longtable,array}
+\setlength{\parindent}{0pt}
+\begin{document}
+\begin{center}
+  {\LARGE\bfseries {{ title }}}\\[0.4em]
+  {\large 정답표}\\[0.2em]
+  {\small generated at {{ generated_at }}}
+\end{center}
+\vspace{0.6em}
+\begin{longtable}{>{\centering\arraybackslash}p{0.12\linewidth} >{\centering\arraybackslash}p{0.18\linewidth} >{\centering\arraybackslash}p{0.12\linewidth}}
+\toprule
+문항 & 정답(선지 번호) & 배점\\
+\midrule
+\endhead
+{% for entry in answers %}
+{{ entry.item_no }} & {{ entry.answer }} & {{ entry.score }} \\
+{% endfor %}
+\bottomrule
+\end{longtable}
+\end{document}

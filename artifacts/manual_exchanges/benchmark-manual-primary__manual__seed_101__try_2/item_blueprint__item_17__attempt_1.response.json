@@ -1,0 +1,15 @@
+{
+  "item_id": "ibl-4ecf086b8992",
+  "item_no": 17,
+  "domain": "calculus_1",
+  "format": "multiple_choice",
+  "score": 3,
+  "difficulty": "challenging",
+  "objective": "함수와 미분 결합 추론",
+  "skill_tags": [
+    "function",
+    "derivative"
+  ],
+  "choice_count": 5,
+  "answer_type": "symbolic_or_numeric"
+}

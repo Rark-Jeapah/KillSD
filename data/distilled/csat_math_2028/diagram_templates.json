@@ -1,0 +1,74 @@
+{
+  "spec_id": "csat_math_2028",
+  "generated_at": "2026-03-12T02:46:55.483322+00:00",
+  "templates": [
+    {
+      "diagram_tag": "area_under_curve",
+      "usage_count": 1,
+      "applicable_topics": [
+        "integral_area_split"
+      ],
+      "source_item_ids": [
+        "fixture-integral-04"
+      ],
+      "notes": [
+        "그래프를 직접 그리지 않아도 교점과 부호를 떠올릴 수 있게 서술한다."
+      ]
+    },
+    {
+      "diagram_tag": "function_graph",
+      "usage_count": 3,
+      "applicable_topics": [
+        "derivative_monotonicity",
+        "integral_area_split"
+      ],
+      "source_item_ids": [
+        "fixture-derivative-02",
+        "fixture-integral-04",
+        "fixture-derivative-05"
+      ],
+      "notes": [
+        "그래프를 직접 주지 않아도 수험생이 도함수 그래프를 머릿속에 그리게 만드는 문장 구성이 효과적이다.",
+        "그래프를 직접 그리지 않아도 교점과 부호를 떠올릴 수 있게 서술한다."
+      ]
+    },
+    {
+      "diagram_tag": "number_line",
+      "usage_count": 1,
+      "applicable_topics": [
+        "log_equation_domain"
+      ],
+      "source_item_ids": [
+        "fixture-log-domain-01"
+      ],
+      "notes": []
+    },
+    {
+      "diagram_tag": "probability_table",
+      "usage_count": 1,
+      "applicable_topics": [
+        "conditional_probability_table"
+      ],
+      "source_item_ids": [
+        "fixture-conditional-03"
+      ],
+      "notes": [
+        "조건부확률 문항은 표나 나무도표로 재구성 가능해야 한다."
+      ]
+    },
+    {
+      "diagram_tag": "sign_chart",
+      "usage_count": 2,
+      "applicable_topics": [
+        "derivative_monotonicity"
+      ],
+      "source_item_ids": [
+        "fixture-derivative-02",
+        "fixture-derivative-05"
+      ],
+      "notes": [
+        "그래프를 직접 주지 않아도 수험생이 도함수 그래프를 머릿속에 그리게 만드는 문장 구성이 효과적이다."
+      ]
+    }
+  ]
+}

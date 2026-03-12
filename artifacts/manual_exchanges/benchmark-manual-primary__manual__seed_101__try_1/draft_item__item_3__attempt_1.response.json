@@ -1,0 +1,30 @@
+{
+  "draft_id": "drf-5fdd56a54f4b",
+  "blueprint": {
+    "item_id": "ibl-dcb5dd31d4ba",
+    "item_no": 3,
+    "domain": "algebra",
+    "format": "multiple_choice",
+    "score": 2,
+    "difficulty": "basic",
+    "objective": "지수로그식 변형",
+    "skill_tags": [
+      "exponential",
+      "logarithm"
+    ],
+    "choice_count": 5,
+    "answer_type": "symbolic_or_numeric"
+  },
+  "stem": "지수로그식 변형을 평가하는 모의 문항 3번이다.",
+  "choices": [
+    "10",
+    "11",
+    "12",
+    "13",
+    "14"
+  ],
+  "rubric": "지수로그식 변형에 맞는 핵심 풀이를 구성한다.",
+  "answer_constraints": [
+    "symbolic_or_numeric"
+  ]
+}

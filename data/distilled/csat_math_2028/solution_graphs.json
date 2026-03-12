@@ -1,0 +1,397 @@
+{
+  "spec_id": "csat_math_2028",
+  "generated_at": "2026-03-12T02:46:55.483184+00:00",
+  "source_path": "/Users/j_mac/Desktop/KillSD/data/source_fixtures/csat_math_2028/sample_items.json",
+  "graphs": [
+    {
+      "graph_id": "sg-6548a8d4d8ff",
+      "source_item_id": "fixture-log-domain-01",
+      "nodes": [
+        {
+          "node_id": "s1",
+          "label": "정의역 확인",
+          "kind": "given",
+          "content": "로그의 진수가 양수이므로 x>3이어야 한다.",
+          "technique": "domain_check",
+          "dependencies": [],
+          "outputs": [
+            "x>3"
+          ],
+          "difficulty_delta": 0
+        },
+        {
+          "node_id": "s2",
+          "label": "로그 결합",
+          "kind": "transform",
+          "content": "log_2((x-1)(x-3))=2로 정리한다.",
+          "technique": "log_merge",
+          "dependencies": [
+            "s1"
+          ],
+          "outputs": [
+            "(x-1)(x-3)=4"
+          ],
+          "difficulty_delta": 0
+        },
+        {
+          "node_id": "s3",
+          "label": "방정식 풀이",
+          "kind": "compute",
+          "content": "x^2-4x-1=0의 해를 구하고 정의역에 맞는 해를 고른다.",
+          "technique": "quadratic_filter",
+          "dependencies": [
+            "s2"
+          ],
+          "outputs": [
+            "x=2+√5"
+          ],
+          "difficulty_delta": 1
+        },
+        {
+          "node_id": "s4",
+          "label": "선택지 대응",
+          "kind": "result",
+          "content": "근삿값을 비교해 4에 대응되는 선택지를 고른다.",
+          "technique": "choice_alignment",
+          "dependencies": [
+            "s3"
+          ],
+          "outputs": [
+            "choice=4"
+          ],
+          "difficulty_delta": 0
+        }
+      ],
+      "edges": [
+        {
+          "from_node": "s1",
+          "to_node": "s2",
+          "relation": "depends_on"
+        },
+        {
+          "from_node": "s2",
+          "to_node": "s3",
+          "relation": "depends_on"
+        },
+        {
+          "from_node": "s3",
+          "to_node": "s4",
+          "relation": "depends_on"
+        }
+      ],
+      "final_answer": "4",
+      "diagram_tags": [
+        "number_line"
+      ]
+    },
+    {
+      "graph_id": "sg-d69252497ff5",
+      "source_item_id": "fixture-derivative-02",
+      "nodes": [
+        {
+          "node_id": "s1",
+          "label": "도함수 계산",
+          "kind": "compute",
+          "content": "f'(x)=3x^2-6x+a를 구한다.",
+          "technique": "differentiate_polynomial",
+          "dependencies": [],
+          "outputs": [
+            "f'(x)=3x^2-6x+a"
+          ],
+          "difficulty_delta": 0
+        },
+        {
+          "node_id": "s2",
+          "label": "최솟값 관찰",
+          "kind": "inference",
+          "content": "이차함수인 도함수의 꼭짓점 x=1에서 최솟값을 가진다.",
+          "technique": "quadratic_vertex_check",
+          "dependencies": [
+            "s1"
+          ],
+          "outputs": [
+            "min f'(x)=a-3"
+          ],
+          "difficulty_delta": 1
+        },
+        {
+          "node_id": "s3",
+          "label": "단조 조건 연결",
+          "kind": "transform",
+          "content": "감소하지 않으려면 모든 x에 대해 f'(x)≥0 이어야 하므로 a-3≥0이다.",
+          "technique": "global_monotonicity_condition",
+          "dependencies": [
+            "s2"
+          ],
+          "outputs": [
+            "a≥3"
+          ],
+          "difficulty_delta": 1
+        },
+        {
+          "node_id": "s4",
+          "label": "정답 선택",
+          "kind": "result",
+          "content": "a≥3에 해당하는 선택지를 고른다.",
+          "technique": "choice_alignment",
+          "dependencies": [
+            "s3"
+          ],
+          "outputs": [
+            "choice=3"
+          ],
+          "difficulty_delta": 0
+        }
+      ],
+      "edges": [
+        {
+          "from_node": "s1",
+          "to_node": "s2",
+          "relation": "depends_on"
+        },
+        {
+          "from_node": "s2",
+          "to_node": "s3",
+          "relation": "depends_on"
+        },
+        {
+          "from_node": "s3",
+          "to_node": "s4",
+          "relation": "depends_on"
+        }
+      ],
+      "final_answer": "3",
+      "diagram_tags": [
+        "function_graph",
+        "sign_chart"
+      ]
+    },
+    {
+      "graph_id": "sg-165d89b4e948",
+      "source_item_id": "fixture-conditional-03",
+      "nodes": [
+        {
+          "node_id": "s1",
+          "label": "조건 사건 정리",
+          "kind": "given",
+          "content": "사건 B에 해당하는 경우만 표로 정리한다.",
+          "technique": "condition_partition",
+          "dependencies": [],
+          "outputs": [
+            "restricted sample space"
+          ],
+          "difficulty_delta": 0
+        },
+        {
+          "node_id": "s2",
+          "label": "경우의 수 계산",
+          "kind": "compute",
+          "content": "B의 경우의 수와 A∩B의 경우의 수를 각각 센다.",
+          "technique": "count_conditioned_cases",
+          "dependencies": [
+            "s1"
+          ],
+          "outputs": [
+            "|B|=3",
+            "|A∩B|=2"
+          ],
+          "difficulty_delta": 1
+        },
+        {
+          "node_id": "s3",
+          "label": "조건부확률 계산",
+          "kind": "result",
+          "content": "P(A|B)=P(A∩B)/P(B)=2/3이다.",
+          "technique": "conditional_probability_ratio",
+          "dependencies": [
+            "s2"
+          ],
+          "outputs": [
+            "2/3"
+          ],
+          "difficulty_delta": 0
+        }
+      ],
+      "edges": [
+        {
+          "from_node": "s1",
+          "to_node": "s2",
+          "relation": "depends_on"
+        },
+        {
+          "from_node": "s2",
+          "to_node": "s3",
+          "relation": "depends_on"
+        }
+      ],
+      "final_answer": "2/3",
+      "diagram_tags": [
+        "probability_table"
+      ]
+    },
+    {
+      "graph_id": "sg-204d9530ba55",
+      "source_item_id": "fixture-integral-04",
+      "nodes": [
+        {
+          "node_id": "s1",
+          "label": "교점 확인",
+          "kind": "given",
+          "content": "x축과의 교점은 x=0, 2이다.",
+          "technique": "root_identification",
+          "dependencies": [],
+          "outputs": [
+            "interval [0,2]"
+          ],
+          "difficulty_delta": 0
+        },
+        {
+          "node_id": "s2",
+          "label": "부호 판단",
+          "kind": "inference",
+          "content": "구간 (0,2)에서 함수값이 음수이므로 넓이는 절댓값 적분으로 계산한다.",
+          "technique": "signed_area_check",
+          "dependencies": [
+            "s1"
+          ],
+          "outputs": [
+            "area=-∫_0^2 x(x-2)dx"
+          ],
+          "difficulty_delta": 1
+        },
+        {
+          "node_id": "s3",
+          "label": "적분 계산",
+          "kind": "compute",
+          "content": "-∫_0^2 (x^2-2x)dx = 4/3을 계산한다.",
+          "technique": "definite_integral_evaluation",
+          "dependencies": [
+            "s2"
+          ],
+          "outputs": [
+            "4/3"
+          ],
+          "difficulty_delta": 1
+        },
+        {
+          "node_id": "s4",
+          "label": "답 형식 확정",
+          "kind": "result",
+          "content": "기약분수 4/3으로 정리한다.",
+          "technique": "answer_form_finalize",
+          "dependencies": [
+            "s3"
+          ],
+          "outputs": [
+            "4/3"
+          ],
+          "difficulty_delta": 0
+        }
+      ],
+      "edges": [
+        {
+          "from_node": "s1",
+          "to_node": "s2",
+          "relation": "depends_on"
+        },
+        {
+          "from_node": "s2",
+          "to_node": "s3",
+          "relation": "depends_on"
+        },
+        {
+          "from_node": "s3",
+          "to_node": "s4",
+          "relation": "depends_on"
+        }
+      ],
+      "final_answer": "4/3",
+      "diagram_tags": [
+        "function_graph",
+        "area_under_curve"
+      ]
+    },
+    {
+      "graph_id": "sg-5dc14260604e",
+      "source_item_id": "fixture-derivative-05",
+      "nodes": [
+        {
+          "node_id": "s1",
+          "label": "도함수 계산",
+          "kind": "compute",
+          "content": "g'(x)=3x^2-12x+b를 구한다.",
+          "technique": "differentiate_polynomial",
+          "dependencies": [],
+          "outputs": [
+            "g'(x)=3x^2-12x+b"
+          ],
+          "difficulty_delta": 0
+        },
+        {
+          "node_id": "s2",
+          "label": "최댓값 관찰",
+          "kind": "inference",
+          "content": "증가하지 않으려면 g'(x)≤0 이어야 하는데 도함수는 위로 열린 이차함수라 조건 충족이 불가능한지 먼저 본다.",
+          "technique": "global_monotonicity_direction_check",
+          "dependencies": [
+            "s1"
+          ],
+          "outputs": [
+            "need reinterpretation"
+          ],
+          "difficulty_delta": 1
+        },
+        {
+          "node_id": "s3",
+          "label": "꼭짓점 기반 조건",
+          "kind": "transform",
+          "content": "문항 의도가 감소 함수 조건이라면 꼭짓점 x=2에서 g'(2)=b-12≤0을 얻는다.",
+          "technique": "quadratic_vertex_check",
+          "dependencies": [
+            "s2"
+          ],
+          "outputs": [
+            "b≤12"
+          ],
+          "difficulty_delta": 1
+        },
+        {
+          "node_id": "s4",
+          "label": "정답 선택",
+          "kind": "result",
+          "content": "b≤12에 해당하는 선택지를 고른다.",
+          "technique": "choice_alignment",
+          "dependencies": [
+            "s3"
+          ],
+          "outputs": [
+            "choice=2"
+          ],
+          "difficulty_delta": 0
+        }
+      ],
+      "edges": [
+        {
+          "from_node": "s1",
+          "to_node": "s2",
+          "relation": "depends_on"
+        },
+        {
+          "from_node": "s2",
+          "to_node": "s3",
+          "relation": "depends_on"
+        },
+        {
+          "from_node": "s3",
+          "to_node": "s4",
+          "relation": "depends_on"
+        }
+      ],
+      "final_answer": "2",
+      "diagram_tags": [
+        "function_graph",
+        "sign_chart"
+      ]
+    }
+  ]
+}

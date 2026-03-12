@@ -1,0 +1,38 @@
+{
+  "fixture_id": "short_answer_fraction",
+  "kind": "item",
+  "expected_reason_codes": [
+    "format.short_answer_not_natural"
+  ],
+  "expected_status": "fail",
+  "expected_hard_fail": true,
+  "expected_soft_fail": false,
+  "item": {
+    "blueprint": {
+      "item_no": 22,
+      "domain": "probability_statistics",
+      "format": "short_answer",
+      "score": 4,
+      "difficulty": "challenging",
+      "objective": "conditional_probability_table",
+      "skill_tags": ["conditional_probability"],
+      "answer_type": "natural_number"
+    },
+    "draft": {
+      "stem": "Compute the requested conditional probability and return it as a short answer.",
+      "choices": [],
+      "rubric": "Short-answer slots in this pipeline must end in a positive integer.",
+      "answer_constraints": ["natural_number"]
+    },
+    "solved": {
+      "final_answer": "2/3",
+      "solution_steps": [
+        "Count the favorable cases.",
+        "Count the conditioning cases.",
+        "Form the ratio."
+      ],
+      "solution_summary": "The final answer is fractional instead of natural."
+    }
+  },
+  "context": {}
+}

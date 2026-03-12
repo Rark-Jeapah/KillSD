@@ -1,0 +1,15 @@
+{
+  "item_id": "real_item_001",
+  "run_id": "real_item_001_ci",
+  "item_no": 14,
+  "final_answer": "4",
+  "correct_choice_index": 4,
+  "correct_choice_value": "a \\ge 12",
+  "solution_steps": [
+    "접선 기울기가 항상 음수가 아니어야 하므로 모든 실수 x에 대해 y'=3x^2-12x+a \\ge 0 이어야 한다.",
+    "도함수 y'를 y'=3(x-2)^2+(a-12)로 고치면 최솟값은 x=2에서 a-12임을 바로 알 수 있다.",
+    "전구간에서 0 이상이 되려면 최솟값 a-12가 0 이상이어야 하므로 a \\ge 12이다.",
+    "따라서 조건에 맞는 선택지는 4번 a \\ge 12이다."
+  ],
+  "solution_summary": "도함수를 완전제곱식으로 정리해 최솟값 조건을 읽으면 a \\ge 12가 곧바로 나온다."
+}

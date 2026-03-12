@@ -1,0 +1,189 @@
+{
+  "artifact_id": "art-6cf386e48e0b",
+  "artifact_type": "PromptPacket",
+  "schema_version": "1.0",
+  "stage": "generation",
+  "run_id": "smoke-api-validator",
+  "spec_id": "csat_math_2028",
+  "created_at": "2026-03-12T04:58:02.467980Z",
+  "metadata": {
+    "stage_name": "draft_item",
+    "attempt": 1,
+    "prompt_hash": "e8b66745edb24286fd9805b66f1fa3d2d284b8016d127a6ea6a95f4e3ec83b1d",
+    "prompt_version": "1.0.0"
+  },
+  "payload": {
+    "packet_id": "pkt-49a36baf3a5a",
+    "mode": "api",
+    "stage": "generation",
+    "stage_name": "draft_item",
+    "spec_id": "csat_math_2028",
+    "run_id": "smoke-api-validator",
+    "blueprint_id": "bp-8c5e975f2b46",
+    "item_no": 22,
+    "instructions": [
+      "<!-- version: 1.0.0 -->\n# Draft Item\n\nYou are generating a `DraftItem` from a validated `ItemBlueprint`.\n\n- Produce a schema-valid draft.\n- Multiple-choice items must have exactly 5 choices.\n- Short-answer items must not include choices.\n- Keep the draft aligned with the target objective and answer constraints.\n- Return strict JSON only.\n"
+    ],
+    "input_artifact_ids": [
+      "art-f2609bd61bcd"
+    ],
+    "lineage_parent_ids": [
+      "art-f2609bd61bcd"
+    ],
+    "context": {
+      "item_blueprint": {
+        "item_id": "ibl-62158436af02",
+        "item_no": 22,
+        "domain": "probability_statistics",
+        "format": "short_answer",
+        "score": 4,
+        "difficulty": "challenging",
+        "objective": "확률 변수 계산",
+        "skill_tags": [
+          "random_variable",
+          "expectation"
+        ],
+        "choice_count": null,
+        "answer_type": "symbolic_or_numeric"
+      }
+    },
+    "expected_output_model": "DraftItem",
+    "response_schema_version": "1.0",
+    "response_json_schema": {
+      "$defs": {
+        "DifficultyBand": {
+          "description": "Coarse difficulty buckets for MVP planning.",
+          "enum": [
+            "basic",
+            "standard",
+            "challenging",
+            "advanced"
+          ],
+          "title": "DifficultyBand",
+          "type": "string"
+        },
+        "ItemBlueprint": {
+          "additionalProperties": false,
+          "description": "Planning record for a single exam item before generation.",
+          "properties": {
+            "item_id": {
+              "title": "Item Id",
+              "type": "string"
+            },
+            "item_no": {
+              "title": "Item No",
+              "type": "integer"
+            },
+            "domain": {
+              "title": "Domain",
+              "type": "string"
+            },
+            "format": {
+              "$ref": "#/$defs/ItemFormat"
+            },
+            "score": {
+              "title": "Score",
+              "type": "integer"
+            },
+            "difficulty": {
+              "$ref": "#/$defs/DifficultyBand"
+            },
+            "objective": {
+              "title": "Objective",
+              "type": "string"
+            },
+            "skill_tags": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Skill Tags",
+              "type": "array"
+            },
+            "choice_count": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Choice Count"
+            },
+            "answer_type": {
+              "default": "symbolic_or_numeric",
+              "title": "Answer Type",
+              "type": "string"
+            }
+          },
+          "required": [
+            "item_no",
+            "domain",
+            "format",
+            "score",
+            "difficulty",
+            "objective"
+          ],
+          "title": "ItemBlueprint",
+          "type": "object"
+        },
+        "ItemFormat": {
+          "description": "Supported item presentation formats.",
+          "enum": [
+            "multiple_choice",
+            "short_answer"
+          ],
+          "title": "ItemFormat",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Drafted item content before solving/validation.",
+      "properties": {
+        "draft_id": {
+          "title": "Draft Id",
+          "type": "string"
+        },
+        "blueprint": {
+          "$ref": "#/$defs/ItemBlueprint"
+        },
+        "stem": {
+          "title": "Stem",
+          "type": "string"
+        },
+        "choices": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Choices",
+          "type": "array"
+        },
+        "rubric": {
+          "title": "Rubric",
+          "type": "string"
+        },
+        "answer_constraints": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Answer Constraints",
+          "type": "array"
+        }
+      },
+      "required": [
+        "blueprint",
+        "stem",
+        "rubric"
+      ],
+      "title": "DraftItem",
+      "type": "object"
+    },
+    "prompt_template_path": "/Users/j_mac/Desktop/KillSD/src/prompts/draft_item.md",
+    "prompt_version": "1.0.0",
+    "prompt_hash": "e8b66745edb24286fd9805b66f1fa3d2d284b8016d127a6ea6a95f4e3ec83b1d",
+    "seed": 0,
+    "attempt": 1,
+    "provider_name": "mock_provider"
+  }
+}

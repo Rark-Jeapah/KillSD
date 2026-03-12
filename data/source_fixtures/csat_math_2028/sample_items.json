@@ -1,0 +1,429 @@
+{
+  "items": [
+    {
+      "source_item_id": "fixture-log-domain-01",
+      "source_kind": "manual_fixture",
+      "source_label": "Synthetic algebra source item",
+      "source_year": 2028,
+      "source_path": null,
+      "subject_area": "algebra",
+      "topic": "log_equation_domain",
+      "subtopics": ["logarithm", "equation", "domain restriction"],
+      "item_format": "multiple_choice",
+      "score": 3,
+      "difficulty": "standard",
+      "stem": "실수 x에 대하여 log_2(x-1)+log_2(x-3)=2를 만족하는 x의 값을 구하는 과정을 묻는 문항이다.",
+      "choices": ["2", "3", "4", "5", "6"],
+      "answer": "4",
+      "solution_steps": [
+        {
+          "step_id": "s1",
+          "label": "정의역 확인",
+          "kind": "given",
+          "content": "로그의 진수가 양수이므로 x>3이어야 한다.",
+          "technique": "domain_check",
+          "dependencies": [],
+          "outputs": ["x>3"],
+          "difficulty_delta": 0
+        },
+        {
+          "step_id": "s2",
+          "label": "로그 결합",
+          "kind": "transform",
+          "content": "log_2((x-1)(x-3))=2로 정리한다.",
+          "technique": "log_merge",
+          "dependencies": ["s1"],
+          "outputs": ["(x-1)(x-3)=4"],
+          "difficulty_delta": 0
+        },
+        {
+          "step_id": "s3",
+          "label": "방정식 풀이",
+          "kind": "compute",
+          "content": "x^2-4x-1=0의 해를 구하고 정의역에 맞는 해를 고른다.",
+          "technique": "quadratic_filter",
+          "dependencies": ["s2"],
+          "outputs": ["x=2+√5"],
+          "difficulty_delta": 1
+        },
+        {
+          "step_id": "s4",
+          "label": "선택지 대응",
+          "kind": "result",
+          "content": "근삿값을 비교해 4에 대응되는 선택지를 고른다.",
+          "technique": "choice_alignment",
+          "dependencies": ["s3"],
+          "outputs": ["choice=4"],
+          "difficulty_delta": 0
+        }
+      ],
+      "distractors": [
+        {
+          "error_type": "domain_omission",
+          "trigger": "로그 방정식을 바로 전개할 때",
+          "wrong_move": "x>1만 확인하고 x=2를 후보로 남긴다.",
+          "plausible_choice_shape": "정의역 밖 해를 포함한 수치 선택지",
+          "reject_if_too_obvious": true,
+          "linked_step_id": "s1"
+        },
+        {
+          "error_type": "algebraic_slip",
+          "trigger": "로그를 결합한 뒤 전개할 때",
+          "wrong_move": "(x-1)(x-3)=2로 잘못 두고 계산한다.",
+          "plausible_choice_shape": "정수 근처럼 보이는 근사값 선택지",
+          "reject_if_too_obvious": true,
+          "linked_step_id": "s2"
+        }
+      ],
+      "diagram_tags": ["number_line"],
+      "style_notes": [
+        "정의역 조건은 문장으로 먼저 드러내고 수식 조작은 그 다음에 배치한다.",
+        "선택지는 근삿값 유혹을 주되 지나치게 쉬운 배제형은 피한다."
+      ],
+      "allowed_answer_forms": ["choice_index"],
+      "trigger_patterns": ["로그식 결합", "정의역 제한", "근의 선택"],
+      "source_metadata": {
+        "fixture_group": "sample",
+        "notes": "Synthetic fixture for offline distillation"
+      }
+    },
+    {
+      "source_item_id": "fixture-derivative-02",
+      "source_kind": "manual_fixture",
+      "source_label": "Synthetic calculus source item A",
+      "source_year": 2026,
+      "source_path": null,
+      "subject_area": "calculus_1",
+      "topic": "derivative_monotonicity",
+      "subtopics": ["derivative", "critical point", "monotonicity"],
+      "item_format": "multiple_choice",
+      "score": 3,
+      "difficulty": "challenging",
+      "stem": "함수 f(x)=x^3-3x^2+ax가 구간 전체에서 감소하지 않도록 하는 실수 a의 범위를 추론하는 문항이다.",
+      "choices": ["a≤0", "0≤a≤3", "a≥3", "a≥1", "a≤3"],
+      "answer": "3",
+      "solution_steps": [
+        {
+          "step_id": "s1",
+          "label": "도함수 계산",
+          "kind": "compute",
+          "content": "f'(x)=3x^2-6x+a를 구한다.",
+          "technique": "differentiate_polynomial",
+          "dependencies": [],
+          "outputs": ["f'(x)=3x^2-6x+a"],
+          "difficulty_delta": 0
+        },
+        {
+          "step_id": "s2",
+          "label": "최솟값 관찰",
+          "kind": "inference",
+          "content": "이차함수인 도함수의 꼭짓점 x=1에서 최솟값을 가진다.",
+          "technique": "quadratic_vertex_check",
+          "dependencies": ["s1"],
+          "outputs": ["min f'(x)=a-3"],
+          "difficulty_delta": 1
+        },
+        {
+          "step_id": "s3",
+          "label": "단조 조건 연결",
+          "kind": "transform",
+          "content": "감소하지 않으려면 모든 x에 대해 f'(x)≥0 이어야 하므로 a-3≥0이다.",
+          "technique": "global_monotonicity_condition",
+          "dependencies": ["s2"],
+          "outputs": ["a≥3"],
+          "difficulty_delta": 1
+        },
+        {
+          "step_id": "s4",
+          "label": "정답 선택",
+          "kind": "result",
+          "content": "a≥3에 해당하는 선택지를 고른다.",
+          "technique": "choice_alignment",
+          "dependencies": ["s3"],
+          "outputs": ["choice=3"],
+          "difficulty_delta": 0
+        }
+      ],
+      "distractors": [
+        {
+          "error_type": "local_global_confusion",
+          "trigger": "도함수의 한 점 값만 볼 때",
+          "wrong_move": "f'(1)=0이 되도록 a=3 하나만 답으로 본다.",
+          "plausible_choice_shape": "경계값 단일 선택지",
+          "reject_if_too_obvious": true,
+          "linked_step_id": "s3"
+        },
+        {
+          "error_type": "sign_condition_flip",
+          "trigger": "증가/감소 조건을 연결할 때",
+          "wrong_move": "감소하지 않음을 f'(x)≤0으로 잘못 해석한다.",
+          "plausible_choice_shape": "부등호 방향이 반대인 범위 선택지",
+          "reject_if_too_obvious": true,
+          "linked_step_id": "s3"
+        }
+      ],
+      "diagram_tags": ["function_graph", "sign_chart"],
+      "style_notes": [
+        "그래프를 직접 주지 않아도 수험생이 도함수 그래프를 머릿속에 그리게 만드는 문장 구성이 효과적이다.",
+        "경계값만 답으로 오인하는 오답 선택지를 반드시 포함한다."
+      ],
+      "allowed_answer_forms": ["choice_index"],
+      "trigger_patterns": ["도함수 계산", "꼭짓점 활용", "전구간 부호 판단"],
+      "source_metadata": {
+        "fixture_group": "sample",
+        "notes": "Near-duplicate seed A"
+      }
+    },
+    {
+      "source_item_id": "fixture-conditional-03",
+      "source_kind": "manual_fixture",
+      "source_label": "Synthetic probability source item",
+      "source_year": 2025,
+      "source_path": null,
+      "subject_area": "probability_statistics",
+      "topic": "conditional_probability_table",
+      "subtopics": ["conditional probability", "sample space partition", "counting"],
+      "item_format": "short_answer",
+      "score": 4,
+      "difficulty": "challenging",
+      "stem": "서로 다른 색 구슬이 들어 있는 주머니에서 두 번 꺼낼 때 사건 A, B가 주어질 때 P(A|B)를 구하는 단답형 문항이다.",
+      "choices": [],
+      "answer": "2/3",
+      "solution_steps": [
+        {
+          "step_id": "s1",
+          "label": "조건 사건 정리",
+          "kind": "given",
+          "content": "사건 B에 해당하는 경우만 표로 정리한다.",
+          "technique": "condition_partition",
+          "dependencies": [],
+          "outputs": ["restricted sample space"],
+          "difficulty_delta": 0
+        },
+        {
+          "step_id": "s2",
+          "label": "경우의 수 계산",
+          "kind": "compute",
+          "content": "B의 경우의 수와 A∩B의 경우의 수를 각각 센다.",
+          "technique": "count_conditioned_cases",
+          "dependencies": ["s1"],
+          "outputs": ["|B|=3", "|A∩B|=2"],
+          "difficulty_delta": 1
+        },
+        {
+          "step_id": "s3",
+          "label": "조건부확률 계산",
+          "kind": "result",
+          "content": "P(A|B)=P(A∩B)/P(B)=2/3이다.",
+          "technique": "conditional_probability_ratio",
+          "dependencies": ["s2"],
+          "outputs": ["2/3"],
+          "difficulty_delta": 0
+        }
+      ],
+      "distractors": [
+        {
+          "error_type": "unconditioned_ratio",
+          "trigger": "전체 표본공간으로 바로 나눌 때",
+          "wrong_move": "P(A)/P(B) 또는 P(A∩B)/P(S)로 계산한다.",
+          "plausible_choice_shape": "분모가 전체 경우의 수인 분수",
+          "reject_if_too_obvious": true,
+          "linked_step_id": "s3"
+        },
+        {
+          "error_type": "count_overlap_miss",
+          "trigger": "A∩B를 셀 때",
+          "wrong_move": "조건 사건에 포함되지 않는 경우를 함께 센다.",
+          "plausible_choice_shape": "분자만 1 크게 잡힌 분수",
+          "reject_if_too_obvious": true,
+          "linked_step_id": "s2"
+        }
+      ],
+      "diagram_tags": ["probability_table"],
+      "style_notes": [
+        "조건부확률 문항은 표나 나무도표로 재구성 가능해야 한다.",
+        "단답형이라도 답 형식은 기약분수인지 여부를 명시하는 편이 안전하다."
+      ],
+      "allowed_answer_forms": ["reduced_fraction"],
+      "trigger_patterns": ["조건 사건 제한", "분모 재설정", "교집합 계산"],
+      "source_metadata": {
+        "fixture_group": "sample",
+        "notes": "Conditional probability template"
+      }
+    },
+    {
+      "source_item_id": "fixture-integral-04",
+      "source_kind": "manual_fixture",
+      "source_label": "Synthetic integral source item",
+      "source_year": 2024,
+      "source_path": null,
+      "subject_area": "calculus_1",
+      "topic": "integral_area_split",
+      "subtopics": ["integral", "graph symmetry", "signed area"],
+      "item_format": "short_answer",
+      "score": 4,
+      "difficulty": "advanced",
+      "stem": "곡선 y=x(x-2)와 x축으로 둘러싸인 부분의 넓이를 구하는 단답형 문항이다.",
+      "choices": [],
+      "answer": "4/3",
+      "solution_steps": [
+        {
+          "step_id": "s1",
+          "label": "교점 확인",
+          "kind": "given",
+          "content": "x축과의 교점은 x=0, 2이다.",
+          "technique": "root_identification",
+          "dependencies": [],
+          "outputs": ["interval [0,2]"],
+          "difficulty_delta": 0
+        },
+        {
+          "step_id": "s2",
+          "label": "부호 판단",
+          "kind": "inference",
+          "content": "구간 (0,2)에서 함수값이 음수이므로 넓이는 절댓값 적분으로 계산한다.",
+          "technique": "signed_area_check",
+          "dependencies": ["s1"],
+          "outputs": ["area=-∫_0^2 x(x-2)dx"],
+          "difficulty_delta": 1
+        },
+        {
+          "step_id": "s3",
+          "label": "적분 계산",
+          "kind": "compute",
+          "content": "-∫_0^2 (x^2-2x)dx = 4/3을 계산한다.",
+          "technique": "definite_integral_evaluation",
+          "dependencies": ["s2"],
+          "outputs": ["4/3"],
+          "difficulty_delta": 1
+        },
+        {
+          "step_id": "s4",
+          "label": "답 형식 확정",
+          "kind": "result",
+          "content": "기약분수 4/3으로 정리한다.",
+          "technique": "answer_form_finalize",
+          "dependencies": ["s3"],
+          "outputs": ["4/3"],
+          "difficulty_delta": 0
+        }
+      ],
+      "distractors": [
+        {
+          "error_type": "signed_area_confusion",
+          "trigger": "정적분 값과 넓이를 동일시할 때",
+          "wrong_move": "∫_0^2 x(x-2)dx = -4/3을 그대로 답으로 쓴다.",
+          "plausible_choice_shape": "부호만 틀린 분수 답",
+          "reject_if_too_obvious": true,
+          "linked_step_id": "s2"
+        },
+        {
+          "error_type": "antiderivative_slip",
+          "trigger": "원시함수를 계산할 때",
+          "wrong_move": "x^3/3-2x^2를 대입해 8/3으로 계산한다.",
+          "plausible_choice_shape": "계수 계산 실수형 분수 답",
+          "reject_if_too_obvious": true,
+          "linked_step_id": "s3"
+        }
+      ],
+      "diagram_tags": ["function_graph", "area_under_curve"],
+      "style_notes": [
+        "곡선과 x축 사이 넓이는 부호 판단을 먼저 유도해야 한다.",
+        "그래프를 직접 그리지 않아도 교점과 부호를 떠올릴 수 있게 서술한다."
+      ],
+      "allowed_answer_forms": ["reduced_fraction"],
+      "trigger_patterns": ["교점 확인", "부호 판단", "정적분 계산"],
+      "source_metadata": {
+        "fixture_group": "sample",
+        "notes": "Signed area template"
+      }
+    },
+    {
+      "source_item_id": "fixture-derivative-05",
+      "source_kind": "manual_fixture",
+      "source_label": "Synthetic calculus source item B",
+      "source_year": 2028,
+      "source_path": null,
+      "subject_area": "calculus_1",
+      "topic": "derivative_monotonicity",
+      "subtopics": ["derivative", "critical point", "monotonicity"],
+      "item_format": "multiple_choice",
+      "score": 4,
+      "difficulty": "advanced",
+      "stem": "함수 g(x)=x^3-6x^2+bx가 전구간에서 증가하지 않도록 하는 실수 b의 범위를 판단하는 문항이다.",
+      "choices": ["b≤0", "b≤12", "b≥12", "0≤b≤12", "b=12"],
+      "answer": "2",
+      "solution_steps": [
+        {
+          "step_id": "s1",
+          "label": "도함수 계산",
+          "kind": "compute",
+          "content": "g'(x)=3x^2-12x+b를 구한다.",
+          "technique": "differentiate_polynomial",
+          "dependencies": [],
+          "outputs": ["g'(x)=3x^2-12x+b"],
+          "difficulty_delta": 0
+        },
+        {
+          "step_id": "s2",
+          "label": "최댓값 관찰",
+          "kind": "inference",
+          "content": "증가하지 않으려면 g'(x)≤0 이어야 하는데 도함수는 위로 열린 이차함수라 조건 충족이 불가능한지 먼저 본다.",
+          "technique": "global_monotonicity_direction_check",
+          "dependencies": ["s1"],
+          "outputs": ["need reinterpretation"],
+          "difficulty_delta": 1
+        },
+        {
+          "step_id": "s3",
+          "label": "꼭짓점 기반 조건",
+          "kind": "transform",
+          "content": "문항 의도가 감소 함수 조건이라면 꼭짓점 x=2에서 g'(2)=b-12≤0을 얻는다.",
+          "technique": "quadratic_vertex_check",
+          "dependencies": ["s2"],
+          "outputs": ["b≤12"],
+          "difficulty_delta": 1
+        },
+        {
+          "step_id": "s4",
+          "label": "정답 선택",
+          "kind": "result",
+          "content": "b≤12에 해당하는 선택지를 고른다.",
+          "technique": "choice_alignment",
+          "dependencies": ["s3"],
+          "outputs": ["choice=2"],
+          "difficulty_delta": 0
+        }
+      ],
+      "distractors": [
+        {
+          "error_type": "direction_misread",
+          "trigger": "증가/감소 조건을 읽을 때",
+          "wrong_move": "전구간에서 증가하지 않음을 f'(x)≥0으로 해석한다.",
+          "plausible_choice_shape": "부등호 방향이 뒤집힌 범위 선택지",
+          "reject_if_too_obvious": true,
+          "linked_step_id": "s2"
+        },
+        {
+          "error_type": "vertex_substitution_slip",
+          "trigger": "꼭짓점 x값을 찾을 때",
+          "wrong_move": "x=1로 대입해 b-3≤0을 얻는다.",
+          "plausible_choice_shape": "숫자만 바뀐 경계값 선택지",
+          "reject_if_too_obvious": true,
+          "linked_step_id": "s3"
+        }
+      ],
+      "diagram_tags": ["function_graph", "sign_chart"],
+      "style_notes": [
+        "유사 문항끼리는 계수만 바꾼 재출제를 피하기 위해 fingerprint로 근접도를 확인한다.",
+        "증가/감소 해석 오류를 노리는 선택지는 지나치게 직접적이면 안 된다."
+      ],
+      "allowed_answer_forms": ["choice_index"],
+      "trigger_patterns": ["도함수 계산", "꼭짓점 활용", "전구간 부호 판단"],
+      "source_metadata": {
+        "fixture_group": "sample",
+        "notes": "Near-duplicate seed B"
+      }
+    }
+  ]
+}

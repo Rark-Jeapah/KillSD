@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "csat-math-mvp"
+version = "0.1.0"
+description = "2028 CSAT mathematics pipeline MVP"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.115,<1.0",
+  "jinja2>=3.1,<4.0",
+  "pydantic>=2.8,<3.0",
+  "sympy>=1.13,<2.0",
+  "typer>=0.12,<1.0",
+  "uvicorn>=0.30,<1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0,<9.0",
+]
+
+[project.scripts]
+csat-math-mvp = "src.cli.main:app"
+csat = "src.cli.main:app"
+
+[tool.setuptools]
+packages = [
+  "src",
+  "src.api",
+  "src.cli",
+  "src.config",
+  "src.core",
+  "src.distill",
+  "src.eval",
+  "src.assembly",
+  "src.orchestrator",
+  "src.plugins",
+  "src.plugins.csat_math_2028",
+  "src.providers",
+  "src.render",
+  "src.security",
+  "src.validators",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

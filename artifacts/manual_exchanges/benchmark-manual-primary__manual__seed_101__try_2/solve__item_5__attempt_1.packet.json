@@ -1,0 +1,249 @@
+{
+  "packet_id": "pkt-1424b6d8454f",
+  "mode": "manual",
+  "stage": "solving",
+  "stage_name": "solve",
+  "spec_id": "csat_math_2028",
+  "run_id": "benchmark-manual-primary__manual__seed_101__try_2",
+  "blueprint_id": "bp-1b848385d43e",
+  "item_no": 5,
+  "instructions": [
+    "<!-- version: 1.0.0 -->\n# Solver\n\nYou are solving a `DraftItem` and must return a `SolvedItem`.\n\n- Preserve the original draft.\n- Provide a final answer and a concise but complete solution path.\n- Keep the solution steps explicit enough for later critique and validation.\n- Return strict JSON only.\n"
+  ],
+  "input_artifact_ids": [
+    "art-b48c8b96545c"
+  ],
+  "lineage_parent_ids": [
+    "art-b48c8b96545c"
+  ],
+  "context": {
+    "draft_item": {
+      "draft_id": "drf-48be2520969b",
+      "blueprint": {
+        "item_id": "ibl-73731a76a21c",
+        "item_no": 5,
+        "domain": "algebra",
+        "format": "multiple_choice",
+        "score": 3,
+        "difficulty": "basic",
+        "objective": "수열의 귀납적 구조 파악",
+        "skill_tags": [
+          "sequence",
+          "recurrence"
+        ],
+        "choice_count": 5,
+        "answer_type": "symbolic_or_numeric"
+      },
+      "stem": "수열의 귀납적 구조 파악을 평가하는 모의 문항 5번이다.",
+      "choices": [
+        "17",
+        "18",
+        "19",
+        "20",
+        "21"
+      ],
+      "rubric": "수열의 귀납적 구조 파악에 맞는 핵심 풀이를 구성한다.",
+      "answer_constraints": [
+        "symbolic_or_numeric"
+      ]
+    }
+  },
+  "expected_output_model": "SolvedItem",
+  "response_schema_version": "1.0",
+  "response_json_schema": {
+    "$defs": {
+      "DifficultyBand": {
+        "description": "Coarse difficulty buckets for MVP planning.",
+        "enum": [
+          "basic",
+          "standard",
+          "challenging",
+          "advanced"
+        ],
+        "title": "DifficultyBand",
+        "type": "string"
+      },
+      "DraftItem": {
+        "additionalProperties": false,
+        "description": "Drafted item content before solving/validation.",
+        "properties": {
+          "draft_id": {
+            "title": "Draft Id",
+            "type": "string"
+          },
+          "blueprint": {
+            "$ref": "#/$defs/ItemBlueprint"
+          },
+          "stem": {
+            "title": "Stem",
+            "type": "string"
+          },
+          "choices": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Choices",
+            "type": "array"
+          },
+          "rubric": {
+            "title": "Rubric",
+            "type": "string"
+          },
+          "answer_constraints": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Answer Constraints",
+            "type": "array"
+          }
+        },
+        "required": [
+          "blueprint",
+          "stem",
+          "rubric"
+        ],
+        "title": "DraftItem",
+        "type": "object"
+      },
+      "ItemBlueprint": {
+        "additionalProperties": false,
+        "description": "Planning record for a single exam item before generation.",
+        "properties": {
+          "item_id": {
+            "title": "Item Id",
+            "type": "string"
+          },
+          "item_no": {
+            "title": "Item No",
+            "type": "integer"
+          },
+          "domain": {
+            "title": "Domain",
+            "type": "string"
+          },
+          "format": {
+            "$ref": "#/$defs/ItemFormat"
+          },
+          "score": {
+            "title": "Score",
+            "type": "integer"
+          },
+          "difficulty": {
+            "$ref": "#/$defs/DifficultyBand"
+          },
+          "objective": {
+            "title": "Objective",
+            "type": "string"
+          },
+          "skill_tags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Skill Tags",
+            "type": "array"
+          },
+          "choice_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Choice Count"
+          },
+          "answer_type": {
+            "default": "symbolic_or_numeric",
+            "title": "Answer Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "item_no",
+          "domain",
+          "format",
+          "score",
+          "difficulty",
+          "objective"
+        ],
+        "title": "ItemBlueprint",
+        "type": "object"
+      },
+      "ItemFormat": {
+        "description": "Supported item presentation formats.",
+        "enum": [
+          "multiple_choice",
+          "short_answer"
+        ],
+        "title": "ItemFormat",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Draft item enriched with a worked solution and answer.",
+    "properties": {
+      "solved_id": {
+        "title": "Solved Id",
+        "type": "string"
+      },
+      "draft": {
+        "$ref": "#/$defs/DraftItem"
+      },
+      "final_answer": {
+        "title": "Final Answer",
+        "type": "string"
+      },
+      "correct_choice_index": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Correct Choice Index"
+      },
+      "correct_choice_value": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Correct Choice Value"
+      },
+      "solution_steps": {
+        "items": {
+          "type": "string"
+        },
+        "title": "Solution Steps",
+        "type": "array"
+      },
+      "solution_summary": {
+        "title": "Solution Summary",
+        "type": "string"
+      }
+    },
+    "required": [
+      "draft",
+      "final_answer",
+      "solution_steps",
+      "solution_summary"
+    ],
+    "title": "SolvedItem",
+    "type": "object"
+  },
+  "prompt_template_path": "/Users/j_mac/Desktop/KillSD/src/prompts/solver.md",
+  "prompt_version": "1.0.0",
+  "prompt_hash": "bb39c429e643ddc7841878d9c1120217f0f7cd630c52aa272886ffff25399c2e",
+  "seed": 101,
+  "attempt": 1,
+  "provider_name": "mock_provider"
+}
