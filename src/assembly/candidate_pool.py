@@ -314,6 +314,13 @@ def _slot_plan(candidates: list[CandidatePoolCandidateBundle], slot_count: int) 
     return slots
 
 
+def build_slot_plan(
+    candidates: list[CandidatePoolCandidateBundle], slot_count: int
+) -> list[MiniAlphaSlotSpec]:
+    """Build deterministic slot specs from generated candidate bundle profiles."""
+    return _slot_plan(candidates, slot_count)
+
+
 class CandidatePoolBuilder:
     """Generate candidate bundles from real-item families and emit a mini-alpha manifest."""
 

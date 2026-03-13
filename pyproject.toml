@@ -54,6 +54,8 @@ packages = [
   "src.eval",
   "src.assembly",
   "src.orchestrator",
+  "src.orchestrator.families",
+  "src.pipeline",
   "src.plugins",
   "src.plugins.csat_math_2028",
   "src.providers",

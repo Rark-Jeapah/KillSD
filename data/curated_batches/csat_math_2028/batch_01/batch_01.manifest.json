@@ -1,0 +1,20 @@
+{
+  "manifest_version": "2.0",
+  "spec_id": "csat_math_2028",
+  "batch_id": "batch_01",
+  "batch_version": "2026.03.13",
+  "created_at": "2026-03-13T00:00:00+00:00",
+  "items_path": "../../../source_fixtures/csat_math_2028/batch_01_curated_selected_items.json",
+  "item_count": 12,
+  "content_hash": "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e",
+  "provenance": {
+    "exam_name": "CSAT Mathematics",
+    "exam_year": 2028,
+    "source_name": "assistant_curated_batch_01",
+    "source_kind": "exam_analysis"
+  },
+  "metadata": {
+    "curation_mode": "manual",
+    "authoring_status": "draft"
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "template_name": "short_answer",
+  "description": "One starter short-answer source item with explicit answer-form metadata.",
+  "items": [
+    {
+      "source_item_id": "template-short-001",
+      "source_kind": "curated_template",
+      "source_label": "Starter short-answer source item",
+      "source_year": 2028,
+      "source_path": null,
+      "subject_area": "probability_statistics",
+      "topic": "conditional_probability_table",
+      "subtopics": ["conditional probability", "sample space partition", "counting"],
+      "item_format": "short_answer",
+      "score": 4,
+      "difficulty": "challenging",
+      "stem": "Use this starter item as a placeholder and replace the text with the curated short-answer source you want to distill.",
+      "choices": [],
+      "answer": "2/3",
+      "solution_steps": [
+        {
+          "step_id": "s1",
+          "label": "Restrict the sample space",
+          "kind": "given",
+          "content": "Rewrite the problem in the conditioned sample space.",
+          "technique": "condition_partition",
+          "dependencies": [],
+          "outputs": ["conditioned sample space"],
+          "difficulty_delta": 0
+        },
+        {
+          "step_id": "s2",
+          "label": "Count the cases",
+          "kind": "compute",
+          "content": "Count the conditioned denominator and the intersection numerator.",
+          "technique": "count_conditioned_cases",
+          "dependencies": ["s1"],
+          "outputs": ["conditioned counts"],
+          "difficulty_delta": 1
+        },
+        {
+          "step_id": "s3",
+          "label": "Write the ratio",
+          "kind": "result",
+          "content": "Reduce the conditional probability to its final fraction.",
+          "technique": "conditional_probability_ratio",
+          "dependencies": ["s2"],
+          "outputs": ["reduced fraction"],
+          "difficulty_delta": 0
+        }
+      ],
+      "distractors": [
+        {
+          "error_type": "unconditioned_ratio",
+          "trigger": "When the total sample space is reused after conditioning.",
+          "wrong_move": "Divide by the full sample space instead of the conditioned one.",
+          "plausible_choice_shape": "A fraction with the original denominator",
+          "reject_if_too_obvious": true,
+          "linked_step_id": "s3"
+        }
+      ],
+      "diagram_tags": ["probability_table"],
+      "style_notes": [
+        "Replace the placeholder stem and answer before distillation.",
+        "Keep the required short-answer form explicit in allowed_answer_forms."
+      ],
+      "allowed_answer_forms": ["reduced_fraction"],
+      "trigger_patterns": ["conditioned sample space", "counting cases", "conditional probability"],
+      "source_metadata": {
+        "template_name": "short_answer",
+        "template_placeholder": true
+      }
+    }
+  ]
+}

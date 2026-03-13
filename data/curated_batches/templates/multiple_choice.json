@@ -1,0 +1,85 @@
+{
+  "template_name": "multiple_choice",
+  "description": "One starter multiple-choice source item with the required fields wired in.",
+  "items": [
+    {
+      "source_item_id": "template-mcq-001",
+      "source_kind": "curated_template",
+      "source_label": "Starter multiple-choice source item",
+      "source_year": 2028,
+      "source_path": null,
+      "subject_area": "algebra",
+      "topic": "log_equation_domain",
+      "subtopics": ["logarithm", "equation", "domain restriction"],
+      "item_format": "multiple_choice",
+      "score": 3,
+      "difficulty": "standard",
+      "stem": "Use this starter item as a placeholder and replace the text with the curated source you want to distill.",
+      "choices": ["1", "2", "3", "4", "5"],
+      "answer": "4",
+      "solution_steps": [
+        {
+          "step_id": "s1",
+          "label": "Check the domain",
+          "kind": "given",
+          "content": "Record the domain restriction before combining logarithms.",
+          "technique": "domain_check",
+          "dependencies": [],
+          "outputs": ["domain restriction"],
+          "difficulty_delta": 0
+        },
+        {
+          "step_id": "s2",
+          "label": "Combine the logarithms",
+          "kind": "transform",
+          "content": "Rewrite the sum of logarithms as one equation.",
+          "technique": "log_merge",
+          "dependencies": ["s1"],
+          "outputs": ["single equation"],
+          "difficulty_delta": 0
+        },
+        {
+          "step_id": "s3",
+          "label": "Filter the roots",
+          "kind": "compute",
+          "content": "Solve the equation and discard roots outside the domain.",
+          "technique": "quadratic_filter",
+          "dependencies": ["s2"],
+          "outputs": ["valid root"],
+          "difficulty_delta": 1
+        },
+        {
+          "step_id": "s4",
+          "label": "Map to the choice",
+          "kind": "result",
+          "content": "Convert the surviving value into the correct choice index.",
+          "technique": "choice_alignment",
+          "dependencies": ["s3"],
+          "outputs": ["choice index"],
+          "difficulty_delta": 0
+        }
+      ],
+      "distractors": [
+        {
+          "error_type": "domain_omission",
+          "trigger": "When the domain is not written down first.",
+          "wrong_move": "Keep an extraneous root produced by the transformed equation.",
+          "plausible_choice_shape": "An answer choice tied to the extraneous root",
+          "reject_if_too_obvious": true,
+          "linked_step_id": "s1"
+        }
+      ],
+      "diagram_tags": ["number_line"],
+      "style_notes": [
+        "Replace the placeholder stem and choices before distillation.",
+        "Keep the domain check explicit when you curate logarithm items."
+      ],
+      "allowed_answer_forms": ["choice_index"],
+      "trigger_patterns": ["log equation", "domain restriction", "root filtering"],
+      "source_metadata": {
+        "template_name": "multiple_choice",
+        "template_placeholder": true
+      }
+    }
+  ]
+}

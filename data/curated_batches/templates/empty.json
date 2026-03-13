@@ -1,0 +1,5 @@
+{
+  "template_name": "empty",
+  "description": "Start from an empty batch and author items manually.",
+  "items": []
+}

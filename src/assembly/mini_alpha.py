@@ -62,8 +62,9 @@ INTERNAL_METADATA_PATTERNS = (
     "blueprint_id",
     "validator_suite",
 )
-DEFAULT_SCOPE_NOTE = (
-    "대수, 미적분Ⅰ, 확률과 통계 범위 안에서 콘텐츠 품질과 폐기율을 측정하는 10문항 파일럿이다."
+DEFAULT_SCOPE_NOTE_TEMPLATE = (
+    "대수, 미적분Ⅰ, 확률과 통계 범위 안에서 콘텐츠 품질과 폐기율을 측정하는 "
+    "{item_count}문항 생성형 alpha 시험이다."
 )
 METADATA_LEAK_REASON = "format.internal_metadata_leak"
 
@@ -497,7 +498,7 @@ def _review_packet_text(
         "# Mini Alpha Review Packet",
         "",
         "## 목표",
-        "- 10문항 mini alpha의 콘텐츠 품질과 human review 폐기율을 측정한다.",
+        f"- {len(selections)}문항 mini alpha의 콘텐츠 품질과 human review 폐기율을 측정한다.",
         "- 구조 오류 0 / 정답 오류 0 / metadata leak 0 / hard similarity collision 0를 유지한다.",
         "",
         "## 조립 요약",
@@ -830,6 +831,7 @@ class MiniAlphaAssembler:
         search_slots = sorted(slots, key=lambda slot: (len(compatibility[slot.slot_no]), slot.slot_no))
         best_assignment: dict[int, MiniAlphaCandidate] | None = None
         best_penalty: int | None = None
+        seen_penalties: dict[tuple[int, tuple[str, ...]], int] = {}
 
         def dfs(
             *,
@@ -841,6 +843,11 @@ class MiniAlphaAssembler:
             nonlocal best_assignment, best_penalty
             if best_penalty is not None and penalty >= best_penalty:
                 return
+            state_key = (index, tuple(sorted(used_ids)))
+            previous_penalty = seen_penalties.get(state_key)
+            if previous_penalty is not None and penalty >= previous_penalty:
+                return
+            seen_penalties[state_key] = penalty
             if index == len(search_slots):
                 best_assignment = dict(chosen)
                 best_penalty = penalty
@@ -880,7 +887,9 @@ class MiniAlphaAssembler:
 
         dfs(index=0, chosen={}, used_ids=set(), penalty=0)
         if best_assignment is None:
-            raise MiniAlphaAssemblyError("Unable to find a 10-item assignment without hard collisions")
+            raise MiniAlphaAssemblyError(
+                f"Unable to find a {len(slots)}-item assignment without hard collisions"
+            )
         return [(slot, best_assignment[slot.slot_no]) for slot in sorted(slots, key=lambda item: item.slot_no)]
 
     def _metrics(
@@ -1040,7 +1049,7 @@ class MiniAlphaAssembler:
                 ),
                 "total_score": str(sum(slot.score for slot in slots)),
                 "composition_note": composition_note,
-                "scope_note": DEFAULT_SCOPE_NOTE,
+                "scope_note": DEFAULT_SCOPE_NOTE_TEMPLATE.format(item_count=len(slots)),
             },
             internal_metadata={
                 "slot_sampled_from": json.dumps(

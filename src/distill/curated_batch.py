@@ -44,8 +44,8 @@ class CuratedBatchManifest(StrictModel):
     @model_validator(mode="after")
     def validate_manifest(self) -> "CuratedBatchManifest":
         """Ensure required audit fields are present."""
-        if self.item_count < 1:
-            raise ValueError("item_count must be positive")
+        if self.item_count < 0:
+            raise ValueError("item_count must be non-negative")
         if not self.items_path.strip():
             raise ValueError("items_path must not be empty")
         if not self.content_hash.strip():

@@ -1,6 +1,6 @@
-"""Backward-compatible exports for the modular real-item family registry."""
+"""Modular deterministic real-item family registry."""
 
-from src.orchestrator.families import (
+from src.orchestrator.families.base import (
     BLUEPRINT_FAMILY_TAG_PREFIX,
     BlueprintBuilder,
     CritiqueStrategy,
@@ -15,14 +15,16 @@ from src.orchestrator.families import (
     StaticFamilyTemplate,
     atom_has_any_move,
     blueprint_family_tag,
-    build_real_item_family_registry,
     build_static_family,
-    discover_real_item_families,
     extract_blueprint_family_id,
     make_multiple_choice_family,
     make_short_answer_family,
     skill_tags_with_prerequisites,
     variant_index,
+)
+from src.orchestrator.families.registry import (
+    build_real_item_family_registry,
+    discover_real_item_families,
 )
 
 __all__ = [
