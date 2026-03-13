@@ -28,10 +28,15 @@ from src.eval.discard_rate import (
     CandidateOutcome,
     CandidateOutcomeRecord,
     DiscardRateReport,
-    HumanReviewDecision,
-    HumanReviewRecord,
     build_discard_rate_report,
     write_discard_rate_report,
+)
+from src.eval.review_feedback import (
+    CandidateReviewSummary,
+    HumanReviewDecision,
+    HumanReviewRecord,
+    candidate_blocked_from_selection,
+    review_selection_penalty,
 )
 from src.plugins.csat_math_2028 import CSATMath2028Plugin
 from src.render.contracts import RendererConfig
@@ -86,6 +91,7 @@ class MiniAlphaCandidateInput(StrictModel):
     source_item_no: int | None = None
     atom_signatures: list[str] = Field(default_factory=list)
     distractor_signatures: list[str] = Field(default_factory=list)
+    review_summary: CandidateReviewSummary | None = None
 
 
 class MiniAlphaManifestInput(StrictModel):
@@ -137,6 +143,7 @@ class MiniAlphaCandidate(StrictModel):
     validator_report: ValidatorSuiteReport
     atom_signatures: list[str] = Field(default_factory=list)
     distractor_signatures: list[str] = Field(default_factory=list)
+    review_summary: CandidateReviewSummary | None = None
 
 
 class MiniAlphaPairwiseSimilarity(StrictModel):
@@ -210,9 +217,14 @@ class MiniAlphaRegenerateCandidate(StrictModel):
     source_item_id: str | None = None
     source_item_no: int | None = None
     decision: HumanReviewDecision
-    reasons: list[str] = Field(default_factory=list)
+    reason_code: str | None = None
+    difficulty_label: DifficultyBand | None = None
+    wording_naturalness: int | None = None
+    distractor_quality: int | None = None
+    curriculum_fit: int | None = None
     notes: str | None = None
     suggested_action: str
+    priority_score: int = 0
     atom_signatures: list[str] = Field(default_factory=list)
     distractor_signatures: list[str] = Field(default_factory=list)
     overlap_notes: list[str] = Field(default_factory=list)
@@ -226,6 +238,7 @@ class MiniAlphaAssemblyResult(StrictModel):
     review_packet_path: str
     human_review_template_path: str
     discard_rate_report_path: str
+    candidate_outcomes_path: str
     regenerate_candidates_path: str
     bundle_json_path: str
     manifest_path: str
@@ -571,8 +584,12 @@ def _review_packet_text(
             [
                 "",
                 "### Reviewer Decision",
-                "- decision: `pending | accept | revise | discard`",
-                "- reasons: `[]`",
+                "- decision: `pending | accept | revise | reject`",
+                "- reason_code: `null`",
+                "- difficulty_label: `basic | standard | challenging | advanced | null`",
+                "- wording_naturalness: `1..5 | null`",
+                "- distractor_quality: `1..5 | null`",
+                "- curriculum_fit: `1..5 | null`",
                 "- notes:",
             ]
         )
@@ -585,14 +602,27 @@ def _write_json(path: Path, payload: Any) -> Path:
     return path
 
 
-def _build_regenerate_candidates(
+def _regenerate_priority_score(review: HumanReviewRecord) -> int:
+    base = 100 if review.decision == HumanReviewDecision.REJECT else 60
+    if review.reason_code:
+        base += 5
+    for metric in (
+        review.wording_naturalness,
+        review.distractor_quality,
+        review.curriculum_fit,
+    ):
+        if metric is None:
+            continue
+        base += max(0, 3 - metric) * 10
+    return base
+
+
+def build_regenerate_candidates(
     *,
     selections: list[MiniAlphaSelectionRecord],
-    selected_candidates: list[MiniAlphaCandidate],
     human_reviews: list[HumanReviewRecord],
     pairwise_collisions: list[MiniAlphaPairwiseSimilarity],
 ) -> list[MiniAlphaRegenerateCandidate]:
-    selected_by_id = {candidate.candidate_id: candidate for candidate in selected_candidates}
     slot_by_candidate = {selection.candidate_id: selection for selection in selections}
     overlap_notes_by_candidate: dict[str, list[str]] = {}
     for collision in pairwise_collisions:
@@ -611,11 +641,10 @@ def _build_regenerate_candidates(
 
     regenerate: list[MiniAlphaRegenerateCandidate] = []
     for review in human_reviews:
-        if review.decision not in {HumanReviewDecision.REVISE, HumanReviewDecision.DISCARD}:
+        if review.decision not in {HumanReviewDecision.REVISE, HumanReviewDecision.REJECT}:
             continue
-        candidate = selected_by_id.get(review.candidate_id)
         selection = slot_by_candidate.get(review.candidate_id)
-        if candidate is None or selection is None:
+        if selection is None:
             continue
         regenerate.append(
             MiniAlphaRegenerateCandidate(
@@ -626,9 +655,18 @@ def _build_regenerate_candidates(
                 source_item_id=selection.source_item_id,
                 source_item_no=selection.source_item_no,
                 decision=review.decision,
-                reasons=review.reasons,
+                reason_code=review.reason_code,
+                difficulty_label=review.difficulty_label,
+                wording_naturalness=review.wording_naturalness,
+                distractor_quality=review.distractor_quality,
+                curriculum_fit=review.curriculum_fit,
                 notes=review.notes,
-                suggested_action="regenerate" if review.decision == HumanReviewDecision.DISCARD else "revise_or_regenerate",
+                suggested_action=(
+                    "regenerate"
+                    if review.decision == HumanReviewDecision.REJECT
+                    else "revise_or_regenerate"
+                ),
+                priority_score=_regenerate_priority_score(review),
                 atom_signatures=selection.atom_signatures,
                 distractor_signatures=selection.distractor_signatures,
                 overlap_notes=overlap_notes_by_candidate.get(review.candidate_id, []),
@@ -636,7 +674,7 @@ def _build_regenerate_candidates(
         )
     return sorted(
         regenerate,
-        key=lambda item: (0 if item.decision == HumanReviewDecision.DISCARD else 1, item.item_no),
+        key=lambda item: (-item.priority_score, item.item_no, item.candidate_id),
     )
 
 
@@ -723,6 +761,7 @@ class MiniAlphaAssembler:
                     distractor_signatures=_unique_preserve_order(
                         entry.distractor_signatures + _infer_distractor_signatures(validated_item)
                     ),
+                    review_summary=entry.review_summary,
                 )
             )
         return candidates
@@ -754,6 +793,8 @@ class MiniAlphaAssembler:
         for candidate in candidates:
             blueprint = candidate.validated_item.solved.draft.blueprint
             reasons: list[str] = []
+            if candidate_blocked_from_selection(candidate.review_summary):
+                reasons.append("review_rejected")
             if candidate.validated_item.approval_status.value != "approved":
                 reasons.append("not_approved")
             if _structure_error_count(candidate.validator_report) > 0:
@@ -858,6 +899,7 @@ class MiniAlphaAssembler:
             ranked = sorted(
                 compatibility[slot.slot_no],
                 key=lambda candidate: (
+                    review_selection_penalty(candidate.review_summary),
                     _overlap_penalty(
                         candidate,
                         selected_candidates,
@@ -1115,10 +1157,16 @@ class MiniAlphaAssembler:
             output_dir / "discard_rate_report.json",
             discard_rate_report,
         )
+        candidate_outcomes_path = _write_json(
+            output_dir / "candidate_outcomes.json",
+            [
+                outcome.model_dump(mode="json")
+                for outcome in sorted(outcome_map.values(), key=lambda item: item.candidate_id)
+            ],
+        )
 
-        regenerate_candidates = _build_regenerate_candidates(
+        regenerate_candidates = build_regenerate_candidates(
             selections=selections,
-            selected_candidates=selected_candidates,
             human_reviews=human_reviews,
             pairwise_collisions=metrics.pairwise_collisions,
         )
@@ -1137,6 +1185,7 @@ class MiniAlphaAssembler:
             review_packet_path=str(review_packet_path),
             human_review_template_path=str(human_review_template_path),
             discard_rate_report_path=str(discard_rate_report_path),
+            candidate_outcomes_path=str(candidate_outcomes_path),
             regenerate_candidates_path=str(regenerate_candidates_path),
             bundle_json_path=str(bundle_json_path),
             manifest_path=str(output_dir / "mini_alpha_manifest.json"),

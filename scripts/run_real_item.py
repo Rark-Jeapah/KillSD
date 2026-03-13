@@ -3,29 +3,25 @@
 from __future__ import annotations
 
 import argparse
-import json
 from pathlib import Path
 
 from src.config.settings import get_settings
-from src.core.schemas import ExamMode
 from src.core.storage import ArtifactStore
 from src.orchestrator.real_item_gauntlet import (
     REAL_ITEM_DEFAULT_ATOM_ID,
     RealItemGauntlet,
-    RealItemProvider,
     load_insight_atom,
+)
+from src.providers.real_item_runtime import (
+    add_real_item_provider_arguments,
+    provider_config_from_args,
 )
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run the real_item_001 gauntlet.")
     parser.add_argument("--run-id", default="real_item_001", help="Logical run id.")
-    parser.add_argument(
-        "--mode",
-        choices=[mode.value for mode in ExamMode],
-        default=ExamMode.API.value,
-        help="manual or api",
-    )
+    add_real_item_provider_arguments(parser, include_legacy_mode=True)
     parser.add_argument(
         "--atom-id",
         default=REAL_ITEM_DEFAULT_ATOM_ID,
@@ -48,16 +44,18 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     settings = get_settings()
+    provider_config = provider_config_from_args(args)
     store = ArtifactStore(
         root_dir=settings.artifact_root,
         db_path=settings.database_path,
     )
-    provider = RealItemProvider() if args.mode == ExamMode.API.value else None
     gauntlet = RealItemGauntlet(
         artifact_store=store,
         prompt_dir=settings.repo_root / "src" / "prompts",
-        provider=provider,
+        provider=provider_config.build_provider(),
+        provider_settings=provider_config.public_settings(),
         xelatex_path=str(settings.xelatex_path) if settings.xelatex_path else None,
+        max_stage_attempts=provider_config.stage_max_attempts,
     )
     atom = load_insight_atom(repo_root=settings.repo_root, atom_id=args.atom_id)
 
@@ -68,7 +66,7 @@ def main() -> int:
     result = gauntlet.run(
         run_id=args.run_id,
         atom=atom,
-        mode=ExamMode(args.mode),
+        mode=provider_config.mode,
         output_dir=output_dir,
         family_id=args.family_id,
         seed=args.seed,

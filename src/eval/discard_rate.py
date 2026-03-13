@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import json
 from collections import Counter
 from enum import Enum
 from pathlib import Path
@@ -10,6 +9,14 @@ from pathlib import Path
 from pydantic import Field
 
 from src.core.schemas import StrictModel
+from src.eval.review_feedback import (
+    HumanReviewDecision,
+    HumanReviewRecord,
+    ReviewCandidateContext,
+    ReviewFeedbackReport,
+    load_human_review_records,
+    build_review_feedback_report,
+)
 
 
 class CandidateOutcome(str, Enum):
@@ -18,15 +25,6 @@ class CandidateOutcome(str, Enum):
     SELECTED = "selected"
     RESERVE = "reserve"
     AUTO_DISCARDED = "auto_discarded"
-
-
-class HumanReviewDecision(str, Enum):
-    """One reviewer decision for a selected mini-alpha item."""
-
-    PENDING = "pending"
-    ACCEPT = "accept"
-    REVISE = "revise"
-    DISCARD = "discard"
 
 
 class CandidateOutcomeRecord(StrictModel):
@@ -43,15 +41,19 @@ class CandidateOutcomeRecord(StrictModel):
     outcome: CandidateOutcome
     reasons: list[str] = Field(default_factory=list)
 
+    def to_review_context(self) -> ReviewCandidateContext:
+        """Return the subset of metadata needed for review aggregation."""
 
-class HumanReviewRecord(StrictModel):
-    """Structured reviewer input for one selected item."""
-
-    item_no: int
-    candidate_id: str
-    decision: HumanReviewDecision = HumanReviewDecision.PENDING
-    reasons: list[str] = Field(default_factory=list)
-    notes: str | None = None
+        return ReviewCandidateContext(
+            candidate_id=self.candidate_id,
+            item_no=self.target_item_no,
+            source_atom_id=self.source_atom_id,
+            family_id=self.family_id,
+            source_item_id=self.source_item_id,
+            source_item_no=self.source_item_no,
+            domain=self.domain,
+            difficulty=self.difficulty,
+        )
 
 
 class DiscardRateReport(StrictModel):
@@ -71,14 +73,7 @@ class DiscardRateReport(StrictModel):
     human_discard_rate: float | None = None
     human_reason_counts: dict[str, int] = Field(default_factory=dict)
     collection_ready: bool = True
-
-
-def load_human_review_records(path: Path) -> list[HumanReviewRecord]:
-    """Load review records from a JSON list."""
-    payload = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(payload, list):
-        raise ValueError("Human review payload must be a JSON list")
-    return [HumanReviewRecord.model_validate(entry) for entry in payload]
+    review_feedback: ReviewFeedbackReport | None = None
 
 
 def build_discard_rate_report(
@@ -87,6 +82,7 @@ def build_discard_rate_report(
     human_reviews: list[HumanReviewRecord] | None = None,
 ) -> DiscardRateReport:
     """Aggregate automated discard counts and optional human-review results."""
+
     auto_reason_counts: Counter[str] = Counter()
     for outcome in outcomes:
         if outcome.outcome != CandidateOutcome.AUTO_DISCARDED:
@@ -104,15 +100,13 @@ def build_discard_rate_report(
         for review in (human_reviews or [])
         if review.candidate_id in selected_candidate_ids
     ]
-    reviewed = [
-        review for review in reviews if review.decision != HumanReviewDecision.PENDING
-    ]
+    reviewed = [review for review in reviews if review.actionable]
     human_reason_counts: Counter[str] = Counter()
     for review in reviewed:
-        human_reason_counts.update(review.reasons or ["unspecified"])
+        human_reason_counts.update([review.reason_code or "unspecified"])
 
     human_discarded_count = sum(
-        1 for review in reviewed if review.decision == HumanReviewDecision.DISCARD
+        1 for review in reviewed if review.decision == HumanReviewDecision.REJECT
     )
     human_revision_count = sum(
         1 for review in reviewed if review.decision == HumanReviewDecision.REVISE
@@ -149,11 +143,16 @@ def build_discard_rate_report(
         human_discard_rate=human_discard_rate,
         human_reason_counts=dict(sorted(human_reason_counts.items())),
         collection_ready=True,
+        review_feedback=build_review_feedback_report(
+            candidates=[outcome.to_review_context() for outcome in outcomes],
+            human_reviews=human_reviews,
+        ),
     )
 
 
 def write_discard_rate_report(output_path: Path, report: DiscardRateReport) -> Path:
     """Persist the discard-rate report as JSON."""
+
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(report.model_dump_json(indent=2), encoding="utf-8")
     return output_path

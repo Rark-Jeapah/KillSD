@@ -7,6 +7,10 @@ from pathlib import Path
 
 from src.assembly.candidate_pool import CandidatePoolBuilder
 from src.config.settings import get_settings
+from src.providers.real_item_runtime import (
+    add_real_item_provider_arguments,
+    provider_config_from_args,
+)
 
 
 def parse_args() -> argparse.Namespace:
@@ -46,17 +50,19 @@ def parse_args() -> argparse.Namespace:
         default="out/generated_candidate_pool",
         help="Directory where candidate bundles, reports, and manifests will be written.",
     )
+    add_real_item_provider_arguments(parser)
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
     settings = get_settings()
+    provider_config = provider_config_from_args(args)
     output_dir = Path(args.output_dir)
     if not output_dir.is_absolute():
         output_dir = settings.repo_root / output_dir
 
-    builder = CandidatePoolBuilder()
+    builder = CandidatePoolBuilder(provider_config=provider_config)
     result = builder.build(
         output_dir=output_dir,
         title=args.title,

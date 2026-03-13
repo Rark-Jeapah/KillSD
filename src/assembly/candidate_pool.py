@@ -29,12 +29,18 @@ from src.core.storage import ArtifactStore
 from src.distill.atom_extractor import InsightAtom
 from src.distill.curated_batch import LoadedCuratedBatch
 from src.distill.pipeline import DistillPipeline
+from src.eval.review_feedback import (
+    CandidateReviewSummary,
+    candidate_blocked_from_selection,
+)
 from src.orchestrator.real_item_gauntlet import (
     RealItemGauntlet,
-    RealItemProvider,
     RealItemValidationArtifact,
 )
 from src.orchestrator.real_item_families import RealItemFamilySelectionError
+from src.orchestrator.state_machine import RunStatus
+from src.providers.base import BaseProvider
+from src.providers.real_item_runtime import RealItemProviderConfig
 from src.validators.report import ValidatorSuiteReport
 
 
@@ -72,6 +78,7 @@ class CandidatePoolCandidateBundle(StrictModel):
     review_sheet_path: str | None = None
     item_pdf_path: str | None = None
     lineage_json_path: str | None = None
+    review_summary: CandidateReviewSummary | None = None
 
 
 class CandidatePoolBuildResult(StrictModel):
@@ -80,16 +87,20 @@ class CandidatePoolBuildResult(StrictModel):
     spec_id: str
     title: str
     output_dir: str
+    status: RunStatus = RunStatus.COMPLETED
+    provider_name: str = "deterministic"
+    provider_settings: dict[str, Any] = Field(default_factory=dict)
     generated_at: Any = Field(default_factory=utc_now)
     resolved_atom_ids: list[str] = Field(default_factory=list)
     curated_batch_refs: list[str] = Field(default_factory=list)
     skipped_atom_ids: list[str] = Field(default_factory=list)
+    pending_prompt_paths: list[str] = Field(default_factory=list)
     candidate_count: int
     eligible_candidate_count: int
     slot_count: int
-    slot_plan_path: str
-    candidate_pool_manifest_path: str
-    mini_alpha_manifest_path: str
+    slot_plan_path: str | None = None
+    candidate_pool_manifest_path: str | None = None
+    mini_alpha_manifest_path: str | None = None
     candidates: list[CandidatePoolCandidateBundle] = Field(default_factory=list)
 
 
@@ -199,6 +210,7 @@ def _candidate_is_eligible(candidate: CandidatePoolCandidateBundle) -> bool:
     return (
         candidate.approval_status == ApprovalStatus.APPROVED
         and candidate.validation_status == ValidationStatus.PASS
+        and not candidate_blocked_from_selection(candidate.review_summary)
     )
 
 
@@ -330,6 +342,8 @@ class CandidatePoolBuilder:
         repo_root: Path | None = None,
         spec_id: str = "csat_math_2028",
         xelatex_path: str | None = None,
+        provider_config: RealItemProviderConfig | None = None,
+        provider: BaseProvider | None = None,
     ) -> None:
         settings = get_settings()
         self.repo_root = repo_root.resolve() if repo_root is not None else settings.repo_root
@@ -337,6 +351,8 @@ class CandidatePoolBuilder:
         self.xelatex_path = xelatex_path or (
             str(settings.xelatex_path) if settings.xelatex_path else None
         )
+        self.provider_config = provider_config or RealItemProviderConfig()
+        self.provider = provider
 
     def resolve_atoms(
         self,
@@ -406,15 +422,19 @@ class CandidatePoolBuilder:
         output_dir.mkdir(parents=True, exist_ok=True)
         runtime_dir = output_dir / "runtime"
         store = ArtifactStore(root_dir=runtime_dir / "artifacts", db_path=runtime_dir / "app.db")
+        provider = self.provider or self.provider_config.build_provider()
         gauntlet = RealItemGauntlet(
             artifact_store=store,
             prompt_dir=self.repo_root / "src" / "prompts",
-            provider=RealItemProvider(),
+            provider=provider,
+            provider_settings=self.provider_config.public_settings(),
             xelatex_path=self.xelatex_path,
+            max_stage_attempts=self.provider_config.stage_max_attempts,
         )
 
         candidate_bundles: list[CandidatePoolCandidateBundle] = []
         skipped_atom_ids = list(skipped)
+        pending_prompt_paths: list[str] = []
 
         for index, atom in enumerate(resolved_atoms, start=1):
             candidate_id = f"cand-{index:03d}-{atom.atom_id}"
@@ -425,12 +445,16 @@ class CandidatePoolBuilder:
                 gauntlet_result = gauntlet.run(
                     run_id=run_id_for_candidate,
                     atom=atom,
-                    mode=ExamMode.API,
+                    mode=self.provider_config.mode,
                     output_dir=bundle_dir,
                     seed=index,
                 )
             except RealItemFamilySelectionError:
                 skipped_atom_ids.append(atom.atom_id)
+                continue
+
+            if gauntlet_result.status == RunStatus.WAITING_MANUAL:
+                pending_prompt_paths.extend(gauntlet_result.pending_prompt_paths)
                 continue
 
             state = gauntlet.load_state(run_id_for_candidate)
@@ -507,6 +531,29 @@ class CandidatePoolBuilder:
             )
             candidate_bundles.append(candidate_bundle)
 
+        result_kwargs = {
+            "spec_id": self.spec_id,
+            "title": title,
+            "output_dir": str(output_dir),
+            "provider_name": self.provider_config.provider,
+            "provider_settings": self.provider_config.public_settings(),
+            "resolved_atom_ids": [atom.atom_id for atom in resolved_atoms],
+            "curated_batch_refs": curated_batch_refs or [],
+            "skipped_atom_ids": _unique_preserve_order(skipped_atom_ids),
+            "pending_prompt_paths": _unique_preserve_order(pending_prompt_paths),
+            "candidate_count": len(candidate_bundles),
+            "eligible_candidate_count": sum(
+                1 for candidate in candidate_bundles if _candidate_is_eligible(candidate)
+            ),
+            "slot_count": slot_count,
+            "candidates": candidate_bundles,
+        }
+        if pending_prompt_paths:
+            return CandidatePoolBuildResult(
+                status=RunStatus.WAITING_MANUAL,
+                **result_kwargs,
+            )
+
         if not candidate_bundles:
             raise CandidatePoolBuildError("No candidate bundles were generated")
 
@@ -535,6 +582,7 @@ class CandidatePoolBuilder:
                     source_item_no=candidate.source_item_no,
                     atom_signatures=candidate.atom_signatures,
                     distractor_signatures=candidate.distractor_signatures,
+                    review_summary=candidate.review_summary,
                 )
                 for candidate in candidate_bundles
             ],
@@ -545,22 +593,14 @@ class CandidatePoolBuilder:
         )
 
         result = CandidatePoolBuildResult(
-            spec_id=self.spec_id,
-            title=title,
-            output_dir=str(output_dir),
-            resolved_atom_ids=[atom.atom_id for atom in resolved_atoms],
-            curated_batch_refs=curated_batch_refs or [],
-            skipped_atom_ids=_unique_preserve_order(skipped_atom_ids),
-            candidate_count=len(candidate_bundles),
-            eligible_candidate_count=sum(
-                1 for candidate in candidate_bundles if _candidate_is_eligible(candidate)
-            ),
-            slot_count=slot_count,
+            status=RunStatus.COMPLETED,
             slot_plan_path=str(slot_plan_path),
             candidate_pool_manifest_path=str(output_dir / "candidate_pool_manifest.json"),
             mini_alpha_manifest_path=str(mini_alpha_manifest_path),
-            candidates=candidate_bundles,
+            **result_kwargs,
         )
+        if result.candidate_pool_manifest_path is None:
+            raise CandidatePoolBuildError("candidate_pool_manifest_path missing for completed pool")
         _write_json(Path(result.candidate_pool_manifest_path), result.model_dump(mode="json"))
         _write_json(
             output_dir / "resolved_atoms.json",

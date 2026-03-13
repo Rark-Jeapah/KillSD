@@ -24,6 +24,7 @@ from src.assembly.mini_alpha import (
 from src.config.settings import get_settings
 from src.core.schemas import ApprovalStatus, StrictModel, ValidationStatus
 from src.eval.discard_rate import HumanReviewRecord
+from src.eval.review_feedback import candidate_blocked_from_selection
 from src.render.latex_renderer import RenderJobResult
 
 
@@ -38,6 +39,8 @@ class LoadedCandidatePool(StrictModel):
     title: str
     candidate_pool_dir: str
     candidate_pool_manifest_path: str | None = None
+    provider_name: str | None = None
+    provider_settings: dict[str, Any] = Field(default_factory=dict)
     candidates: list[CandidatePoolCandidateBundle] = Field(default_factory=list)
 
 
@@ -51,6 +54,8 @@ class GeneratedExamResult(StrictModel):
     output_dir: str
     candidate_pool_dir: str
     candidate_pool_manifest_path: str | None = None
+    provider_name: str | None = None
+    provider_settings: dict[str, Any] = Field(default_factory=dict)
     candidate_count: int
     eligible_candidate_count: int
     candidate_manifest_path: str
@@ -86,6 +91,7 @@ def _eligible_candidate_count(candidates: list[CandidatePoolCandidateBundle]) ->
         for candidate in candidates
         if candidate.approval_status == ApprovalStatus.APPROVED
         and candidate.validation_status == ValidationStatus.PASS
+        and not candidate_blocked_from_selection(candidate.review_summary)
     )
 
 
@@ -107,7 +113,12 @@ class GeneratedExamPipeline:
             ),
         )
 
-    def load_candidate_pool(self, candidate_pool_dir: Path) -> LoadedCandidatePool:
+    def load_candidate_pool(
+        self,
+        candidate_pool_dir: Path,
+        *,
+        expected_provider_name: str | None = None,
+    ) -> LoadedCandidatePool:
         """Load generated candidate bundles from a candidate-pool output directory."""
         resolved_dir = candidate_pool_dir.resolve()
         manifest_path = resolved_dir / "candidate_pool_manifest.json"
@@ -120,11 +131,15 @@ class GeneratedExamPipeline:
             title = manifest.title
             spec_id = manifest.spec_id
             manifest_ref = str(manifest_path)
+            provider_name = manifest.provider_name
+            provider_settings = manifest.provider_settings
         else:
             candidates = self._scan_candidate_bundles(resolved_dir)
             title = "Generated Candidate Pool"
             spec_id = self.assembler.spec.spec_id
             manifest_ref = None
+            provider_name = None
+            provider_settings = {}
 
         if not candidates:
             raise GeneratedExamPipelineError(
@@ -135,12 +150,22 @@ class GeneratedExamPipeline:
             raise GeneratedExamPipelineError(
                 f"Candidate pool spec_id={spec_id} does not match assembler spec_id={self.assembler.spec.spec_id}"
             )
+        if (
+            expected_provider_name is not None
+            and provider_name is not None
+            and provider_name != expected_provider_name
+        ):
+            raise GeneratedExamPipelineError(
+                f"Candidate pool provider_name={provider_name} does not match expected {expected_provider_name}"
+            )
 
         return LoadedCandidatePool(
             spec_id=spec_id,
             title=title,
             candidate_pool_dir=str(resolved_dir),
             candidate_pool_manifest_path=manifest_ref,
+            provider_name=provider_name,
+            provider_settings=provider_settings,
             candidates=candidates,
         )
 
@@ -196,12 +221,16 @@ class GeneratedExamPipeline:
         compile_pdf: bool = True,
         real_item_validation_path: Path | None = None,
         human_reviews: list[HumanReviewRecord] | None = None,
+        expected_provider_name: str | None = None,
     ) -> GeneratedExamResult:
         """Assemble and render a generated exam from persisted candidate bundles."""
         output_dir = output_dir.resolve()
         output_dir.mkdir(parents=True, exist_ok=True)
 
-        candidate_pool = self.load_candidate_pool(candidate_pool_dir)
+        candidate_pool = self.load_candidate_pool(
+            candidate_pool_dir,
+            expected_provider_name=expected_provider_name,
+        )
         manifest, manifest_path = self.build_candidate_manifest(
             candidate_pool=candidate_pool,
             output_dir=output_dir,
@@ -243,6 +272,8 @@ class GeneratedExamPipeline:
             output_dir=str(output_dir),
             candidate_pool_dir=candidate_pool.candidate_pool_dir,
             candidate_pool_manifest_path=candidate_pool.candidate_pool_manifest_path,
+            provider_name=candidate_pool.provider_name,
+            provider_settings=candidate_pool.provider_settings,
             candidate_count=len(candidate_pool.candidates),
             eligible_candidate_count=_eligible_candidate_count(candidate_pool.candidates),
             candidate_manifest_path=str(manifest_path),
@@ -282,6 +313,11 @@ class GeneratedExamPipeline:
             "source_item_no": candidate.source_item_no,
             "atom_signatures": candidate.atom_signatures,
             "distractor_signatures": candidate.distractor_signatures,
+            "review_summary": (
+                candidate.review_summary.model_dump(mode="json")
+                if candidate.review_summary is not None
+                else None
+            ),
         }
 
     def _scan_candidate_bundles(self, candidate_pool_dir: Path) -> list[CandidatePoolCandidateBundle]:

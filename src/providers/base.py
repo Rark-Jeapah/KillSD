@@ -12,6 +12,10 @@ class ProviderError(Exception):
     """Raised when a provider invocation fails."""
 
 
+class MalformedProviderResponseError(ProviderError):
+    """Raised when a provider returns output that fails strict normalization."""
+
+
 class ProviderUsage(StrictModel):
     """Normalized provider usage metadata for benchmarking."""
 

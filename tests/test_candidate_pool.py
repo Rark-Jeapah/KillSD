@@ -4,10 +4,16 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from types import SimpleNamespace
 
 from src.assembly.candidate_pool import CandidatePoolBuilder
+from src.core.schemas import ExamMode, PipelineStage, PromptPacket
 from src.assembly.mini_alpha import MiniAlphaAssembler
 from src.distill.atom_extractor import InsightAtom
+from src.orchestrator.state_machine import RunStatus
+from src.providers.factory import build_provider
+from src.providers.openai_provider import OpenAIProvider
+from src.providers.real_item_runtime import RealItemProviderConfig
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -26,6 +32,46 @@ SUPPORTED_ATOM_IDS = [
     "atom-aaa349a7160b",
     "atom-0ce427cc63df",
 ]
+
+
+class _FakeRealItemResponsesClient:
+    def __init__(self) -> None:
+        self._deterministic_provider = build_provider("deterministic")
+
+    def create(self, **kwargs: object) -> object:
+        metadata = kwargs["metadata"]  # type: ignore[index]
+        context_payload = json.loads(kwargs["input"][0]["content"][0]["text"])  # type: ignore[index]
+        packet = PromptPacket(
+            packet_id=context_payload["packet_id"],
+            mode=ExamMode.API,
+            stage=PipelineStage(context_payload["pipeline_stage"]),
+            stage_name=str(metadata["stage_name"]),  # type: ignore[index]
+            spec_id=context_payload["spec_id"],
+            run_id=context_payload["run_id"],
+            blueprint_id=context_payload["blueprint_id"],
+            item_no=context_payload["item_no"],
+            instructions=[str(kwargs["instructions"])],
+            input_artifact_ids=context_payload["input_artifact_ids"],
+            lineage_parent_ids=context_payload["lineage_parent_ids"],
+            context=context_payload["context"],
+            expected_output_model=context_payload["expected_output_model"],
+            response_schema_version=context_payload["response_schema_version"],
+            response_json_schema=kwargs["text"]["format"]["schema"],  # type: ignore[index]
+            prompt_hash=metadata.get("prompt_hash"),  # type: ignore[union-attr]
+            seed=context_payload["seed"],
+            attempt=context_payload["attempt"],
+            provider_name="openai",
+        )
+        response = self._deterministic_provider.invoke(packet)
+        return SimpleNamespace(
+            output_text=json.dumps(response.output, ensure_ascii=False),
+            usage=SimpleNamespace(input_tokens=120, output_tokens=48),
+        )
+
+
+class _FakeRealItemOpenAIClient:
+    def __init__(self) -> None:
+        self.responses = _FakeRealItemResponsesClient()
 
 
 def test_generated_candidate_pool_builds_manifest_and_assembles_mini_alpha(
@@ -132,3 +178,36 @@ def test_candidate_pool_resolves_curated_batch_refs_from_atom_metadata(tmp_path:
     )
     assert [atom.atom_id for atom in resolved_batch_version] == ["atom-b"]
     assert skipped_batch_version == []
+
+
+def test_candidate_pool_builds_with_fake_openai_provider(tmp_path: Path) -> None:
+    provider_config = RealItemProviderConfig(
+        provider="openai",
+        model="gpt-test-model",
+        stage_max_attempts=2,
+    )
+    builder = CandidatePoolBuilder(
+        repo_root=REPO_ROOT,
+        provider_config=provider_config,
+        provider=OpenAIProvider(
+            env={"OPENAI_API_KEY": "sk-test"},
+            client=_FakeRealItemOpenAIClient(),
+            model="gpt-test-model",
+        ),
+    )
+
+    result = builder.build(
+        output_dir=tmp_path / "candidate_pool_openai",
+        title="Generated Pool OpenAI Fixture",
+        slot_count=1,
+        atom_ids=[SUPPORTED_ATOM_IDS[0]],
+        run_id="generated-pool-openai-test",
+    )
+
+    assert result.status == RunStatus.COMPLETED
+    assert result.provider_name == "openai"
+    assert result.provider_settings["model"] == "gpt-test-model"
+    assert result.candidate_count == 1
+    assert result.eligible_candidate_count == 1
+    assert result.candidate_pool_manifest_path is not None
+    assert Path(result.candidate_pool_manifest_path).exists()

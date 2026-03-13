@@ -4,33 +4,92 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from types import SimpleNamespace
 from typing import Any
 
 import pytest
 
-from src.core.schemas import ExamMode, PromptPacket
+from src.core.schemas import ExamMode, PipelineStage, PromptPacket
 from src.core.storage import ArtifactStore
 from src.distill.atom_extractor import InsightAtom
 from src.orchestrator.real_item_families import RealItemFamilySelectionError
 from src.orchestrator.real_item_gauntlet import (
     REAL_ITEM_DEFAULT_ATOM_ID,
     RealItemGauntlet,
-    RealItemProvider,
     load_insight_atom,
 )
-from src.orchestrator.state_machine import RunStatus
+from src.orchestrator.state_machine import RunStatus, StageExecutionStatus
+from src.providers.base import BaseProvider
+from src.providers.factory import build_provider
+from src.providers.openai_provider import OpenAIProvider
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 PROMPT_DIR = REPO_ROOT / "src" / "prompts"
 
 
-def _gauntlet(root: Path, provider: RealItemProvider | None) -> RealItemGauntlet:
+class _FakeRealItemResponsesClient:
+    def __init__(
+        self,
+        *,
+        deterministic_provider: BaseProvider,
+        malformed_stage_name: str | None = None,
+    ) -> None:
+        self.deterministic_provider = deterministic_provider
+        self.malformed_stage_name = malformed_stage_name
+        self._malformed_emitted = False
+        self.calls: list[dict[str, object]] = []
+
+    def create(self, **kwargs: object) -> object:
+        self.calls.append(kwargs)
+        metadata = kwargs["metadata"]  # type: ignore[index]
+        context_payload = json.loads(kwargs["input"][0]["content"][0]["text"])  # type: ignore[index]
+        packet = PromptPacket(
+            packet_id=context_payload["packet_id"],
+            mode=ExamMode.API,
+            stage=PipelineStage(context_payload["pipeline_stage"]),
+            stage_name=str(metadata["stage_name"]),  # type: ignore[index]
+            spec_id=context_payload["spec_id"],
+            run_id=context_payload["run_id"],
+            blueprint_id=context_payload["blueprint_id"],
+            item_no=context_payload["item_no"],
+            instructions=[str(kwargs["instructions"])],
+            input_artifact_ids=context_payload["input_artifact_ids"],
+            lineage_parent_ids=context_payload["lineage_parent_ids"],
+            context=context_payload["context"],
+            expected_output_model=context_payload["expected_output_model"],
+            response_schema_version=context_payload["response_schema_version"],
+            response_json_schema=kwargs["text"]["format"]["schema"],  # type: ignore[index]
+            prompt_hash=metadata.get("prompt_hash"),  # type: ignore[union-attr]
+            seed=context_payload["seed"],
+            attempt=context_payload["attempt"],
+            provider_name="openai",
+        )
+        if packet.stage_name == self.malformed_stage_name and not self._malformed_emitted:
+            self._malformed_emitted = True
+            return SimpleNamespace(
+                output_text="{not-json",
+                usage=SimpleNamespace(input_tokens=32, output_tokens=5),
+            )
+        response = self.deterministic_provider.invoke(packet)
+        return SimpleNamespace(
+            output_text=json.dumps(response.output, ensure_ascii=False),
+            usage=SimpleNamespace(input_tokens=120, output_tokens=48),
+        )
+
+
+class _FakeRealItemOpenAIClient:
+    def __init__(self, responses_client: _FakeRealItemResponsesClient) -> None:
+        self.responses = responses_client
+
+
+def _gauntlet(root: Path, provider: BaseProvider | None, **kwargs: Any) -> RealItemGauntlet:
     store = ArtifactStore(root_dir=root / "artifacts", db_path=root / "app.db")
     return RealItemGauntlet(
         artifact_store=store,
         prompt_dir=PROMPT_DIR,
         provider=provider,
+        **kwargs,
     )
 
 
@@ -42,7 +101,7 @@ def _run_manual_to_completion(
     output_dir: Path,
     seed: int,
 ) -> Any:
-    provider = RealItemProvider()
+    provider = build_provider("deterministic")
     result = gauntlet.run(
         run_id=run_id,
         atom=atom,
@@ -132,7 +191,7 @@ def test_real_item_gauntlet_routes_supported_families(
     expected_format: str,
 ) -> None:
     atom = load_insight_atom(repo_root=REPO_ROOT, atom_id=atom_id)
-    gauntlet = _gauntlet(tmp_path, RealItemProvider())
+    gauntlet = _gauntlet(tmp_path, build_provider("deterministic"))
     run_id = f"route-{expected_family_id}"
 
     result = gauntlet.run(
@@ -186,7 +245,7 @@ def test_real_item_gauntlet_manual_and_api_are_equivalent(
 ) -> None:
     atom = load_insight_atom(repo_root=REPO_ROOT, atom_id=atom_id)
 
-    api_gauntlet = _gauntlet(tmp_path / "api", RealItemProvider())
+    api_gauntlet = _gauntlet(tmp_path / "api", build_provider("deterministic"))
     api_result = api_gauntlet.run(
         run_id=f"api-{atom_id}",
         atom=atom,
@@ -221,7 +280,7 @@ def test_real_item_gauntlet_errors_cleanly_when_no_family_matches(tmp_path: Path
         prerequisites=["matrix"],
         allowed_answer_forms=["choice_index"],
     )
-    gauntlet = _gauntlet(tmp_path, RealItemProvider())
+    gauntlet = _gauntlet(tmp_path, build_provider("deterministic"))
 
     with pytest.raises(RealItemFamilySelectionError, match="No real-item family matches"):
         gauntlet.run(
@@ -231,3 +290,52 @@ def test_real_item_gauntlet_errors_cleanly_when_no_family_matches(tmp_path: Path
             output_dir=tmp_path / "unsupported",
             seed=3,
         )
+
+
+def test_real_item_gauntlet_retries_fake_openai_malformed_stage_output(tmp_path: Path) -> None:
+    atom = load_insight_atom(repo_root=REPO_ROOT, atom_id=REAL_ITEM_DEFAULT_ATOM_ID)
+    deterministic_provider = build_provider("deterministic")
+    responses_client = _FakeRealItemResponsesClient(
+        deterministic_provider=deterministic_provider,
+        malformed_stage_name="draft_item",
+    )
+    provider = OpenAIProvider(
+        env={"OPENAI_API_KEY": "sk-test"},
+        client=_FakeRealItemOpenAIClient(responses_client),
+        model="gpt-test-model",
+    )
+    gauntlet = _gauntlet(
+        tmp_path,
+        provider,
+        provider_settings={
+            "provider": "openai",
+            "mode": "api",
+            "model": "gpt-test-model",
+            "stage_max_attempts": 2,
+        },
+        max_stage_attempts=2,
+    )
+
+    result = gauntlet.run(
+        run_id="openai-retry",
+        atom=atom,
+        mode=ExamMode.API,
+        output_dir=tmp_path / "openai-retry",
+        seed=11,
+    )
+
+    assert result.status == RunStatus.COMPLETED
+    assert result.provider_name == "openai"
+    state = gauntlet.load_state("openai-retry")
+    assert state is not None
+    assert state.provider_name == "openai"
+    draft_records = [record for record in state.history if record.stage_name == "draft_item"]
+    assert [record.status for record in draft_records] == [
+        StageExecutionStatus.FAILED,
+        StageExecutionStatus.SUCCEEDED,
+    ]
+    assert draft_records[0].provider_response_artifact_id is None
+    assert draft_records[0].error_message is not None
+    assert "malformed_provider_response" in draft_records[0].error_message
+    assert draft_records[1].attempt == 2
+    assert len(responses_client.calls) == 5

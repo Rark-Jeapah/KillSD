@@ -13,7 +13,13 @@ from pydantic import BaseModel, ValidationError
 from src.core import schemas as core_schemas
 from src.core.schemas import PromptPacket
 from src.orchestrator.stages import get_stage_definition
-from src.providers.base import BaseProvider, ProviderError, ProviderResponse, ProviderUsage
+from src.providers.base import (
+    BaseProvider,
+    MalformedProviderResponseError,
+    ProviderError,
+    ProviderResponse,
+    ProviderUsage,
+)
 from src.security.secrets import SecretResolutionError, SecretsResolver
 
 try:
@@ -290,10 +296,10 @@ class OpenAIProvider(BaseProvider):
         try:
             payload = json.loads(raw_text)
         except json.JSONDecodeError as exc:
-            raise ProviderError("OpenAI response did not contain valid JSON") from exc
+            raise MalformedProviderResponseError("OpenAI response did not contain valid JSON") from exc
 
         if not isinstance(payload, dict):
-            raise ProviderError("OpenAI response JSON must be an object")
+            raise MalformedProviderResponseError("OpenAI response JSON must be an object")
 
         model_type = self._resolve_output_model(packet)
         if model_type is None:
@@ -302,7 +308,7 @@ class OpenAIProvider(BaseProvider):
         try:
             normalized = model_type.model_validate(payload)
         except ValidationError as exc:
-            raise ProviderError(
+            raise MalformedProviderResponseError(
                 f"OpenAI response failed schema validation for {packet.expected_output_model}"
             ) from exc
         return normalized.model_dump(mode="json")

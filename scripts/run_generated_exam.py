@@ -3,11 +3,17 @@
 from __future__ import annotations
 
 import argparse
+import json
 from pathlib import Path
 
+from src.assembly.candidate_pool import CandidatePoolBuilder
 from src.config.settings import get_settings
 from src.eval.discard_rate import load_human_review_records
 from src.pipeline.generated_exam import GeneratedExamPipeline
+from src.providers.real_item_runtime import (
+    add_real_item_provider_arguments,
+    provider_config_from_args,
+)
 
 
 def parse_args() -> argparse.Namespace:
@@ -16,8 +22,20 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--candidate-pool-dir",
-        required=True,
-        help="Directory produced by scripts/build_candidate_pool.py.",
+        default=None,
+        help="Directory produced by scripts/build_candidate_pool.py. Optional if atom/batch refs are provided.",
+    )
+    parser.add_argument(
+        "--atom-id",
+        action="append",
+        default=None,
+        help="Build a candidate pool inline from these atom ids before assembling the exam.",
+    )
+    parser.add_argument(
+        "--curated-batch-ref",
+        action="append",
+        default=None,
+        help="Build a candidate pool inline from these curated batch refs before assembling the exam.",
     )
     parser.add_argument(
         "--title",
@@ -55,6 +73,7 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Skip XeLaTeX compilation and emit TeX sources only.",
     )
+    add_real_item_provider_arguments(parser)
     return parser.parse_args()
 
 
@@ -66,8 +85,8 @@ def _resolve_path(value: str, *, settings_root: Path) -> Path:
 def main() -> int:
     args = parse_args()
     settings = get_settings()
+    provider_config = provider_config_from_args(args)
 
-    candidate_pool_dir = _resolve_path(args.candidate_pool_dir, settings_root=settings.repo_root)
     output_dir = _resolve_path(args.output_dir, settings_root=settings.repo_root)
 
     human_reviews = None
@@ -83,6 +102,36 @@ def main() -> int:
             settings_root=settings.repo_root,
         )
 
+    inline_pool = bool(args.atom_id or args.curated_batch_ref)
+    if not inline_pool and args.candidate_pool_dir is None:
+        raise SystemExit(
+            "Provide --candidate-pool-dir or supply --atom-id/--curated-batch-ref to build inline."
+        )
+
+    pool_result = None
+    if inline_pool:
+        candidate_pool_dir = output_dir / "candidate_pool"
+        builder = CandidatePoolBuilder(provider_config=provider_config)
+        pool_result = builder.build(
+            output_dir=candidate_pool_dir,
+            title=args.title or "Generated Exam Candidate Pool",
+            slot_count=args.slot_count,
+            atom_ids=args.atom_id,
+            curated_batch_refs=args.curated_batch_ref,
+            run_id=f"{args.run_id}_pool",
+        )
+        if pool_result.status != "completed":
+            print(
+                json.dumps(
+                    {"candidate_pool": pool_result.model_dump(mode="json")},
+                    ensure_ascii=False,
+                    indent=2,
+                )
+            )
+            return 0
+    else:
+        candidate_pool_dir = _resolve_path(args.candidate_pool_dir, settings_root=settings.repo_root)
+
     pipeline = GeneratedExamPipeline(
         template_dir=settings.repo_root / "src" / "render" / "templates",
         xelatex_path=str(settings.xelatex_path) if settings.xelatex_path else None,
@@ -96,8 +145,21 @@ def main() -> int:
         compile_pdf=not args.no_compile_pdf,
         real_item_validation_path=real_item_validation_path,
         human_reviews=human_reviews,
+        expected_provider_name=provider_config.provider if args.provider else None,
     )
-    print(result.model_dump_json(indent=2))
+    if pool_result is None:
+        print(result.model_dump_json(indent=2))
+    else:
+        print(
+            json.dumps(
+                {
+                    "candidate_pool": pool_result.model_dump(mode="json"),
+                    "generated_exam": result.model_dump(mode="json"),
+                },
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
     return 0
 
 

@@ -9,7 +9,6 @@ import subprocess
 from dataclasses import dataclass
 from math import gcd
 from pathlib import Path
-from time import perf_counter
 from typing import Any
 
 from pydantic import BaseModel, Field
@@ -47,7 +46,8 @@ from src.orchestrator.manual_mode import ManualModeController, ManualModeError
 from src.orchestrator.state_machine import RunStatus, StageExecutionRecord, StageExecutionStatus
 from src.orchestrator.stages import build_prompt_packet, load_prompt_template
 from src.plugins.csat_math_2028 import CSATMath2028Plugin
-from src.providers.base import BaseProvider, ProviderError, ProviderResponse, ProviderUsage
+from src.providers.base import BaseProvider, MalformedProviderResponseError, ProviderError
+from src.providers.real_item_provider import RealItemProvider
 from src.render.latex_renderer import escape_latex
 from src.validators.report import (
     ValidationContext,
@@ -200,6 +200,8 @@ class RealItemGauntletState(StrictModel):
     atom_id: str
     family_id: str | None = None
     mode: ExamMode
+    provider_name: str | None = None
+    provider_settings: dict[str, Any] = Field(default_factory=dict)
     seed: int
     output_dir: str
     status: RunStatus = RunStatus.PENDING
@@ -235,6 +237,8 @@ class RealItemGauntletResult(StrictModel):
     mode: ExamMode
     status: RunStatus
     output_dir: str
+    provider_name: str | None = None
+    provider_settings: dict[str, Any] = Field(default_factory=dict)
     pending_prompt_paths: list[str] = Field(default_factory=list)
     bundle_artifact_id: str | None = None
     validation_artifact_id: str | None = None
@@ -245,76 +249,6 @@ class RealItemGauntletResult(StrictModel):
     item_pdf_path: str | None = None
     lineage_json_path: str | None = None
     cost_summary: CostSummary = Field(default_factory=CostSummary)
-
-
-class RealItemProvider(BaseProvider):
-    """Deterministic provider that emits one registered real-item family with measured usage."""
-
-    provider_name = "real_item_provider"
-
-    def __init__(
-        self,
-        *,
-        family_registry: RealItemFamilyRegistry | None = None,
-        prompt_usd_per_1k_chars: float = 0.00035,
-        completion_usd_per_1k_chars: float = 0.00085,
-    ) -> None:
-        self.family_registry = family_registry or build_real_item_family_registry()
-        self.prompt_usd_per_1k_chars = prompt_usd_per_1k_chars
-        self.completion_usd_per_1k_chars = completion_usd_per_1k_chars
-
-    def invoke(self, packet: PromptPacket) -> ProviderResponse:
-        """Return a schema-valid remote stage output and normalized usage."""
-        started = perf_counter()
-        output = self._render_stage_output(packet)
-        raw_text = json.dumps(output, ensure_ascii=False, indent=2)
-        prompt_chars = len("".join(packet.instructions)) + len(
-            json.dumps(packet.context, ensure_ascii=False, sort_keys=True)
-        )
-        completion_chars = len(raw_text)
-        latency_ms = max(1, int((perf_counter() - started) * 1000))
-        estimated_cost_usd = round(
-            (prompt_chars / 1000.0) * self.prompt_usd_per_1k_chars
-            + (completion_chars / 1000.0) * self.completion_usd_per_1k_chars,
-            6,
-        )
-        return ProviderResponse(
-            provider_name=self.provider_name,
-            prompt_packet_id=packet.packet_id,
-            stage_name=packet.stage_name,
-            output=output,
-            raw_text=raw_text,
-            prompt_hash=packet.prompt_hash,
-            seed=packet.seed,
-            usage=ProviderUsage(
-                prompt_chars=prompt_chars,
-                completion_chars=completion_chars,
-                estimated_cost_usd=estimated_cost_usd,
-                latency_ms=latency_ms,
-            ),
-        )
-
-    def _render_stage_output(self, packet: PromptPacket) -> dict[str, Any]:
-        family = self.family_registry.resolve_for_context(packet.context)
-        atom = _atom_from_context(packet.context)
-        if packet.stage_name == "draft_item":
-            blueprint = ItemBlueprint.model_validate(packet.context["item_blueprint"])
-            return family.draft_strategy(blueprint, atom).model_dump(mode="json")
-
-        if packet.stage_name == "solve":
-            draft = DraftItem.model_validate(packet.context["draft_item"])
-            return family.solve_strategy(draft, atom).model_dump(mode="json")
-
-        if packet.stage_name == "critique":
-            solved = SolvedItem.model_validate(packet.context["solved_item"])
-            return family.critique_strategy(solved, atom).model_dump(mode="json")
-
-        if packet.stage_name == "revise":
-            solved = SolvedItem.model_validate(packet.context["solved_item"])
-            critique = CritiqueReport.model_validate(packet.context["critique_report"])
-            return family.revise_strategy(solved, critique, atom).model_dump(mode="json")
-
-        raise ProviderError(f"Unsupported real-item stage: {packet.stage_name}")
 
 
 def load_insight_atom(*, repo_root: Path, atom_id: str) -> InsightAtom:
@@ -329,39 +263,6 @@ def load_insight_atom(*, repo_root: Path, atom_id: str) -> InsightAtom:
         if atom.atom_id == atom_id:
             return atom
     raise ValueError(f"Atom not found: {atom_id}")
-
-
-def _atom_from_context(context: dict[str, Any]) -> InsightAtom:
-    if "atom" in context:
-        return InsightAtom.model_validate(context["atom"])
-    if "draft_item" in context:
-        draft = DraftItem.model_validate(context["draft_item"])
-        return InsightAtom(
-            atom_id=f"inferred-{draft.blueprint.item_no}",
-            label=draft.blueprint.objective,
-            topic=draft.blueprint.objective,
-            prerequisites=draft.blueprint.skill_tags,
-            allowed_answer_forms=draft.answer_constraints,
-        )
-    if "solved_item" in context:
-        solved = SolvedItem.model_validate(context["solved_item"])
-        return InsightAtom(
-            atom_id=f"inferred-{solved.draft.blueprint.item_no}",
-            label=solved.draft.blueprint.objective,
-            topic=solved.draft.blueprint.objective,
-            prerequisites=solved.draft.blueprint.skill_tags,
-            allowed_answer_forms=solved.draft.answer_constraints,
-        )
-    if "item_blueprint" in context:
-        blueprint = ItemBlueprint.model_validate(context["item_blueprint"])
-        return InsightAtom(
-            atom_id=f"inferred-{blueprint.item_no}",
-            label=blueprint.objective,
-            topic=blueprint.objective,
-            prerequisites=blueprint.skill_tags,
-            allowed_answer_forms=[blueprint.answer_type],
-        )
-    raise ProviderError("Unable to infer atom context for real-item family execution")
 
 def _student_artifact(*, run_id: str, solved_item: SolvedItem) -> RealItemStudentArtifact:
     blueprint = solved_item.draft.blueprint
@@ -685,13 +586,17 @@ class RealItemGauntlet:
         artifact_store: ArtifactStore,
         prompt_dir: Path,
         provider: BaseProvider | None = None,
+        provider_settings: dict[str, Any] | None = None,
         family_registry: RealItemFamilyRegistry | None = None,
         xelatex_path: str | None = None,
+        max_stage_attempts: int = 3,
     ) -> None:
         self.store = artifact_store
         self.store.initialize()
         self.prompt_dir = prompt_dir
         self.provider = provider
+        self.provider_settings = dict(provider_settings or {})
+        self.max_stage_attempts = max_stage_attempts
         if family_registry is not None:
             self.family_registry = family_registry
         elif isinstance(provider, RealItemProvider):
@@ -704,6 +609,8 @@ class RealItemGauntlet:
         self.spec = self.plugin.load_exam_spec()
         self.repo_root = prompt_dir.parents[1]
         self.xelatex_path = xelatex_path
+        if self.max_stage_attempts < 1:
+            raise ProviderError("max_stage_attempts must be >= 1")
 
     def run(
         self,
@@ -760,22 +667,44 @@ class RealItemGauntlet:
         seed: int,
         output_dir: Path,
     ) -> RealItemGauntletState:
+        requested_provider_name = self._provider_name_for_mode(mode)
         state = self.load_state(run_id)
         if state is not None:
             if state.mode != mode:
                 raise ProviderError("Existing run_id was created with a different mode")
             if state.atom_id != atom_id:
                 raise ProviderError("Existing run_id was created with a different atom_id")
-            return state
+            if state.provider_name not in {None, requested_provider_name}:
+                raise ProviderError("Existing run_id was created with a different provider")
+            if (
+                state.provider_settings
+                and self.provider_settings
+                and state.provider_settings != self.provider_settings
+            ):
+                raise ProviderError("Existing run_id was created with different provider settings")
+            if state.provider_name is None:
+                state.provider_name = requested_provider_name
+            if not state.provider_settings and self.provider_settings:
+                state.provider_settings = dict(self.provider_settings)
+            return self._save_state(state)
         return self._save_state(
             RealItemGauntletState(
                 run_id=run_id,
                 atom_id=atom_id,
                 mode=mode,
+                provider_name=requested_provider_name,
+                provider_settings=dict(self.provider_settings),
                 seed=seed,
                 output_dir=str(output_dir),
             )
         )
+
+    def _provider_name_for_mode(self, mode: ExamMode) -> str:
+        if mode == ExamMode.MANUAL:
+            return "manual"
+        if self.provider is None:
+            raise ProviderError("API mode requires a configured provider")
+        return self.provider.provider_name
 
     def _resolve_family_for_state(
         self,
@@ -881,125 +810,188 @@ class RealItemGauntlet:
                 response_path=response_path,
             )
 
-        attempt = state.stage_attempts.get(stage_name, 0) + 1
-        input_artifact_ids, context = self._build_stage_inputs(state=state, atom=atom, stage_name=stage_name)
-        prompt_template = load_prompt_template(self.prompt_dir, stage_spec.prompt_file)
-        packet = build_prompt_packet(
-            mode=state.mode,
-            stage_name=stage_name,
-            spec_id=self.spec.spec_id,
-            run_id=state.run_id,
-            blueprint_id=item_blueprint.item_id if hasattr(item_blueprint, "item_id") else None,
-            item_no=item_blueprint.item_no,
-            input_artifact_ids=input_artifact_ids,
-            context=context,
-            seed=state.seed,
-            attempt=attempt,
-            provider_name=self.provider.provider_name if self.provider else None,
-            prompt_template=prompt_template,
-            output_model=stage_spec.output_model,
-            pipeline_stage=stage_spec.pipeline_stage,
-        )
-        prompt_env = self.store.save_model(
-            packet,
-            stage=stage_spec.pipeline_stage,
-            run_id=state.run_id,
-            spec_id=self.spec.spec_id,
-            metadata={
-                "stage_name": stage_name,
-                "attempt": attempt,
-                "input_artifact_ids": input_artifact_ids,
-            },
-        )
-        state.stage_prompt_artifact_ids[stage_name] = prompt_env.artifact_id
-        state.stage_attempts[stage_name] = attempt
+        while True:
+            attempt = state.stage_attempts.get(stage_name, 0) + 1
+            input_artifact_ids, context = self._build_stage_inputs(
+                state=state,
+                atom=atom,
+                stage_name=stage_name,
+            )
+            prompt_template = load_prompt_template(self.prompt_dir, stage_spec.prompt_file)
+            packet = build_prompt_packet(
+                mode=state.mode,
+                stage_name=stage_name,
+                spec_id=self.spec.spec_id,
+                run_id=state.run_id,
+                blueprint_id=item_blueprint.item_id if hasattr(item_blueprint, "item_id") else None,
+                item_no=item_blueprint.item_no,
+                input_artifact_ids=input_artifact_ids,
+                context=context,
+                seed=state.seed,
+                attempt=attempt,
+                provider_name=state.provider_name,
+                prompt_template=prompt_template,
+                output_model=stage_spec.output_model,
+                pipeline_stage=stage_spec.pipeline_stage,
+            )
+            prompt_env = self.store.save_model(
+                packet,
+                stage=stage_spec.pipeline_stage,
+                run_id=state.run_id,
+                spec_id=self.spec.spec_id,
+                metadata={
+                    "stage_name": stage_name,
+                    "attempt": attempt,
+                    "input_artifact_ids": input_artifact_ids,
+                },
+            )
+            state.stage_prompt_artifact_ids[stage_name] = prompt_env.artifact_id
+            state.stage_attempts[stage_name] = attempt
 
-        if state.mode == ExamMode.MANUAL:
-            export_path = self.manual_controller.export_packet(packet)
-            state.stage_statuses[stage_name] = StageExecutionStatus.WAITING_MANUAL
-            state.stage_prompt_paths[stage_name] = str(export_path)
-            state.status = RunStatus.WAITING_MANUAL
+            if state.mode == ExamMode.MANUAL:
+                export_path = self.manual_controller.export_packet(packet)
+                state.stage_statuses[stage_name] = StageExecutionStatus.WAITING_MANUAL
+                state.stage_prompt_paths[stage_name] = str(export_path)
+                state.status = RunStatus.WAITING_MANUAL
+                state.history.append(
+                    StageExecutionRecord(
+                        stage_name=stage_name,
+                        item_no=item_blueprint.item_no,
+                        attempt=attempt,
+                        status=StageExecutionStatus.WAITING_MANUAL,
+                        input_artifact_ids=input_artifact_ids,
+                        prompt_packet_artifact_id=prompt_env.artifact_id,
+                        prompt_export_path=str(export_path),
+                        prompt_hash=packet.prompt_hash,
+                        prompt_version=packet.prompt_version,
+                        seed=packet.seed,
+                        provider_name="manual_export",
+                    )
+                )
+                self._save_state(state)
+                return False
+
+            if self.api_executor is None:
+                raise ProviderError("API mode requires a configured provider")
+
+            provider_response = None
+            provider_response_artifact_id = None
+            try:
+                provider_response = self.api_executor.invoke(packet)
+                provider_env = self.store.save_model(
+                    provider_response,
+                    stage=stage_spec.pipeline_stage,
+                    run_id=state.run_id,
+                    spec_id=self.spec.spec_id,
+                    metadata={
+                        "stage_name": stage_name,
+                        "attempt": attempt,
+                        "source": "provider_response",
+                    },
+                )
+                provider_response_artifact_id = provider_env.artifact_id
+                output_model = self.api_executor.normalize(
+                    provider_response,
+                    stage_spec.output_model,
+                )
+            except MalformedProviderResponseError as exc:
+                will_retry = attempt < self.max_stage_attempts
+                state.stage_statuses[stage_name] = StageExecutionStatus.FAILED
+                state.last_error = str(exc)
+                state.history.append(
+                    StageExecutionRecord(
+                        stage_name=stage_name,
+                        item_no=item_blueprint.item_no,
+                        attempt=attempt,
+                        status=StageExecutionStatus.FAILED,
+                        input_artifact_ids=input_artifact_ids,
+                        prompt_packet_artifact_id=prompt_env.artifact_id,
+                        provider_response_artifact_id=provider_response_artifact_id,
+                        prompt_hash=packet.prompt_hash,
+                        prompt_version=packet.prompt_version,
+                        seed=packet.seed,
+                        provider_name=(
+                            provider_response.provider_name
+                            if provider_response is not None
+                            else state.provider_name
+                        ),
+                        error_message=json.dumps(
+                            {
+                                "kind": "malformed_provider_response",
+                                "message": str(exc),
+                                "will_retry": will_retry,
+                                "max_stage_attempts": self.max_stage_attempts,
+                            },
+                            ensure_ascii=False,
+                        ),
+                    )
+                )
+                if will_retry:
+                    self._save_state(state)
+                    continue
+                state.status = RunStatus.FAILED
+                self._save_state(state)
+                raise
+            except Exception as exc:
+                state.stage_statuses[stage_name] = StageExecutionStatus.FAILED
+                state.status = RunStatus.FAILED
+                state.last_error = str(exc)
+                state.history.append(
+                    StageExecutionRecord(
+                        stage_name=stage_name,
+                        item_no=item_blueprint.item_no,
+                        attempt=attempt,
+                        status=StageExecutionStatus.FAILED,
+                        input_artifact_ids=input_artifact_ids,
+                        prompt_packet_artifact_id=prompt_env.artifact_id,
+                        provider_response_artifact_id=provider_response_artifact_id,
+                        prompt_hash=packet.prompt_hash,
+                        prompt_version=packet.prompt_version,
+                        seed=packet.seed,
+                        provider_name=(
+                            provider_response.provider_name
+                            if provider_response is not None
+                            else state.provider_name
+                        ),
+                        error_message=str(exc),
+                    )
+                )
+                self._save_state(state)
+                raise
+
+            output_env = self.store.save_model(
+                output_model,
+                stage=stage_spec.pipeline_stage,
+                run_id=state.run_id,
+                spec_id=self.spec.spec_id,
+                metadata={
+                    "stage_name": stage_name,
+                    "attempt": attempt,
+                    "input_artifact_ids": input_artifact_ids,
+                },
+            )
+            state.stage_outputs[stage_name] = output_env.artifact_id
+            state.stage_statuses[stage_name] = StageExecutionStatus.SUCCEEDED
+            state.status = RunStatus.RUNNING
+            state.last_error = None
             state.history.append(
                 StageExecutionRecord(
                     stage_name=stage_name,
                     item_no=item_blueprint.item_no,
                     attempt=attempt,
-                    status=StageExecutionStatus.WAITING_MANUAL,
+                    status=StageExecutionStatus.SUCCEEDED,
                     input_artifact_ids=input_artifact_ids,
                     prompt_packet_artifact_id=prompt_env.artifact_id,
-                    prompt_export_path=str(export_path),
+                    provider_response_artifact_id=provider_response_artifact_id,
+                    output_artifact_id=output_env.artifact_id,
                     prompt_hash=packet.prompt_hash,
                     prompt_version=packet.prompt_version,
                     seed=packet.seed,
-                    provider_name="manual_export",
+                    provider_name=provider_response.provider_name,
                 )
             )
             self._save_state(state)
-            return False
-
-        if self.api_executor is None:
-            raise ProviderError("API mode requires a configured provider")
-
-        try:
-            output_model, provider_response = self.api_executor.execute(packet, stage_spec.output_model)
-        except Exception as exc:
-            state.stage_statuses[stage_name] = StageExecutionStatus.FAILED
-            state.status = RunStatus.FAILED
-            state.last_error = str(exc)
-            state.history.append(
-                StageExecutionRecord(
-                    stage_name=stage_name,
-                    item_no=item_blueprint.item_no,
-                    attempt=attempt,
-                    status=StageExecutionStatus.FAILED,
-                    input_artifact_ids=input_artifact_ids,
-                    prompt_packet_artifact_id=prompt_env.artifact_id,
-                    error_message=str(exc),
-                    provider_name=self.provider.provider_name if self.provider else None,
-                )
-            )
-            self._save_state(state)
-            raise
-
-        output_env = self.store.save_model(
-            output_model,
-            stage=stage_spec.pipeline_stage,
-            run_id=state.run_id,
-            spec_id=self.spec.spec_id,
-            metadata={
-                "stage_name": stage_name,
-                "attempt": attempt,
-                "input_artifact_ids": input_artifact_ids,
-            },
-        )
-        provider_env = self.store.save_model(
-            provider_response,
-            stage=stage_spec.pipeline_stage,
-            run_id=state.run_id,
-            spec_id=self.spec.spec_id,
-            metadata={"stage_name": stage_name, "attempt": attempt, "source": "provider_response"},
-        )
-        state.stage_outputs[stage_name] = output_env.artifact_id
-        state.stage_statuses[stage_name] = StageExecutionStatus.SUCCEEDED
-        state.last_error = None
-        state.history.append(
-            StageExecutionRecord(
-                stage_name=stage_name,
-                item_no=item_blueprint.item_no,
-                attempt=attempt,
-                status=StageExecutionStatus.SUCCEEDED,
-                input_artifact_ids=input_artifact_ids,
-                prompt_packet_artifact_id=prompt_env.artifact_id,
-                provider_response_artifact_id=provider_env.artifact_id,
-                output_artifact_id=output_env.artifact_id,
-                prompt_hash=packet.prompt_hash,
-                prompt_version=packet.prompt_version,
-                seed=packet.seed,
-                provider_name=provider_response.provider_name,
-            )
-        )
-        self._save_state(state)
-        return True
+            return True
 
     def _import_manual_stage_response(
         self,
@@ -1359,6 +1351,8 @@ class RealItemGauntlet:
             mode=state.mode,
             status=state.status,
             output_dir=state.output_dir,
+            provider_name=state.provider_name,
+            provider_settings=state.provider_settings,
             pending_prompt_paths=state.pending_prompt_paths(),
             bundle_artifact_id=state.bundle_artifact_id,
             validation_artifact_id=state.validation_artifact_id,
