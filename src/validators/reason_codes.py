@@ -66,6 +66,12 @@ FORMAT_INTERNAL_METADATA_LEAK = ReasonCodeSpec(
     default_severity=ValidationSeverity.ERROR,
     description="Student-visible text leaks internal pipeline metadata or source identifiers.",
 )
+FORMAT_PLACEHOLDER_WORDING = ReasonCodeSpec(
+    code="format.placeholder_wording",
+    default_failure_level=FailureLevel.HARD,
+    default_severity=ValidationSeverity.ERROR,
+    description="Student-visible text still contains mock scaffolding or placeholder-style boilerplate.",
+)
 FORMAT_DISTRACTOR_TOO_OBVIOUS = ReasonCodeSpec(
     code="format.distractor_too_obvious",
     default_failure_level=FailureLevel.SOFT,
@@ -214,6 +220,7 @@ ALL_REASON_CODE_SPECS = [
     FORMAT_SHORT_ANSWER_NOT_NATURAL,
     FORMAT_SHORT_ANSWER_CHOICES_PRESENT,
     FORMAT_INTERNAL_METADATA_LEAK,
+    FORMAT_PLACEHOLDER_WORDING,
     FORMAT_DISTRACTOR_TOO_OBVIOUS,
     CURRICULUM_DOMAIN_FORBIDDEN,
     CURRICULUM_FORBIDDEN_TOPIC_DETECTED,

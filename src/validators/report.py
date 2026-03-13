@@ -85,6 +85,7 @@ class ValidationContext(StrictModel):
     cross_check_answer: str | None = None
     expected_answer: str | None = None
     asset_refs: list[str] = Field(default_factory=list)
+    xelatex_path: str | None = None
 
 
 class ValidatorSuiteReport(StrictModel):
@@ -296,6 +297,7 @@ def run_validator_suite(
             if context.resources.diagram_asset_root
             else None,
             asset_refs=context.asset_refs,
+            xelatex_path=context.xelatex_path,
         ),
         validate_difficulty_proxy(
             solved_item=context.solved_item,

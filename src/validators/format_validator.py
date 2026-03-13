@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import re
 from collections import Counter
+from math import gcd
 
 from src.core.schemas import (
     ExamSpec,
@@ -15,6 +16,7 @@ from src.validators.report import ValidatorSectionResult
 
 
 NATURAL_PATTERN = re.compile(r"^[1-9]\d*$")
+REDUCED_FRACTION_PATTERN = re.compile(r"^[1-9]\d*/[1-9]\d*$")
 MCQ_ANSWER_KEY_PATTERN = re.compile(r"^[1-5]$")
 NON_ALNUM_PATTERN = re.compile(r"[^0-9a-z]+")
 INTERNAL_METADATA_PATTERNS = (
@@ -33,6 +35,13 @@ INTERNAL_METADATA_PATTERNS = (
     "blueprint_id",
     "validator_suite",
 )
+PLACEHOLDER_PATTERNS = (
+    "placeholder",
+    "모의 문항",
+    "평가하는 문항",
+    "sample item",
+    "dummy item",
+)
 OBVIOUS_DISTRACTOR_PATTERNS = (
     "none of the above",
     "all of the above",
@@ -49,17 +58,47 @@ def _normalize_choice_text(value: str) -> str:
     return NON_ALNUM_PATTERN.sub("", value.strip().lower())
 
 
+def _is_reduced_fraction(value: str) -> bool:
+    if not REDUCED_FRACTION_PATTERN.match(value.strip()):
+        return False
+    numerator, denominator = (int(part) for part in value.strip().split("/", maxsplit=1))
+    return gcd(numerator, denominator) == 1
+
+
+def _short_answer_format_ok(solved_item: SolvedItem) -> tuple[bool, str]:
+    answer_type = solved_item.draft.blueprint.answer_type
+    answer = solved_item.final_answer.strip()
+    if answer_type == "reduced_fraction":
+        return _is_reduced_fraction(answer), "short-answer final answer uses reduced-fraction format"
+    return bool(NATURAL_PATTERN.match(answer)), "short-answer final answer uses natural-number format"
+
+
+def _short_answer_recommendation(solved_item: SolvedItem) -> str:
+    if solved_item.draft.blueprint.answer_type == "reduced_fraction":
+        return "Regenerate the short-answer item so the final answer is a positive reduced fraction."
+    return "Regenerate the short-answer item so the final answer is a positive integer."
+
+
+def _student_visible_text(solved_item: SolvedItem) -> str:
+    return "\n".join([solved_item.draft.stem, *solved_item.draft.choices]).lower()
+
+
+def _find_matching_patterns(*, text: str, patterns: tuple[str, ...]) -> list[str]:
+    return [pattern for pattern in patterns if pattern in text]
+
+
 def _find_internal_metadata_hits(solved_item: SolvedItem) -> list[str]:
-    all_text = "\n".join(
-        [
-            solved_item.draft.stem,
-            solved_item.draft.rubric,
-            solved_item.solution_summary,
-            *solved_item.draft.choices,
-            *solved_item.solution_steps,
-        ]
-    ).lower()
-    return [pattern for pattern in INTERNAL_METADATA_PATTERNS if pattern in all_text]
+    return _find_matching_patterns(
+        text=_student_visible_text(solved_item),
+        patterns=INTERNAL_METADATA_PATTERNS,
+    )
+
+
+def _find_placeholder_hits(solved_item: SolvedItem) -> list[str]:
+    return _find_matching_patterns(
+        text=_student_visible_text(solved_item),
+        patterns=PLACEHOLDER_PATTERNS,
+    )
 
 
 def _find_obvious_distractor_hits(solved_item: SolvedItem) -> list[dict[str, str | int]]:
@@ -95,6 +134,7 @@ def validate_format(*, solved_item: SolvedItem, spec: ExamSpec) -> ValidatorSect
     blueprint = solved_item.draft.blueprint
     findings: list[ValidationFinding] = []
     metadata_hits = _find_internal_metadata_hits(solved_item=solved_item)
+    placeholder_hits = _find_placeholder_hits(solved_item=solved_item)
     obvious_distractor_hits = _find_obvious_distractor_hits(solved_item=solved_item)
     duplicate_choice_values = _find_duplicate_choice_values(solved_item=solved_item)
 
@@ -137,6 +177,21 @@ def validate_format(*, solved_item: SolvedItem, spec: ExamSpec) -> ValidatorSect
             if metadata_hits
             else None,
             context={"matched_tokens": metadata_hits},
+        )
+    )
+    findings.append(
+        ValidationFinding(
+            check_name="student_visible_text_has_no_placeholder_wording",
+            validator_name="format_validator",
+            passed=not placeholder_hits,
+            severity=rc.FORMAT_PLACEHOLDER_WORDING.default_severity,
+            message="student-visible text does not contain placeholder boilerplate or mock scaffolding",
+            reason_code=rc.FORMAT_PLACEHOLDER_WORDING.code,
+            failure_level=rc.FORMAT_PLACEHOLDER_WORDING.default_failure_level,
+            recommendation="Rewrite the stem and choices with concrete mathematical conditions and remove placeholder-style wording."
+            if placeholder_hits
+            else None,
+            context={"matched_tokens": placeholder_hits},
         )
     )
 
@@ -188,18 +243,17 @@ def validate_format(*, solved_item: SolvedItem, spec: ExamSpec) -> ValidatorSect
             )
         )
     else:
+        short_answer_passed, short_answer_message = _short_answer_format_ok(solved_item)
         findings.append(
             ValidationFinding(
                 check_name="short_answer_natural",
                 validator_name="format_validator",
-                passed=bool(NATURAL_PATTERN.match(solved_item.final_answer.strip())),
+                passed=short_answer_passed,
                 severity=rc.FORMAT_SHORT_ANSWER_NOT_NATURAL.default_severity,
-                message="short-answer final answer uses natural-number format",
+                message=short_answer_message,
                 reason_code=rc.FORMAT_SHORT_ANSWER_NOT_NATURAL.code,
                 failure_level=rc.FORMAT_SHORT_ANSWER_NOT_NATURAL.default_failure_level,
-                recommendation="Regenerate the short-answer item so the final answer is a positive integer."
-                if not NATURAL_PATTERN.match(solved_item.final_answer.strip())
-                else None,
+                recommendation=_short_answer_recommendation(solved_item) if not short_answer_passed else None,
             )
         )
         findings.append(

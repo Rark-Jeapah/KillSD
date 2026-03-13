@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import re
 import shutil
 import subprocess
@@ -12,6 +13,7 @@ from src.core.schemas import (
     SolvedItem,
     ValidationFinding,
 )
+from src.render.latex_renderer import escape_latex
 from src.validators import reason_codes as rc
 from src.validators.report import ValidatorSectionResult
 
@@ -27,24 +29,6 @@ ASSET_TOKEN_STOPWORDS = {
     "draft",
     "student",
 }
-
-
-def _escape_latex(text: str) -> str:
-    replacements = {
-        "\\": r"\textbackslash{}",
-        "&": r"\&",
-        "%": r"\%",
-        "$": r"\$",
-        "#": r"\#",
-        "_": r"\_",
-        "{": r"\{",
-        "}": r"\}",
-    }
-    escaped = text
-    for source, target in replacements.items():
-        escaped = escaped.replace(source, target)
-    return escaped
-
 
 def _has_balanced_inline_math(text: str) -> bool:
     return text.count("$") % 2 == 0
@@ -103,28 +87,69 @@ def _validate_diagram_asset(candidate: Path) -> tuple[bool, str]:
     return True, "ok"
 
 
-def _latex_compile_dry_run(content: str) -> tuple[bool, str]:
-    compiler = shutil.which("pdflatex") or shutil.which("latexmk")
+def _resolve_explicit_xelatex_path(candidate: str | None) -> str | None:
+    if not candidate:
+        return None
+
+    expanded_candidate = Path(candidate).expanduser()
+    if expanded_candidate.is_file():
+        return str(expanded_candidate.resolve())
+
+    return shutil.which(candidate)
+
+
+def _resolve_xelatex_path(configured_path: str | None = None) -> str | None:
+    compiler = _resolve_explicit_xelatex_path(configured_path)
+    if compiler is not None:
+        return compiler
+
+    compiler = _resolve_explicit_xelatex_path(os.getenv("CSAT_XELATEX_PATH"))
+    if compiler is not None:
+        return compiler
+
+    return shutil.which("xelatex")
+
+
+def _decode_output(stream: bytes | None) -> str:
+    if not stream:
+        return ""
+    return stream.decode("utf-8", errors="replace")
+
+
+def _build_xelatex_dry_run_document(content: str) -> str:
+    return "\n".join(
+        [
+            r"\documentclass{article}",
+            r"\usepackage{kotex}",
+            r"\usepackage{amsmath}",
+            r"\begin{document}",
+            content,
+            r"\end{document}",
+        ]
+    )
+
+
+def _latex_compile_dry_run(content: str, *, xelatex_path: str | None = None) -> tuple[bool, str]:
+    compiler = _resolve_xelatex_path(xelatex_path)
     if compiler is None:
-        return True, "LaTeX compiler unavailable; compile dry-run skipped."
+        return True, "XeLaTeX unavailable; compile dry-run skipped."
 
     with tempfile.TemporaryDirectory(prefix="csat-render-") as tmp_dir:
         workdir = Path(tmp_dir)
         tex_path = workdir / "item.tex"
         tex_path.write_text(content, encoding="utf-8")
-        command = (
-            [compiler, "-interaction=nonstopmode", "-halt-on-error", tex_path.name]
-            if Path(compiler).name == "pdflatex"
-            else [compiler, "-pdf", "-interaction=nonstopmode", "-halt-on-error", tex_path.name]
-        )
+        command = [compiler, "-interaction=nonstopmode", "-halt-on-error", tex_path.name]
         result = subprocess.run(
             command,
             cwd=workdir,
             capture_output=True,
-            text=True,
             check=False,
         )
-        message = (result.stdout + "\n" + result.stderr).strip()
+        message = "\n".join(
+            fragment for fragment in (_decode_output(result.stdout), _decode_output(result.stderr)) if fragment
+        ).strip()
+        if not message:
+            message = f"XeLaTeX exited with code {result.returncode}."
         return result.returncode == 0, message
 
 
@@ -133,6 +158,7 @@ def validate_render(
     solved_item: SolvedItem,
     asset_root: Path | None,
     asset_refs: list[str],
+    xelatex_path: str | None = None,
 ) -> ValidatorSectionResult:
     """Validate renderability and diagram asset references."""
     combined_text = "\n".join(
@@ -144,29 +170,31 @@ def validate_render(
             *solved_item.solution_steps,
         ]
     )
+    has_balanced_inline_math = _has_balanced_inline_math(combined_text)
+    has_balanced_braces = _has_balanced_braces(combined_text)
     findings = [
         ValidationFinding(
             check_name="balanced_inline_math",
             validator_name="render_validator",
-            passed=_has_balanced_inline_math(combined_text),
+            passed=has_balanced_inline_math,
             severity=rc.RENDER_UNBALANCED_INLINE_MATH.default_severity,
             message="inline math delimiters are balanced",
             reason_code=rc.RENDER_UNBALANCED_INLINE_MATH.code,
             failure_level=rc.RENDER_UNBALANCED_INLINE_MATH.default_failure_level,
             recommendation="Fix broken `$...$` delimiters before keeping the item."
-            if not _has_balanced_inline_math(combined_text)
+            if not has_balanced_inline_math
             else None,
         ),
         ValidationFinding(
             check_name="balanced_braces",
             validator_name="render_validator",
-            passed=_has_balanced_braces(combined_text),
+            passed=has_balanced_braces,
             severity=rc.RENDER_UNBALANCED_BRACES.default_severity,
             message="brace structure is balanced",
             reason_code=rc.RENDER_UNBALANCED_BRACES.code,
             failure_level=rc.RENDER_UNBALANCED_BRACES.default_failure_level,
             recommendation="Repair broken LaTeX/math brace structure."
-            if not _has_balanced_braces(combined_text)
+            if not has_balanced_braces
             else None,
         ),
     ]
@@ -252,17 +280,19 @@ def validate_render(
         )
     )
 
-    tex_document = "\n".join(
-        [
-            r"\documentclass{article}",
-            r"\usepackage{amsmath}",
-            r"\begin{document}",
-            _escape_latex(solved_item.draft.stem),
-            *[_escape_latex(choice) for choice in solved_item.draft.choices],
-            r"\end{document}",
-        ]
-    )
-    latex_ok, latex_message = _latex_compile_dry_run(tex_document)
+    if has_balanced_inline_math and has_balanced_braces:
+        tex_document = _build_xelatex_dry_run_document(
+            "\n\n".join(
+                [
+                    escape_latex(solved_item.draft.stem),
+                    *[escape_latex(choice) for choice in solved_item.draft.choices],
+                ]
+            )
+        )
+        latex_ok, latex_message = _latex_compile_dry_run(tex_document, xelatex_path=xelatex_path)
+    else:
+        latex_ok = True
+        latex_message = "Compile dry-run skipped because prerequisite render checks already failed."
     findings.append(
         ValidationFinding(
             check_name="latex_compile_dry_run",
@@ -293,5 +323,9 @@ def validate_render(
     return ValidatorSectionResult(
         validator_name="render_validator",
         findings=findings,
-        metrics={"asset_ref_count": len(asset_refs), "asset_root": str(asset_root) if asset_root else None},
+        metrics={
+            "asset_ref_count": len(asset_refs),
+            "asset_root": str(asset_root) if asset_root else None,
+            "xelatex_path": xelatex_path,
+        },
     )

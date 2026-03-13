@@ -67,6 +67,9 @@ def _math_normalize(text: str) -> str:
     normalized = text
     for source, target in replacements.items():
         normalized = normalized.replace(source, target)
+    normalized = re.sub(r"\\le(?![A-Za-z])", r"\\leq", normalized)
+    normalized = re.sub(r"\\ge(?![A-Za-z])", r"\\geq", normalized)
+    normalized = re.sub(r"(\\(?:leq|geq|cap|cup|int|sum))(?=[A-Za-z0-9])", r"\1 ", normalized)
     normalized = re.sub(r"\\sqrt(\d+)", r"\\sqrt{\1}", normalized)
     return normalized
 

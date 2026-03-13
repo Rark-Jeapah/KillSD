@@ -1,33 +1,86 @@
 # Release Checklist
 
-릴리즈 직전에는 benchmark harness를 `release_smoke` dataset으로 최소 1회, PDF 배포 직전에는 `--compile-pdf` 옵션으로 1회 더 실행한다. 로그인 셸 PATH가 불완전한 환경에서는 `CSAT_XELATEX_PATH`에 절대경로를 설정해 XeLaTeX를 고정한다.
+This checklist is designed to work from a clean clone and to keep all generated state inside ignored runtime directories.
+
+## Preflight
+
+- Python 3.11+ is available.
+- Optional: XeLaTeX is installed if you want the PDF compilation gate.
+- Optional: `.env` is present and sourced if you need custom runtime paths or the OpenAI provider.
+
+## Clean-Clone Command Sequence
+
+```bash
+git clone <REPO_URL> killsd
+cd killsd
+
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -e '.[dev]'
+
+if [ -f .env ]; then
+  set -a
+  source .env
+  set +a
+fi
+
+python scripts/reset_runtime_state.py
+pytest
+
+python scripts/run_benchmark.py --dataset data/benchmarks/csat_math_2028/release_smoke.json
+
+python -m src.cli.main distill validate-source \
+  --source-path data/source_fixtures/csat_math_2028/sample_items.json
+
+python -m src.cli.main distill run \
+  --source-path data/source_fixtures/csat_math_2028/sample_items.json \
+  --output-dir out/release_check/distilled
+
+python -m src.cli.main show-spec
+python -m src.cli.main build-blueprint --run-id release-check
+python -m src.cli.main exam run --run-id release-check --mode api --provider mock
+python -m src.cli.main assemble exam --run-id release-check
+python -m src.cli.main render exam --run-id release-check --tex-only
+python -m src.cli.main render answer-key --run-id release-check --tex-only
+
+git status --short --ignored
+```
+
+## Optional PDF Gate
+
+Run this only on a machine with XeLaTeX available:
+
+```bash
+python scripts/run_benchmark.py \
+  --dataset data/benchmarks/csat_math_2028/release_smoke.json \
+  --compile-pdf
+
+python -m src.cli.main render exam --run-id release-check --compile-pdf
+python -m src.cli.main render answer-key --run-id release-check --compile-pdf
+```
+
+If `xelatex` is not on `PATH`, export `CSAT_XELATEX_PATH` before the PDF gate.
 
 ## Release Gates
 
-- 구조 오류 0
-- 정답 오류 0
-- render 오류 0
-- hard similarity collision 0
-- seed 재현 가능
-- artifact lineage 재현 가능
-- manual/api 모드 동등성 확인
+- `pytest` passes from the clean clone.
+- `scripts/run_benchmark.py` succeeds on `release_smoke`.
+- `distill validate-source` succeeds on the public synthetic fixture.
+- `distill run` writes only to ignored runtime output paths.
+- `render exam` and `render answer-key` succeed in `--tex-only` mode on a clean clone.
+- `git status --short --ignored` shows only expected ignored runtime paths after running the checklist.
 
-## Commands
+## Helper Script
+
+The same flow is available as:
 
 ```bash
-.venv/bin/python scripts/run_benchmark.py
-.venv/bin/python -m pytest tests/test_render_contracts.py tests/test_mcq_answer_key_format.py
-.venv/bin/python scripts/run_benchmark.py --compile-pdf
-CSAT_XELATEX_PATH=/absolute/path/to/xelatex .venv/bin/python scripts/run_benchmark.py --compile-pdf
+./scripts/release_checklist.sh
 ```
 
-## Audit Points
+To include the PDF gate:
 
-- benchmark report의 `attempts[*].scorecard.checks`가 모두 `passed=true`인지 확인
-- `mode_comparisons[*].equivalent=true`인지 확인
-- `reproducibility_reports[*].equivalent=true`인지 확인
-- `attempts[*].cost_summary`에 prompt 수, 문자 수, latency가 기록됐는지 확인
-- `attempts[*].scorecard.prompt_version_audit.passed=true`인지 확인
-- `attempts[*].scorecard.artifact_audit.passed=true`인지 확인
-- PDF 릴리즈 전 실행에서는 `render_result.documents[*].compiled=true`이고 `render_result.documents[*].pdf_path!=null`인지 확인
-- PDF 릴리즈 전 실행에서는 각 `attempt_*/attempt_report.json`에서도 `render_result.documents[*].compiled=true`와 `pdf_path` 존재를 직접 확인
+```bash
+./scripts/release_checklist.sh --compile-pdf
+```

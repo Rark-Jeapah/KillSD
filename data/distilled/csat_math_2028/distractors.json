@@ -1,7 +1,7 @@
 {
   "spec_id": "csat_math_2028",
   "generated_at": "2026-03-12T02:46:55.483244+00:00",
-  "source_path": "/Users/j_mac/Desktop/KillSD/data/source_fixtures/csat_math_2028/sample_items.json",
+  "source_path": "data/source_fixtures/csat_math_2028/sample_items.json",
   "distractors": [
     {
       "distractor_id": "dst-b35c3975049e",

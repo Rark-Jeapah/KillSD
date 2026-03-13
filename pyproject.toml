@@ -5,12 +5,26 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "csat-math-mvp"
 version = "0.1.0"
-description = "2028 CSAT mathematics pipeline MVP"
+description = "Open-source exam-generation core plus the public CSAT math plugin"
 readme = "README.md"
+license = { file = "LICENSE" }
 requires-python = ">=3.11"
+keywords = ["csat", "education", "exam-generation", "llm", "mathematics"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Education",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Education",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
 dependencies = [
   "fastapi>=0.115,<1.0",
   "jinja2>=3.1,<4.0",
+  "openai>=2.26,<3.0",
   "pydantic>=2.8,<3.0",
   "sympy>=1.13,<2.0",
   "typer>=0.12,<1.0",
@@ -25,6 +39,9 @@ dev = [
 [project.scripts]
 csat-math-mvp = "src.cli.main:app"
 csat = "src.cli.main:app"
+
+[project.entry-points."csat_math_mvp.plugins"]
+csat_math_2028 = "src.plugins.csat_math_2028:CSATMath2028Plugin"
 
 [tool.setuptools]
 packages = [

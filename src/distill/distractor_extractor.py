@@ -14,6 +14,7 @@ class DistractorAtom(StrictModel):
     """Reusable wrong-answer pattern used during generation and validation."""
 
     distractor_id: str
+    record_version: str | None = None
     error_type: str
     trigger: str
     wrong_move: str
@@ -21,6 +22,9 @@ class DistractorAtom(StrictModel):
     reject_if_too_obvious: bool
     topic: str
     source_item_ids: list[str] = Field(default_factory=list)
+    source_batch_ids: list[str] = Field(default_factory=list)
+    source_batch_versions: list[str] = Field(default_factory=list)
+    source_batch_hashes: list[str] = Field(default_factory=list)
 
 
 def _stable_distractor_id(
@@ -70,7 +74,16 @@ def merge_distractors(distractors: list[DistractorAtom]) -> list[DistractorAtom]
             update={
                 "source_item_ids": unique_preserve_order(
                     current.source_item_ids + distractor.source_item_ids
-                )
+                ),
+                "source_batch_ids": unique_preserve_order(
+                    current.source_batch_ids + distractor.source_batch_ids
+                ),
+                "source_batch_versions": unique_preserve_order(
+                    current.source_batch_versions + distractor.source_batch_versions
+                ),
+                "source_batch_hashes": unique_preserve_order(
+                    current.source_batch_hashes + distractor.source_batch_hashes
+                ),
             }
         )
     return sorted(merged.values(), key=lambda atom: (atom.topic, atom.error_type, atom.trigger))

@@ -44,6 +44,37 @@ RECOMMENDATION_BY_STATUS = {
 }
 
 
+def _install_fake_xelatex(
+    script_path: Path,
+    *,
+    fail_on_marker: str | None = None,
+    emit_invalid_bytes: bool = False,
+) -> None:
+    marker_check = ""
+    if fail_on_marker is not None:
+        marker_check = f"""
+if grep -q '{fail_on_marker}' "$texfile"; then
+  printf '%s\\n' '! LaTeX Error: forced validator regression failure.' >&2
+  exit 1
+fi
+"""
+    byte_output = ""
+    if emit_invalid_bytes:
+        byte_output = r"printf '\377\376non-utf8 compiler output\n' >&2"
+    script_path.write_text(
+        f"""#!/bin/sh
+texfile=""
+for arg in "$@"; do
+  texfile="$arg"
+done
+{marker_check}{byte_output}
+exit 0
+""",
+        encoding="utf-8",
+    )
+    script_path.chmod(0o755)
+
+
 def _load_fixture(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -170,3 +201,103 @@ def test_invalid_fixture_reason_codes_are_stable(fixture_path: Path, tmp_path: P
     assert report.regenerate_recommendation.value == RECOMMENDATION_BY_STATUS[fixture["expected_status"]]
     for reason_code in sorted(expected_codes):
         assert reason_code in report.summary
+
+
+def test_render_validator_fails_when_fake_xelatex_reports_compile_error(tmp_path: Path) -> None:
+    from src.validators.render_validator import validate_render
+
+    fake_xelatex = tmp_path / "bin" / "xelatex"
+    fake_xelatex.parent.mkdir(parents=True, exist_ok=True)
+    _install_fake_xelatex(fake_xelatex, fail_on_marker="FORCEXELATEXFAILURE")
+
+    solved_item = SolvedItem(
+        draft=DraftItem(
+            blueprint=_build_blueprint(
+                {
+                    "item_no": 31,
+                    "domain": "algebra",
+                    "format": "multiple_choice",
+                    "score": 3,
+                    "difficulty": "standard",
+                    "objective": "compile failure probe",
+                    "skill_tags": ["algebra"],
+                    "choice_count": 5,
+                    "answer_type": "choice_index",
+                }
+            ),
+            stem="FORCEXELATEXFAILURE",
+            choices=["1", "2", "3", "4", "5"],
+            rubric="validator regression",
+            answer_constraints=["choice_index"],
+        ),
+        final_answer="1",
+        correct_choice_index=1,
+        correct_choice_value="1",
+        solution_steps=["정상 균형을 유지한다."],
+        solution_summary="forced compile failure",
+    )
+
+    result = validate_render(
+        solved_item=solved_item,
+        asset_root=None,
+        asset_refs=[],
+        xelatex_path=str(fake_xelatex),
+    )
+
+    compile_finding = next(
+        finding for finding in result.findings if finding.check_name == "latex_compile_dry_run"
+    )
+
+    assert compile_finding.passed is False
+    assert compile_finding.reason_code == "render.latex_compile_failed"
+    assert "forced validator regression failure" in compile_finding.message
+
+
+def test_render_validator_replaces_non_utf8_compiler_output(tmp_path: Path) -> None:
+    from src.validators.render_validator import validate_render
+
+    fake_xelatex = tmp_path / "bin" / "xelatex"
+    fake_xelatex.parent.mkdir(parents=True, exist_ok=True)
+    _install_fake_xelatex(fake_xelatex, emit_invalid_bytes=True)
+
+    solved_item = SolvedItem(
+        draft=DraftItem(
+            blueprint=_build_blueprint(
+                {
+                    "item_no": 32,
+                    "domain": "algebra",
+                    "format": "multiple_choice",
+                    "score": 3,
+                    "difficulty": "standard",
+                    "objective": "decode failure probe",
+                    "skill_tags": ["algebra"],
+                    "choice_count": 5,
+                    "answer_type": "choice_index",
+                }
+            ),
+            stem="비UTF8 로그를 출력하는 컴파일러 회귀 테스트",
+            choices=["1", "2", "3", "4", "5"],
+            rubric="validator regression",
+            answer_constraints=["choice_index"],
+        ),
+        final_answer="1",
+        correct_choice_index=1,
+        correct_choice_value="1",
+        solution_steps=["정상 균형을 유지한다."],
+        solution_summary="non utf8 compiler output",
+    )
+
+    result = validate_render(
+        solved_item=solved_item,
+        asset_root=None,
+        asset_refs=[],
+        xelatex_path=str(fake_xelatex),
+    )
+
+    compile_finding = next(
+        finding for finding in result.findings if finding.check_name == "latex_compile_dry_run"
+    )
+
+    assert compile_finding.passed is True
+    assert "non-utf8 compiler output" in compile_finding.message
+    assert "\ufffd" in compile_finding.message

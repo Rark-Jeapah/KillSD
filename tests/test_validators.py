@@ -97,6 +97,40 @@ def test_format_validator_catches_non_natural_short_answer() -> None:
     assert failure.failure_level == FailureLevel.HARD
 
 
+def test_validator_suite_rejects_placeholder_wording_in_student_text() -> None:
+    spec = CSATMath2028Plugin().load_exam_spec()
+    resources = load_distilled_resources(REPO_ROOT, spec.spec_id)
+    thresholds = load_similarity_thresholds(REPO_ROOT / "config" / "similarity_thresholds.json")
+    critique_report = CritiqueReport(
+        item_no=1,
+        summary="placeholder probe",
+        findings=[],
+        requires_revision=False,
+    )
+    solved_item = _solved_item(
+        stem="로그식을 평가하는 모의 문항 1번이다.",
+        choices=["1", "2", "3", "4", "5"],
+        final_answer="4",
+    )
+    context = ValidationContext(
+        spec=spec,
+        solved_item=solved_item,
+        critique_report=critique_report,
+        resources=resources,
+        similarity_thresholds=thresholds,
+    )
+
+    suite_report, validated_item = run_validator_suite(context=context)
+
+    failure = next(
+        finding for finding in suite_report.final_report.findings if finding.reason_code == "format.placeholder_wording"
+    )
+    assert failure.passed is False
+    assert failure.failure_level == FailureLevel.HARD
+    assert suite_report.final_report.status == ValidationStatus.FAIL
+    assert validated_item.approval_status.value == "rejected"
+
+
 def test_curriculum_validator_detects_forbidden_topic() -> None:
     spec = CSATMath2028Plugin().load_exam_spec()
     solved_item = _solved_item(
@@ -180,6 +214,27 @@ def test_render_validator_detects_broken_math_and_missing_assets() -> None:
     failed_codes = {finding.reason_code for finding in result.findings if not finding.passed}
     assert "render.unbalanced_inline_math" in failed_codes
     assert "render.missing_diagram_asset" in failed_codes
+
+
+def test_render_validator_skips_compile_when_xelatex_is_unavailable(monkeypatch) -> None:
+    monkeypatch.delenv("CSAT_XELATEX_PATH", raising=False)
+    monkeypatch.setattr("src.validators.render_validator.shutil.which", lambda _: None)
+
+    result = validate_render(
+        solved_item=_solved_item(stem="한글 문장과 수식 x+1을 함께 포함한 문항이다."),
+        asset_root=None,
+        asset_refs=[],
+    )
+
+    compile_finding = next(
+        finding for finding in result.findings if finding.check_name == "latex_compile_dry_run"
+    )
+    failed_codes = {finding.reason_code for finding in result.findings if not finding.passed}
+
+    assert compile_finding.passed is True
+    assert compile_finding.reason_code == "render.latex_compile_ok"
+    assert "compile dry-run skipped" in compile_finding.message
+    assert "render.latex_compile_failed" not in failed_codes
 
 
 def test_difficulty_estimator_and_suite_report() -> None:

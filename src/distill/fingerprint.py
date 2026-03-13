@@ -18,6 +18,7 @@ class ItemFingerprint(StrictModel):
     """Fingerprint payload for one item card."""
 
     fingerprint_id: str
+    record_version: str | None = None
     source_item_id: str
     card_id: str
     topic: str
@@ -26,6 +27,9 @@ class ItemFingerprint(StrictModel):
     shingle_signature: list[str] = Field(default_factory=list)
     simhash64: str
     concept_signature: list[str] = Field(default_factory=list)
+    source_batch_ids: list[str] = Field(default_factory=list)
+    source_batch_versions: list[str] = Field(default_factory=list)
+    source_batch_hashes: list[str] = Field(default_factory=list)
 
 
 class NearDuplicateCandidate(StrictModel):
@@ -107,6 +111,9 @@ def build_item_fingerprint(item_card: ItemCard) -> ItemFingerprint:
         concept_signature=unique_preserve_order(
             [item_card.subject_area, item_card.topic] + item_card.subtopics + item_card.diagram_tags
         ),
+        source_batch_ids=item_card.source_batch_ids,
+        source_batch_versions=item_card.source_batch_versions,
+        source_batch_hashes=item_card.source_batch_hashes,
     )
 
 

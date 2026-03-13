@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any
 from uuid import uuid4
 
-from pydantic import Field
+from pydantic import Field, model_validator
 
 from src.config.settings import get_settings
 from src.core.schemas import (
@@ -79,6 +79,8 @@ class MiniAlphaCandidateInput(StrictModel):
     validated_item_path: str
     validator_report_path: str | None = None
     source_run_id: str | None = None
+    source_atom_id: str | None = None
+    family_id: str | None = None
     source_item_id: str | None = None
     source_item_no: int | None = None
     atom_signatures: list[str] = Field(default_factory=list)
@@ -90,7 +92,22 @@ class MiniAlphaManifestInput(StrictModel):
 
     spec_id: str = "csat_math_2028"
     title: str = "CSAT Math Mini Alpha"
+    slots: list[MiniAlphaSlotSpec] | None = None
     candidates: list[MiniAlphaCandidateInput]
+
+    @model_validator(mode="after")
+    def validate_manifest(self) -> "MiniAlphaManifestInput":
+        """Ensure candidate ids exist and optional slot numbering stays contiguous."""
+        if not self.candidates:
+            raise ValueError("candidates must not be empty")
+        if self.slots is None:
+            return self
+        if not self.slots:
+            raise ValueError("slots must not be empty when provided")
+        slot_numbers = [slot.slot_no for slot in self.slots]
+        if sorted(slot_numbers) != list(range(1, len(slot_numbers) + 1)):
+            raise ValueError("slots must use contiguous slot_no values starting at 1")
+        return self
 
 
 class MiniAlphaSlotSpec(StrictModel):
@@ -111,6 +128,8 @@ class MiniAlphaCandidate(StrictModel):
 
     candidate_id: str
     source_run_id: str | None = None
+    source_atom_id: str | None = None
+    family_id: str | None = None
     source_item_id: str | None = None
     source_item_no: int | None = None
     validated_item: ValidatedItem
@@ -139,6 +158,9 @@ class MiniAlphaSelectionRecord(StrictModel):
 
     slot: MiniAlphaSlotSpec
     candidate_id: str
+    source_atom_id: str | None = None
+    family_id: str | None = None
+    source_item_id: str | None = None
     source_item_no: int | None = None
     atom_signatures: list[str] = Field(default_factory=list)
     distractor_signatures: list[str] = Field(default_factory=list)
@@ -182,6 +204,9 @@ class MiniAlphaRegenerateCandidate(StrictModel):
 
     item_no: int
     candidate_id: str
+    source_atom_id: str | None = None
+    family_id: str | None = None
+    source_item_id: str | None = None
     source_item_no: int | None = None
     decision: HumanReviewDecision
     reasons: list[str] = Field(default_factory=list)
@@ -494,6 +519,9 @@ def _review_packet_text(
                 "",
                 f"## Item {record.slot.slot_no}",
                 f"- candidate_id: `{record.candidate_id}`",
+                f"- source_atom_id: `{record.source_atom_id}`",
+                f"- family_id: `{record.family_id}`",
+                f"- source_item_id: `{record.source_item_id}`",
                 f"- source_item_no: `{record.source_item_no}`",
                 f"- sampled_from_item_no: `{record.slot.sampled_from_item_no}`",
                 f"- domain: `{record.slot.domain}`",
@@ -592,6 +620,9 @@ def _build_regenerate_candidates(
             MiniAlphaRegenerateCandidate(
                 item_no=review.item_no,
                 candidate_id=review.candidate_id,
+                source_atom_id=selection.source_atom_id,
+                family_id=selection.family_id,
+                source_item_id=selection.source_item_id,
                 source_item_no=selection.source_item_no,
                 decision=review.decision,
                 reasons=review.reasons,
@@ -678,6 +709,8 @@ class MiniAlphaAssembler:
                 MiniAlphaCandidate(
                     candidate_id=entry.candidate_id,
                     source_run_id=entry.source_run_id,
+                    source_atom_id=entry.source_atom_id,
+                    family_id=entry.family_id,
                     source_item_id=entry.source_item_id,
                     source_item_no=entry.source_item_no
                     or validated_item.solved.draft.blueprint.item_no,
@@ -733,6 +766,9 @@ class MiniAlphaAssembler:
             if reasons:
                 outcomes[candidate.candidate_id] = CandidateOutcomeRecord(
                     candidate_id=candidate.candidate_id,
+                    source_atom_id=candidate.source_atom_id,
+                    family_id=candidate.family_id,
+                    source_item_id=candidate.source_item_id,
                     source_item_no=candidate.source_item_no,
                     domain=blueprint.domain,
                     difficulty=blueprint.difficulty.value,
@@ -743,6 +779,9 @@ class MiniAlphaAssembler:
             if key not in slot_keys:
                 outcomes[candidate.candidate_id] = CandidateOutcomeRecord(
                     candidate_id=candidate.candidate_id,
+                    source_atom_id=candidate.source_atom_id,
+                    family_id=candidate.family_id,
+                    source_item_id=candidate.source_item_id,
                     source_item_no=candidate.source_item_no,
                     domain=blueprint.domain,
                     difficulty=blueprint.difficulty.value,
@@ -752,6 +791,9 @@ class MiniAlphaAssembler:
                 continue
             outcomes[candidate.candidate_id] = CandidateOutcomeRecord(
                 candidate_id=candidate.candidate_id,
+                source_atom_id=candidate.source_atom_id,
+                family_id=candidate.family_id,
+                source_item_id=candidate.source_item_id,
                 source_item_no=candidate.source_item_no,
                 domain=blueprint.domain,
                 difficulty=blueprint.difficulty.value,
@@ -916,7 +958,10 @@ class MiniAlphaAssembler:
             self.verify_real_item_gate(real_item_validation_path)
 
         output_dir.mkdir(parents=True, exist_ok=True)
-        slots = _sample_blueprints(self.spec, sample_size=10)
+        slots = sorted(
+            manifest.slots or _sample_blueprints(self.spec, sample_size=10),
+            key=lambda slot: slot.slot_no,
+        )
         candidates = self.load_candidates(manifest)
         clean_candidates, outcome_map = self._candidate_outcomes(candidates, slots)
         selected_pairs = self._select_candidates(slots=slots, candidates=clean_candidates)
@@ -928,6 +973,9 @@ class MiniAlphaAssembler:
         for slot, candidate in selected_pairs:
             outcome_map[candidate.candidate_id] = CandidateOutcomeRecord(
                 candidate_id=candidate.candidate_id,
+                source_atom_id=candidate.source_atom_id,
+                family_id=candidate.family_id,
+                source_item_id=candidate.source_item_id,
                 source_item_no=candidate.source_item_no,
                 target_item_no=slot.slot_no,
                 domain=slot.domain,
@@ -942,6 +990,9 @@ class MiniAlphaAssembler:
                 MiniAlphaSelectionRecord(
                     slot=slot,
                     candidate_id=candidate.candidate_id,
+                    source_atom_id=candidate.source_atom_id,
+                    family_id=candidate.family_id,
+                    source_item_id=candidate.source_item_id,
                     source_item_no=candidate.source_item_no,
                     atom_signatures=candidate.atom_signatures,
                     distractor_signatures=candidate.distractor_signatures,

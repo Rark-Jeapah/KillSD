@@ -1,8 +1,8 @@
 {
   "spec_id": "csat_math_2028",
   "generated_at": "2026-03-12T02:46:55.484738+00:00",
-  "source_path": "/Users/j_mac/Desktop/KillSD/data/source_fixtures/csat_math_2028/sample_items.json",
-  "output_dir": "/Users/j_mac/Desktop/KillSD/data/distilled/csat_math_2028",
+  "source_path": "data/source_fixtures/csat_math_2028/sample_items.json",
+  "output_dir": "data/distilled/csat_math_2028",
   "counts": {
     "source_items": 5,
     "item_cards": 5,

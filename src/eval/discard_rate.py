@@ -33,6 +33,9 @@ class CandidateOutcomeRecord(StrictModel):
     """Outcome and rationale for a candidate considered during assembly."""
 
     candidate_id: str
+    source_atom_id: str | None = None
+    family_id: str | None = None
+    source_item_id: str | None = None
     source_item_no: int | None = None
     target_item_no: int | None = None
     domain: str

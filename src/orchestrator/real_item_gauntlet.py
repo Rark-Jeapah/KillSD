@@ -1,11 +1,13 @@
-"""Single-item gauntlet for the first non-placeholder real math item."""
+"""Registry-driven single-item gauntlet for deterministic real math item families."""
 
 from __future__ import annotations
 
 import json
+import re
 import shutil
 import subprocess
 from dataclasses import dataclass
+from math import gcd
 from pathlib import Path
 from time import perf_counter
 from typing import Any
@@ -14,12 +16,9 @@ from pydantic import BaseModel, Field
 
 from src.core.schemas import (
     ApprovalStatus,
-    CritiqueFinding,
     CritiqueReport,
-    DifficultyBand,
     DraftItem,
     ExamMode,
-    FailureLevel,
     ItemBlueprint,
     ItemFormat,
     PipelineStage,
@@ -38,6 +37,12 @@ from src.distill.atom_extractor import InsightAtom
 from src.eval.cost_logger import CostLogger, CostSummary
 from src.eval.review_sheet import write_review_sheet
 from src.orchestrator.api_mode import ApiModeExecutor
+from src.orchestrator.real_item_families import (
+    RealItemFamily,
+    RealItemFamilyRegistry,
+    RealItemFamilySelectionError,
+    build_real_item_family_registry,
+)
 from src.orchestrator.manual_mode import ManualModeController, ManualModeError
 from src.orchestrator.state_machine import RunStatus, StageExecutionRecord, StageExecutionStatus
 from src.orchestrator.stages import build_prompt_packet, load_prompt_template
@@ -85,6 +90,8 @@ REASONING_MARKERS = (
     "접선",
     "전구간",
 )
+POSITIVE_INTEGER_PATTERN = re.compile(r"^[1-9]\d*$")
+REDUCED_FRACTION_PATTERN = re.compile(r"^[1-9]\d*/[1-9]\d*$")
 
 
 @dataclass(frozen=True)
@@ -191,6 +198,7 @@ class RealItemGauntletState(StrictModel):
     run_id: str
     item_id: str = REAL_ITEM_ID
     atom_id: str
+    family_id: str | None = None
     mode: ExamMode
     seed: int
     output_dir: str
@@ -240,16 +248,18 @@ class RealItemGauntletResult(StrictModel):
 
 
 class RealItemProvider(BaseProvider):
-    """Deterministic provider that emits one real item with measured usage."""
+    """Deterministic provider that emits one registered real-item family with measured usage."""
 
     provider_name = "real_item_provider"
 
     def __init__(
         self,
         *,
+        family_registry: RealItemFamilyRegistry | None = None,
         prompt_usd_per_1k_chars: float = 0.00035,
         completion_usd_per_1k_chars: float = 0.00085,
     ) -> None:
+        self.family_registry = family_registry or build_real_item_family_registry()
         self.prompt_usd_per_1k_chars = prompt_usd_per_1k_chars
         self.completion_usd_per_1k_chars = completion_usd_per_1k_chars
 
@@ -285,22 +295,24 @@ class RealItemProvider(BaseProvider):
         )
 
     def _render_stage_output(self, packet: PromptPacket) -> dict[str, Any]:
+        family = self.family_registry.resolve_for_context(packet.context)
+        atom = _atom_from_context(packet.context)
         if packet.stage_name == "draft_item":
             blueprint = ItemBlueprint.model_validate(packet.context["item_blueprint"])
-            return _build_initial_draft(blueprint).model_dump(mode="json")
+            return family.draft_strategy(blueprint, atom).model_dump(mode="json")
 
         if packet.stage_name == "solve":
             draft = DraftItem.model_validate(packet.context["draft_item"])
-            return _build_initial_solution(draft).model_dump(mode="json")
+            return family.solve_strategy(draft, atom).model_dump(mode="json")
 
         if packet.stage_name == "critique":
             solved = SolvedItem.model_validate(packet.context["solved_item"])
-            return _build_critique(solved).model_dump(mode="json")
+            return family.critique_strategy(solved, atom).model_dump(mode="json")
 
         if packet.stage_name == "revise":
             solved = SolvedItem.model_validate(packet.context["solved_item"])
             critique = CritiqueReport.model_validate(packet.context["critique_report"])
-            return _build_revised_solution(solved, critique).model_dump(mode="json")
+            return family.revise_strategy(solved, critique, atom).model_dump(mode="json")
 
         raise ProviderError(f"Unsupported real-item stage: {packet.stage_name}")
 
@@ -319,100 +331,37 @@ def load_insight_atom(*, repo_root: Path, atom_id: str) -> InsightAtom:
     raise ValueError(f"Atom not found: {atom_id}")
 
 
-def _build_item_blueprint(*, spec, atom: InsightAtom) -> ItemBlueprint:
-    """Derive the supported real-item blueprint from a single atom input."""
-    if atom.topic != "derivative_monotonicity" or "choice_index" not in atom.allowed_answer_forms:
-        raise ValueError(
-            "real_item_001 currently supports derivative_monotonicity atoms with choice_index answers"
+def _atom_from_context(context: dict[str, Any]) -> InsightAtom:
+    if "atom" in context:
+        return InsightAtom.model_validate(context["atom"])
+    if "draft_item" in context:
+        draft = DraftItem.model_validate(context["draft_item"])
+        return InsightAtom(
+            atom_id=f"inferred-{draft.blueprint.item_no}",
+            label=draft.blueprint.objective,
+            topic=draft.blueprint.objective,
+            prerequisites=draft.blueprint.skill_tags,
+            allowed_answer_forms=draft.answer_constraints,
         )
-
-    slot = next(
-        blueprint
-        for blueprint in spec.default_item_blueprints
-        if blueprint.item_no == 14
-    )
-    skill_tags = ["derivative", "monotonicity", "quadratic_vertex_check"]
-    for prerequisite in atom.prerequisites:
-        normalized = prerequisite.replace(" ", "_").lower()
-        if normalized not in skill_tags:
-            skill_tags.append(normalized)
-
-    return slot.model_copy(
-        update={
-            "objective": "도함수의 부호와 꼭짓점 판단",
-            "skill_tags": skill_tags,
-            "answer_type": "choice_index",
-        }
-    )
-
-
-def _build_initial_draft(blueprint: ItemBlueprint) -> DraftItem:
-    """Create the first real draft before critique/revision."""
-    return DraftItem(
-        blueprint=blueprint,
-        stem=(
-            "매개변수 a에 대하여 곡선 y=x^3-6x^2+ax의 접선 기울기가 "
-            "어떤 실수 x에서도 음수가 되지 않게 하려 한다. 이에 필요한 조건은?"
-        ),
-        choices=["a <= 12", "a = 12", "a >= 3", "a >= 12", "a <= 3"],
-        rubric="도함수의 최솟값을 이용해 전구간 부호 조건을 판정한다.",
-        answer_constraints=["choice_index"],
-    )
-
-
-def _build_initial_solution(draft: DraftItem) -> SolvedItem:
-    """Attach an explicit, fully worked solution to the draft."""
-    return SolvedItem(
-        draft=draft,
-        final_answer="4",
-        correct_choice_index=4,
-        correct_choice_value=draft.choices[3],
-        solution_steps=[
-            "접선 기울기가 항상 음수가 아니어야 하므로 모든 실수 x에 대해 y'=3x^2-12x+a >= 0 이어야 한다.",
-            "도함수 y'를 y'=3(x-2)^2+(a-12)로 고치면 최솟값은 x=2에서 a-12임을 바로 알 수 있다.",
-            "전구간에서 0 이상이 되려면 최솟값 a-12가 0 이상이어야 하므로 a >= 12이다.",
-            "따라서 조건에 맞는 선택지는 4번 a >= 12이다.",
-        ],
-        solution_summary="도함수를 완전제곱식으로 바꾸어 최솟값을 확인하면 매개변수 조건이 정해진다.",
-    )
-
-
-def _build_critique(solved: SolvedItem) -> CritiqueReport:
-    """Emit one meaningful revision request so the full chain exercises revise."""
-    return CritiqueReport(
-        item_no=solved.draft.blueprint.item_no,
-        summary="핵심 수학은 타당하지만 선지 부등호 표기를 수식형으로 통일하는 편이 낫다.",
-        findings=[
-            CritiqueFinding(
-                severity=ValidationSeverity.WARNING,
-                message="선지에 <=, >=가 섞여 있어 최종 렌더에서 수식 일관성이 떨어질 수 있다.",
-                recommendation="부등호를 \\le, \\ge 표기로 통일해 최종본을 다시 저장한다.",
-                blocking=False,
-            )
-        ],
-        requires_revision=True,
-    )
-
-
-def _build_revised_solution(solved: SolvedItem, critique: CritiqueReport) -> SolvedItem:
-    """Apply the critique recommendation without altering the mathematics."""
-    del critique
-    revised_choices = ["a \\le 12", "a=12", "a \\ge 3", "a \\ge 12", "a \\le 3"]
-    revised_draft = solved.draft.model_copy(update={"choices": revised_choices})
-    return solved.model_copy(
-        update={
-            "draft": revised_draft,
-            "correct_choice_value": revised_choices[3],
-            "solution_steps": [
-                "접선 기울기가 항상 음수가 아니어야 하므로 모든 실수 x에 대해 y'=3x^2-12x+a \\ge 0 이어야 한다.",
-                "도함수 y'를 y'=3(x-2)^2+(a-12)로 고치면 최솟값은 x=2에서 a-12임을 바로 알 수 있다.",
-                "전구간에서 0 이상이 되려면 최솟값 a-12가 0 이상이어야 하므로 a \\ge 12이다.",
-                "따라서 조건에 맞는 선택지는 4번 a \\ge 12이다.",
-            ],
-            "solution_summary": "도함수를 완전제곱식으로 정리해 최솟값 조건을 읽으면 a \\ge 12가 곧바로 나온다.",
-        }
-    )
-
+    if "solved_item" in context:
+        solved = SolvedItem.model_validate(context["solved_item"])
+        return InsightAtom(
+            atom_id=f"inferred-{solved.draft.blueprint.item_no}",
+            label=solved.draft.blueprint.objective,
+            topic=solved.draft.blueprint.objective,
+            prerequisites=solved.draft.blueprint.skill_tags,
+            allowed_answer_forms=solved.draft.answer_constraints,
+        )
+    if "item_blueprint" in context:
+        blueprint = ItemBlueprint.model_validate(context["item_blueprint"])
+        return InsightAtom(
+            atom_id=f"inferred-{blueprint.item_no}",
+            label=blueprint.objective,
+            topic=blueprint.objective,
+            prerequisites=blueprint.skill_tags,
+            allowed_answer_forms=[blueprint.answer_type],
+        )
+    raise ProviderError("Unable to infer atom context for real-item family execution")
 
 def _student_artifact(*, run_id: str, solved_item: SolvedItem) -> RealItemStudentArtifact:
     blueprint = solved_item.draft.blueprint
@@ -444,6 +393,39 @@ def _contains_pattern(values: list[str], patterns: tuple[str, ...]) -> tuple[boo
     return not hits, hits
 
 
+def _short_answer_matches_constraint(solved_item: SolvedItem) -> bool:
+    answer = solved_item.final_answer.strip()
+    answer_type = solved_item.draft.blueprint.answer_type
+    if solved_item.draft.blueprint.format != ItemFormat.SHORT_ANSWER:
+        return True
+    if answer_type == "reduced_fraction":
+        if not REDUCED_FRACTION_PATTERN.match(answer):
+            return False
+        numerator, denominator = (int(part) for part in answer.split("/", maxsplit=1))
+        return gcd(numerator, denominator) == 1
+    if answer_type in {"natural_number", "numeric", "integer", "symbolic_or_numeric"}:
+        return bool(POSITIVE_INTEGER_PATTERN.match(answer))
+    return bool(answer)
+
+
+def _mcq_distractor_context(solved_item: SolvedItem) -> list[dict[str, Any]]:
+    if solved_item.draft.blueprint.format != ItemFormat.MULTIPLE_CHOICE:
+        return []
+    correct_index = solved_item.correct_choice_index
+    distractors: list[dict[str, Any]] = []
+    for index, choice in enumerate(solved_item.draft.choices, start=1):
+        if correct_index is not None and index == correct_index:
+            continue
+        distractors.append(
+            {
+                "choice_index": index,
+                "choice_text": choice,
+                "rationale": "정답과 구별되는 독립 선택지로 유지되었다.",
+            }
+        )
+    return distractors
+
+
 def _custom_checks(
     *,
     solved_item: SolvedItem,
@@ -463,42 +445,13 @@ def _custom_checks(
         for step in solved_item.solution_steps
         if any(marker in step for marker in REASONING_MARKERS)
     ]
-    mcq_passed = (
-        solved_item.draft.blueprint.format == ItemFormat.MULTIPLE_CHOICE
-        and solved_item.correct_choice_index is not None
+    mcq_passed = solved_item.draft.blueprint.format != ItemFormat.MULTIPLE_CHOICE or (
+        solved_item.correct_choice_index is not None
         and 1 <= solved_item.correct_choice_index <= 5
         and solved_item.final_answer == str(solved_item.correct_choice_index)
     )
-    short_answer_passed = True
-    if solved_item.draft.blueprint.format == ItemFormat.SHORT_ANSWER:
-        short_answer_passed = bool(solved_item.final_answer.strip().isdigit())
-
-    distractor_notes = [
-        {
-            "choice_index": 1,
-            "choice_text": solved_item.draft.choices[0],
-            "rationale": "정답 조건을 y' <= 0으로 뒤집으면 a \\le 12처럼 보일 수 있다.",
-            "source_error_type": "sign_condition_flip",
-        },
-        {
-            "choice_index": 2,
-            "choice_text": solved_item.draft.choices[1],
-            "rationale": "꼭짓점에서 y'=0이면 충분하다고 착각하면 경계값 a=12만 남긴다.",
-            "source_error_type": "local_global_confusion",
-        },
-        {
-            "choice_index": 3,
-            "choice_text": solved_item.draft.choices[2],
-            "rationale": "꼭짓점 x=2 대신 x=1을 대입하면 a \\ge 3 같은 오답이 나온다.",
-            "source_error_type": "vertex_substitution_slip",
-        },
-        {
-            "choice_index": 5,
-            "choice_text": solved_item.draft.choices[4],
-            "rationale": "조건 방향을 잘못 읽고 꼭짓점 대입까지 섞이면 a \\le 3처럼 오답을 고를 수 있다.",
-            "source_error_type": "direction_misread",
-        },
-    ]
+    short_answer_passed = _short_answer_matches_constraint(solved_item)
+    distractor_notes = _mcq_distractor_context(solved_item)
     distractors_passed = (
         solved_item.draft.blueprint.format != ItemFormat.MULTIPLE_CHOICE
         or (
@@ -520,10 +473,11 @@ def _custom_checks(
         RealItemCheck(
             check_name="short_answer_form_constraint",
             passed=short_answer_passed,
-            message="단답형이면 자연수 정답 형식 제약을 통과해야 한다.",
-            recommendation="단답형 정답 형식을 자연수로 다시 맞춘다."
+            message="단답형이면 blueprint.answer_type에 맞는 정답 형식 제약을 통과해야 한다.",
+            recommendation="단답형 정답 형식을 blueprint.answer_type에 맞게 다시 맞춘다."
             if not short_answer_passed
             else None,
+            context={"answer_type": solved_item.draft.blueprint.answer_type},
         ),
         RealItemCheck(
             check_name="no_internal_metadata_leak",
@@ -619,11 +573,15 @@ def _render_item_tex(*, solved_item: SolvedItem, output_path: Path) -> Path:
         r"\begin{document}",
         rf"\textbf{{문항 {blueprint.item_no}.}} \hfill \textbf{{{blueprint.score}점}}\\",
         escape_latex(solved_item.draft.stem) + r"\\",
-        r"\begin{enumerate}[label=\arabic*), leftmargin=2.4em]",
     ]
-    for choice in solved_item.draft.choices:
-        lines.append(rf"\item {escape_latex(choice)}")
-    lines.extend([r"\end{enumerate}", r"\end{document}"])
+    if solved_item.draft.choices:
+        lines.append(r"\begin{enumerate}[label=\arabic*), leftmargin=2.4em]")
+        for choice in solved_item.draft.choices:
+            lines.append(rf"\item {escape_latex(choice)}")
+        lines.append(r"\end{enumerate}")
+    else:
+        lines.extend([r"\vspace{1em}", r"\textbf{답:}\enspace\underline{\hspace{4cm}}"])
+    lines.append(r"\end{document}")
     output_path.write_text("\n".join(lines), encoding="utf-8")
     return output_path
 
@@ -707,19 +665,19 @@ def _render_item_pdf(*, solved_item: SolvedItem, output_dir: Path, xelatex_path:
     fallback_lines = [
         "Real Item 001",
         f"Item {solved_item.draft.blueprint.item_no} ({solved_item.draft.blueprint.score} pts)",
-        "Find the condition on a so the tangent slope is never negative.",
-        "y = x^3 - 6x^2 + a x",
-        "1. a <= 12",
-        "2. a = 12",
-        "3. a >= 3",
-        "4. a >= 12",
-        "5. a <= 3",
+        solved_item.draft.stem,
     ]
+    if solved_item.draft.choices:
+        fallback_lines.extend(
+            f"{index}. {choice}" for index, choice in enumerate(solved_item.draft.choices, start=1)
+        )
+    else:
+        fallback_lines.append("Short answer")
     return _write_minimal_pdf(lines=fallback_lines, output_path=pdf_path)
 
 
 class RealItemGauntlet:
-    """End-to-end orchestration for one distilled-atom-driven real item."""
+    """End-to-end orchestration for one distilled-atom-driven real item family."""
 
     def __init__(
         self,
@@ -727,12 +685,19 @@ class RealItemGauntlet:
         artifact_store: ArtifactStore,
         prompt_dir: Path,
         provider: BaseProvider | None = None,
+        family_registry: RealItemFamilyRegistry | None = None,
         xelatex_path: str | None = None,
     ) -> None:
         self.store = artifact_store
         self.store.initialize()
         self.prompt_dir = prompt_dir
         self.provider = provider
+        if family_registry is not None:
+            self.family_registry = family_registry
+        elif isinstance(provider, RealItemProvider):
+            self.family_registry = provider.family_registry
+        else:
+            self.family_registry = build_real_item_family_registry()
         self.api_executor = ApiModeExecutor(provider) if provider is not None else None
         self.manual_controller = ManualModeController(self.store.root_dir / "manual_exchanges")
         self.plugin = CSATMath2028Plugin()
@@ -747,6 +712,7 @@ class RealItemGauntlet:
         atom: InsightAtom,
         mode: ExamMode,
         output_dir: Path,
+        family_id: str | None = None,
         seed: int = 0,
     ) -> RealItemGauntletResult:
         """Run or resume the gauntlet until completion or manual wait."""
@@ -757,9 +723,10 @@ class RealItemGauntlet:
             seed=seed,
             output_dir=output_dir,
         )
+        family = self._resolve_family_for_state(state=state, atom=atom, requested_family_id=family_id)
         state.status = RunStatus.RUNNING
         self._bootstrap_atom(state=state, atom=atom)
-        self._bootstrap_blueprint(state=state, atom=atom)
+        self._bootstrap_blueprint(state=state, atom=atom, family=family)
 
         for stage_name in ("draft_item", "solve", "critique", "revise"):
             if not self._ensure_remote_stage(state=state, stage_name=stage_name, atom=atom):
@@ -797,6 +764,8 @@ class RealItemGauntlet:
         if state is not None:
             if state.mode != mode:
                 raise ProviderError("Existing run_id was created with a different mode")
+            if state.atom_id != atom_id:
+                raise ProviderError("Existing run_id was created with a different atom_id")
             return state
         return self._save_state(
             RealItemGauntletState(
@@ -807,6 +776,27 @@ class RealItemGauntlet:
                 output_dir=str(output_dir),
             )
         )
+
+    def _resolve_family_for_state(
+        self,
+        *,
+        state: RealItemGauntletState,
+        atom: InsightAtom,
+        requested_family_id: str | None,
+    ) -> RealItemFamily:
+        if state.family_id is not None:
+            family = self.family_registry.get(state.family_id)
+            if requested_family_id is not None and requested_family_id != family.family_id:
+                raise RealItemFamilySelectionError(
+                    "Existing run_id was created with a different real-item family: "
+                    f"stored='{family.family_id}', requested='{requested_family_id}'"
+                )
+            return family
+
+        family = self.family_registry.select_for_atom(atom, family_id=requested_family_id)
+        state.family_id = family.family_id
+        self._save_state(state)
+        return family
 
     def _bootstrap_atom(self, *, state: RealItemGauntletState, atom: InsightAtom) -> None:
         if state.atom_artifact_id is not None:
@@ -821,10 +811,16 @@ class RealItemGauntlet:
         state.atom_artifact_id = envelope.artifact_id
         self._save_state(state)
 
-    def _bootstrap_blueprint(self, *, state: RealItemGauntletState, atom: InsightAtom) -> None:
+    def _bootstrap_blueprint(
+        self,
+        *,
+        state: RealItemGauntletState,
+        atom: InsightAtom,
+        family: RealItemFamily,
+    ) -> None:
         if "item_blueprint" in state.stage_outputs:
             return
-        blueprint = _build_item_blueprint(spec=self.spec, atom=atom)
+        blueprint = family.blueprint_builder(self.spec, atom)
         envelope = self.store.save_model(
             blueprint,
             stage=PipelineStage.DESIGN,
@@ -833,6 +829,7 @@ class RealItemGauntlet:
             metadata={
                 "stage_name": "item_blueprint",
                 "source_atom_id": atom.atom_id,
+                "family_id": family.family_id,
             },
         )
         state.stage_outputs["item_blueprint"] = envelope.artifact_id
@@ -1109,6 +1106,7 @@ class RealItemGauntlet:
                 [state.stage_outputs["solve"]],
                 {
                     "real_item_id": REAL_ITEM_ID,
+                    "atom": atom_payload,
                     "solved_item": solved.model_dump(mode="json"),
                 },
             )
@@ -1119,6 +1117,7 @@ class RealItemGauntlet:
                 [state.stage_outputs["solve"], state.stage_outputs["critique"]],
                 {
                     "real_item_id": REAL_ITEM_ID,
+                    "atom": atom_payload,
                     "solved_item": solved.model_dump(mode="json"),
                     "critique_report": critique.model_dump(mode="json"),
                 },
@@ -1140,8 +1139,9 @@ class RealItemGauntlet:
             critique_report=critique,
             resources=resources,
             similarity_thresholds=thresholds,
-            expected_answer="4",
-            cross_check_answer="4",
+            expected_answer=revised.final_answer,
+            cross_check_answer=revised.final_answer,
+            xelatex_path=self.xelatex_path,
         )
         suite_report, validated_item = run_validator_suite(context=context)
         custom_checks = _custom_checks(

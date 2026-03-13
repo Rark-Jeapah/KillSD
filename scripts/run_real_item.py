@@ -1,4 +1,4 @@
-"""Run the real_item_001 gauntlet from a distilled atom input."""
+"""Run the registry-driven real_item_001 gauntlet from a distilled atom input."""
 
 from __future__ import annotations
 
@@ -29,7 +29,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--atom-id",
         default=REAL_ITEM_DEFAULT_ATOM_ID,
-        help="Distilled atom id used as the blueprint input.",
+        help="Distilled atom id used as the blueprint input and auto family selection source.",
+    )
+    parser.add_argument(
+        "--family-id",
+        default=None,
+        help="Optional explicit family override. Defaults to auto-select from atom metadata.",
     )
     parser.add_argument("--seed", type=int, default=0, help="Recorded deterministic seed.")
     parser.add_argument(
@@ -65,6 +70,7 @@ def main() -> int:
         atom=atom,
         mode=ExamMode(args.mode),
         output_dir=output_dir,
+        family_id=args.family_id,
         seed=args.seed,
     )
     print(result.model_dump_json(indent=2))

@@ -22,8 +22,8 @@ from src.eval.scorecard import (
     build_run_scorecard,
 )
 from src.orchestrator.state_machine import GenerationStateMachine, OrchestrationState
-from src.providers.base import BaseProvider, ProviderResponse
-from src.providers.mock_provider import MockProvider
+from src.providers import build_provider
+from src.providers.base import BaseProvider, ProviderError, ProviderResponse
 from src.render.contracts import RendererConfig
 from src.render.latex_renderer import LaTeXRenderer, RenderJobResult
 from src.security.secrets import SecretsResolver
@@ -307,13 +307,10 @@ class BenchmarkRunner:
         return state, responses
 
     def _build_provider(self, provider_name: str) -> BaseProvider:
-        normalized = provider_name.lower()
-        if normalized in {"mock", "mock_provider"}:
-            return MockProvider()
-        api_key = self.secrets.resolve_provider_key(normalized, required=True)
-        raise BenchmarkRunnerError(
-            f"Provider '{provider_name}' is not implemented in this MVP. Resolved key={bool(api_key)}"
-        )
+        try:
+            return build_provider(provider_name, secrets_resolver=self.secrets)
+        except ProviderError as exc:
+            raise BenchmarkRunnerError(str(exc)) from exc
 
     def _build_mode_comparisons(
         self,

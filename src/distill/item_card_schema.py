@@ -88,6 +88,7 @@ class ItemCard(StrictModel):
     """Structured distillation card derived from a source item."""
 
     card_id: str
+    record_version: str | None = None
     spec_id: str
     source_item_id: str
     source_kind: str
@@ -110,6 +111,9 @@ class ItemCard(StrictModel):
     diagram_tags: list[str] = Field(default_factory=list)
     style_notes: list[str] = Field(default_factory=list)
     source_metadata: dict[str, Any] = Field(default_factory=dict)
+    source_batch_ids: list[str] = Field(default_factory=list)
+    source_batch_versions: list[str] = Field(default_factory=list)
+    source_batch_hashes: list[str] = Field(default_factory=list)
 
 
 def unique_preserve_order(values: list[str]) -> list[str]:

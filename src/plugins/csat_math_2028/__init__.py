@@ -1,4 +1,4 @@
-"""CSAT 2028 mathematics plugin."""
+"""Public CSAT 2028 mathematics plugin shipped with the OSS release."""
 
 from __future__ import annotations
 

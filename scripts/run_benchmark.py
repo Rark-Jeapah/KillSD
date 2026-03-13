@@ -6,6 +6,7 @@ import argparse
 from pathlib import Path
 
 from src.config.settings import get_settings
+from src.core.storage import ArtifactStore
 from src.eval.benchmark_runner import BenchmarkRunner
 
 
@@ -40,7 +41,13 @@ def main() -> None:
     if not output_dir.is_absolute():
         output_dir = settings.repo_root / output_dir
 
-    runner = BenchmarkRunner()
+    runtime_root = output_dir / "runtime"
+    runner = BenchmarkRunner(
+        artifact_store=ArtifactStore(
+            root_dir=runtime_root / "artifacts",
+            db_path=runtime_root / "var" / "app.db",
+        )
+    )
     dataset = runner.load_dataset(dataset_path)
     if args.compile_pdf:
         dataset = dataset.model_copy(

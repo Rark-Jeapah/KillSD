@@ -38,12 +38,22 @@ class ArtifactIndexRecord(BaseModel):
     metadata_json: str
 
 
+class ArtifactReindexResult(BaseModel):
+    """Summary of a filesystem-driven artifact index rebuild."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    scanned_files: int
+    indexed_files: int
+    skipped_files: int
+
+
 class ArtifactStore:
     """Persist JSON artifacts to disk with a SQLite index."""
 
     def __init__(self, root_dir: Path, db_path: Path) -> None:
-        self.root_dir = root_dir
-        self.db_path = db_path
+        self.root_dir = root_dir.resolve()
+        self.db_path = db_path.resolve()
 
     def initialize(self) -> None:
         """Create directories and the SQLite schema if needed."""
@@ -91,30 +101,7 @@ class ArtifactStore:
         artifact_path.write_text(envelope.model_dump_json(indent=2), encoding="utf-8")
 
         with sqlite3.connect(self.db_path) as connection:
-            connection.execute(
-                """
-                INSERT OR REPLACE INTO artifacts (
-                    artifact_id,
-                    artifact_type,
-                    stage,
-                    run_id,
-                    spec_id,
-                    path,
-                    created_at,
-                    metadata_json
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                """,
-                (
-                    envelope.artifact_id,
-                    envelope.artifact_type,
-                    envelope.stage.value,
-                    envelope.run_id,
-                    envelope.spec_id,
-                    str(artifact_path),
-                    envelope.created_at.isoformat(),
-                    json.dumps(envelope.metadata, ensure_ascii=True, sort_keys=True),
-                ),
-            )
+            connection.execute(self._upsert_sql(), self._record_values(envelope, artifact_path))
             connection.commit()
 
         return envelope
@@ -122,7 +109,7 @@ class ArtifactStore:
     def load_artifact(self, artifact_id: str) -> ArtifactEnvelope:
         """Load an artifact envelope from the indexed filesystem path."""
         record = self._fetch_record(artifact_id)
-        path = Path(record.path)
+        path = self.resolve_indexed_path(record.path)
         if not path.exists():
             raise ArtifactNotFoundError(f"Artifact file is missing for {artifact_id}: {path}")
         try:
@@ -165,6 +152,40 @@ class ArtifactStore:
             rows = connection.execute(sql, params).fetchall()
         return [ArtifactIndexRecord.model_validate(dict(row)) for row in rows]
 
+    def rebuild_index(self) -> ArtifactReindexResult:
+        """Scan artifact_root for envelopes and rebuild the SQLite index."""
+        self.initialize()
+        scanned_files = 0
+        indexed_files = 0
+        indexed_rows: list[tuple[str, str, str, str, str, str, str, str]] = []
+
+        for artifact_path in sorted(self.root_dir.rglob("*.json")):
+            scanned_files += 1
+            envelope = self._read_indexable_envelope(artifact_path)
+            if envelope is None:
+                continue
+            indexed_rows.append(self._record_values(envelope, artifact_path))
+            indexed_files += 1
+
+        with sqlite3.connect(self.db_path) as connection:
+            connection.execute("DELETE FROM artifacts")
+            if indexed_rows:
+                connection.executemany(self._upsert_sql(), indexed_rows)
+            connection.commit()
+
+        return ArtifactReindexResult(
+            scanned_files=scanned_files,
+            indexed_files=indexed_files,
+            skipped_files=scanned_files - indexed_files,
+        )
+
+    def resolve_indexed_path(self, stored_path: str) -> Path:
+        """Resolve a stored path against artifact_root while preserving legacy absolute paths."""
+        path = Path(stored_path)
+        if path.is_absolute():
+            return path
+        return self.root_dir / path
+
     def _fetch_record(self, artifact_id: str) -> ArtifactIndexRecord:
         """Return a single index record or raise a domain-specific error."""
         self.initialize()
@@ -182,3 +203,48 @@ class ArtifactStore:
         if row is None:
             raise ArtifactNotFoundError(f"Unknown artifact_id: {artifact_id}")
         return ArtifactIndexRecord.model_validate(dict(row))
+
+    def _record_values(
+        self, envelope: ArtifactEnvelope, artifact_path: Path
+    ) -> tuple[str, str, str, str, str, str, str, str]:
+        return (
+            envelope.artifact_id,
+            envelope.artifact_type,
+            envelope.stage.value,
+            envelope.run_id,
+            envelope.spec_id,
+            self._serialize_indexed_path(artifact_path),
+            envelope.created_at.isoformat(),
+            json.dumps(envelope.metadata, ensure_ascii=True, sort_keys=True),
+        )
+
+    def _serialize_indexed_path(self, artifact_path: Path) -> str:
+        try:
+            return artifact_path.relative_to(self.root_dir).as_posix()
+        except ValueError:
+            return str(artifact_path)
+
+    def _read_indexable_envelope(self, artifact_path: Path) -> ArtifactEnvelope | None:
+        try:
+            data = json.loads(artifact_path.read_text(encoding="utf-8"))
+        except Exception:
+            return None
+        try:
+            return ArtifactEnvelope.model_validate(data)
+        except Exception:
+            return None
+
+    @staticmethod
+    def _upsert_sql() -> str:
+        return """
+            INSERT OR REPLACE INTO artifacts (
+                artifact_id,
+                artifact_type,
+                stage,
+                run_id,
+                spec_id,
+                path,
+                created_at,
+                metadata_json
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """

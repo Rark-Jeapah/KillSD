@@ -11,6 +11,7 @@ from typing import Any
 from pydantic import BaseModel
 
 from src.assembly.orderer import order_validated_items
+from src.config.settings import get_settings
 from src.core.schemas import (
     CritiqueReport,
     ExamMode,
@@ -204,6 +205,7 @@ def validate_item_locally(
     repo_root: Path,
 ) -> tuple[ValidatorSuiteReport, ValidatedItem]:
     """Run the full validator suite using distilled runtime-safe resources."""
+    settings = get_settings()
     resources = load_distilled_resources(repo_root=repo_root, spec_id=spec.spec_id)
     thresholds = load_similarity_thresholds(repo_root / "config" / "similarity_thresholds.json")
     context = ValidationContext(
@@ -212,6 +214,7 @@ def validate_item_locally(
         critique_report=critique_report,
         resources=resources,
         similarity_thresholds=thresholds,
+        xelatex_path=str(settings.xelatex_path) if settings.xelatex_path is not None else None,
     )
     return run_validator_suite(context=context)
 

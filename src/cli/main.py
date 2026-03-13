@@ -1,4 +1,4 @@
-"""Typer CLI entrypoint for the CSAT mathematics MVP."""
+"""Typer CLI entrypoint for the public CSAT math core and plugin."""
 
 from __future__ import annotations
 
@@ -14,12 +14,13 @@ from src.core.schemas import ExamMode, PipelineStage, PromptPacket
 from src.core.storage import ArtifactStore, StorageError
 from src.distill.pipeline import DistillPipeline, DistillPipelineError
 from src.orchestrator.state_machine import GenerationStateMachine, StateMachineError
-from src.plugins import get_plugin
-from src.providers.mock_provider import MockProvider
+from src.plugins import get_plugin, list_available_plugins
+from src.providers.base import ProviderError
+from src.providers.factory import build_provider
 from src.render.contracts import RendererConfig
 from src.render.latex_renderer import LaTeXRenderer, RenderJobResult
 
-app = typer.Typer(help="CSAT 2028 mathematics pipeline MVP", no_args_is_help=True)
+app = typer.Typer(help="CSAT math core CLI", no_args_is_help=True)
 exam_app = typer.Typer(help="Exam-level orchestration commands", no_args_is_help=True)
 item_app = typer.Typer(help="Item-level orchestration commands", no_args_is_help=True)
 exchange_app = typer.Typer(help="Manual exchange commands", no_args_is_help=True)
@@ -45,9 +46,10 @@ def _machine(provider_name: str | None = None) -> GenerationStateMachine:
     settings = get_settings()
     provider = None
     if provider_name:
-        if provider_name != "mock":
-            raise typer.BadParameter(f"Unsupported provider: {provider_name}")
-        provider = MockProvider()
+        try:
+            provider = build_provider(provider_name)
+        except ProviderError as exc:
+            raise typer.BadParameter(str(exc)) from exc
     return GenerationStateMachine(
         artifact_store=_store(),
         prompt_dir=settings.repo_root / "src" / "prompts",
@@ -114,6 +116,18 @@ def show_spec(spec_id: str | None = None) -> None:
     typer.echo(spec.model_dump_json(indent=2))
 
 
+@app.command("list-plugins")
+def list_plugins() -> None:
+    """List built-in and installed subject plugins."""
+    typer.echo(
+        json.dumps(
+            {"plugins": list(list_available_plugins())},
+            ensure_ascii=False,
+            indent=2,
+        )
+    )
+
+
 @app.command("build-blueprint")
 def build_blueprint(
     run_id: str = typer.Option(..., help="Logical run id used for artifact storage."),
@@ -176,7 +190,7 @@ def exam_plan(
     run_id: str = typer.Option(..., help="Logical run id."),
     mode: ExamMode = typer.Option(..., help="manual or api."),
     seed: int = typer.Option(0, help="Deterministic seed recorded in prompt packets."),
-    provider: str = typer.Option("mock", help="Provider adapter for api mode."),
+    provider: str = typer.Option("mock", help="Provider adapter for api mode: mock or openai."),
 ) -> None:
     """Run only the exam blueprint stage."""
     machine = _machine(provider if mode == ExamMode.API else None)
@@ -193,7 +207,7 @@ def exam_run(
     run_id: str = typer.Option(..., help="Logical run id."),
     mode: ExamMode = typer.Option(..., help="manual or api."),
     seed: int = typer.Option(0, help="Deterministic seed recorded in prompt packets."),
-    provider: str = typer.Option("mock", help="Provider adapter for api mode."),
+    provider: str = typer.Option("mock", help="Provider adapter for api mode: mock or openai."),
 ) -> None:
     """Run the full exam generation state machine."""
     machine = _machine(provider if mode == ExamMode.API else None)
@@ -211,7 +225,7 @@ def item_draft(
     item_no: int = typer.Option(..., min=1, max=30, help="Target item number."),
     mode: ExamMode = typer.Option(..., help="manual or api."),
     seed: int = typer.Option(0, help="Deterministic seed recorded in prompt packets."),
-    provider: str = typer.Option("mock", help="Provider adapter for api mode."),
+    provider: str = typer.Option("mock", help="Provider adapter for api mode: mock or openai."),
 ) -> None:
     """Run up to the draft stage for one item."""
     machine = _machine(provider if mode == ExamMode.API else None)
@@ -268,7 +282,7 @@ def validate_source(
     """Load and validate manual source items without writing outputs."""
     settings = get_settings()
     resolved_spec_id = spec_id or settings.default_spec_id
-    pipeline = DistillPipeline(spec_id=resolved_spec_id)
+    pipeline = DistillPipeline(spec_id=resolved_spec_id, repo_root=settings.repo_root)
     resolved_source_path = Path(source_path)
     if not resolved_source_path.is_absolute():
         resolved_source_path = settings.repo_root / resolved_source_path
@@ -283,7 +297,7 @@ def validate_source(
         json.dumps(
             {
                 "spec_id": resolved_spec_id,
-                "source_path": str(resolved_source_path),
+                "source_path": pipeline.portable_path(resolved_source_path),
                 "count": len(items),
                 "source_item_ids": [item.source_item_id for item in items],
             },
@@ -291,6 +305,33 @@ def validate_source(
             indent=2,
         )
     )
+
+
+@distill_app.command("validate-batches")
+def validate_batches(
+    batch_path: str = typer.Option(
+        ...,
+        help="Curated batch manifest file or directory containing curated batch manifests.",
+    ),
+    spec_id: str | None = typer.Option(None, help="Exam spec id."),
+) -> None:
+    """Validate curated batch manifests against their referenced JSON/JSONL payloads."""
+    settings = get_settings()
+    resolved_spec_id = spec_id or settings.default_spec_id
+    pipeline = DistillPipeline(spec_id=resolved_spec_id, repo_root=settings.repo_root)
+    resolved_batch_path = Path(batch_path)
+    if not resolved_batch_path.is_absolute():
+        resolved_batch_path = settings.repo_root / resolved_batch_path
+
+    try:
+        report = pipeline.validate_curated_batches(resolved_batch_path)
+    except DistillPipelineError as exc:
+        typer.echo(f"Curated batch validation failed: {exc}", err=True)
+        raise typer.Exit(code=1) from exc
+
+    typer.echo(json.dumps(report, ensure_ascii=False, indent=2))
+    if not report["valid"]:
+        raise typer.Exit(code=1)
 
 
 @distill_app.command("run")
@@ -318,7 +359,7 @@ def run_distill(
     if not resolved_output_dir.is_absolute():
         resolved_output_dir = settings.repo_root / resolved_output_dir
 
-    pipeline = DistillPipeline(spec_id=resolved_spec_id)
+    pipeline = DistillPipeline(spec_id=resolved_spec_id, repo_root=settings.repo_root)
     try:
         manifest = pipeline.run(
             source_path=resolved_source_path,
@@ -329,6 +370,71 @@ def run_distill(
         raise typer.Exit(code=1) from exc
 
     typer.echo(json.dumps(manifest, ensure_ascii=False, indent=2))
+
+
+@distill_app.command("run-batches")
+def run_distill_batches(
+    batch_path: str = typer.Option(
+        ...,
+        help="Curated batch manifest file or directory containing curated batch manifests.",
+    ),
+    output_dir: str | None = typer.Option(
+        None,
+        help="Directory where distilled JSON/YAML outputs will be written.",
+    ),
+    spec_id: str | None = typer.Option(None, help="Exam spec id."),
+) -> None:
+    """Run the distillation pipeline over one or more curated source batches."""
+    settings = get_settings()
+    resolved_spec_id = spec_id or settings.default_spec_id
+    resolved_batch_path = Path(batch_path)
+    if not resolved_batch_path.is_absolute():
+        resolved_batch_path = settings.repo_root / resolved_batch_path
+
+    resolved_output_dir = (
+        settings.distilled_root / resolved_spec_id if output_dir is None else Path(output_dir)
+    )
+    if not resolved_output_dir.is_absolute():
+        resolved_output_dir = settings.repo_root / resolved_output_dir
+
+    pipeline = DistillPipeline(spec_id=resolved_spec_id, repo_root=settings.repo_root)
+    try:
+        manifest = pipeline.run_batches(
+            batch_path=resolved_batch_path,
+            output_dir=resolved_output_dir,
+        )
+    except DistillPipelineError as exc:
+        typer.echo(f"Distillation failed: {exc}", err=True)
+        raise typer.Exit(code=1) from exc
+
+    typer.echo(json.dumps(manifest, ensure_ascii=False, indent=2))
+
+
+@distill_app.command("coverage-stats")
+def distill_coverage_stats(
+    distilled_dir: str | None = typer.Option(
+        None,
+        help="Directory containing distilled outputs such as item_cards.json and manifest.json.",
+    ),
+    spec_id: str | None = typer.Option(None, help="Exam spec id."),
+) -> None:
+    """Print coverage statistics for an existing distilled output directory."""
+    settings = get_settings()
+    resolved_spec_id = spec_id or settings.default_spec_id
+    resolved_distilled_dir = (
+        settings.distilled_root / resolved_spec_id if distilled_dir is None else Path(distilled_dir)
+    )
+    if not resolved_distilled_dir.is_absolute():
+        resolved_distilled_dir = settings.repo_root / resolved_distilled_dir
+
+    pipeline = DistillPipeline(spec_id=resolved_spec_id, repo_root=settings.repo_root)
+    try:
+        coverage = pipeline.coverage_stats_from_distilled_dir(resolved_distilled_dir)
+    except DistillPipelineError as exc:
+        typer.echo(f"Coverage stats failed: {exc}", err=True)
+        raise typer.Exit(code=1) from exc
+
+    typer.echo(json.dumps(coverage, ensure_ascii=False, indent=2))
 
 
 @assemble_app.command("exam")

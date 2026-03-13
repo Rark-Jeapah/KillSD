@@ -1,148 +1,137 @@
-# CSAT Math MVP
+# CSAT Math Core and Public Plugin
 
-2028학년도 수능 수학용 문항 파이프라인 MVP 리포지토리다. 목표는 한 번의 프롬프트 호출이 아니라 `문항 설계 -> 생성 -> 검증 -> 수정 -> 조립 -> PDF 렌더`로 이어지는 재현 가능한 JSON artifact 기반 파이프라인을 만드는 것이다.
+This repository publishes an open-source exam-generation pipeline core plus one public subject plugin: `csat_math_2028`.
 
-런타임은 raw source PDF를 직접 사용하지 않는다. 출제 매뉴얼, 기출, 예시문항은 오프라인 distillation 파이프라인에서만 소화되고, runtime에는 distilled JSON/YAML 데이터만 전달된다.
+The public release includes only reusable pipeline code, the CSAT math plugin/spec, and synthetic or open-source-safe fixtures. It does not include proprietary exam corpora, internal benchmark outputs, or future private plugins for other exams.
+
+## What Is In This Repository
+
+- Public pipeline core for artifact storage, orchestration, validation, rendering, benchmarking, and provider adapters.
+- Public `csat_math_2028` plugin and its canonical exam spec.
+- Synthetic source fixtures and distilled sample outputs that are safe to publish.
+- Mock-provider benchmark fixtures that work from a clean clone without API credentials.
+
+## What Is Not In This Repository
+
+- Raw copyrighted past exams or private source PDFs.
+- Machine-local runtime outputs under `artifacts/`, `out/`, or `var/`.
+- Private plugins for other exams, proprietary prompts, or internal evaluation datasets.
+
+## Public and Private Boundary
+
+- Open-source core:
+  `src/core`, `src/config`, `src/cli`, `src/orchestrator`, `src/validators`, `src/render`, `src/providers`, `src/eval`, `src/distill`, and shared prompt contracts.
+- Public subject plugin in this repo:
+  `src/plugins/csat_math_2028`, `exam_specs/csat_math_2028.yaml`, `data/source_fixtures/csat_math_2028/`, `data/distilled/csat_math_2028/`, and `data/benchmarks/csat_math_2028/release_smoke.json`.
+- Future private plugins:
+  separate packages or repos that implement `SubjectPlugin` from `src/plugins/__init__.py` and register themselves through the `csat_math_mvp.plugins` Python entry-point group.
+
+Detailed guidance lives in `docs/open_source_boundary.md`.
 
 ## Architecture
 
-- `ExamSpec`이 시험 불변 조건을 고정한다. 2028, 비선택형, 30문항, 100분, 1~21 5지선다/22~30 단답형, 2/3/4점 분포를 스키마에서 검증한다.
-- `PromptPacket`과 `ManualExchangePacket`으로 manual mode와 api mode의 데이터 계약을 통일한다.
-- 모든 중간 산출물은 JSON artifact envelope로 파일 저장되며, SQLite는 artifact 인덱스와 메타데이터만 관리한다.
-- 과목별 확장은 plugin 구조로 분리하고, 현재는 `csat_math_2028` 플러그인 하나만 제공한다.
-- PDF 렌더러는 XeLaTeX + ko.TeX 기반으로 `RenderBundle`을 입력받아 문제지, 정답표, 검증 리포트를 생성한다.
-- 오프라인 distillation은 `manual JSON/CSV -> item card -> solution graph -> insight atom/distractor atom -> fingerprint` 순서로 동작한다.
+- `ExamSpec` fixes the exam invariants for a subject plugin.
+- `PromptPacket` and `ManualExchangePacket` keep manual mode and API mode on the same data contract.
+- JSON artifact envelopes are written to disk, while SQLite stores the artifact index only.
+- Rendering consumes `RenderBundle` artifacts and produces exam papers, answer keys, and validation reports.
+- Offline distillation converts manual fixtures into runtime-safe distilled data.
 
-## Repo Tree
+## Requirements
 
-```text
-.
-├── exam_specs/
-│   └── csat_math_2028.yaml
-├── data/
-│   ├── distilled/
-│   │   └── csat_math_2028/
-│   └── source_fixtures/
-│       └── csat_math_2028/
-│           └── sample_items.json
-├── src/
-│   ├── api/
-│   │   ├── __init__.py
-│   │   └── app.py
-│   ├── cli/
-│   │   ├── __init__.py
-│   │   └── main.py
-│   ├── config/
-│   │   ├── __init__.py
-│   │   └── settings.py
-│   ├── core/
-│   │   ├── __init__.py
-│   │   ├── artifacts.py
-│   │   ├── schemas.py
-│   │   ├── specs.py
-│   │   └── storage.py
-│   ├── distill/
-│   │   ├── __init__.py
-│   │   ├── atom_extractor.py
-│   │   ├── distractor_extractor.py
-│   │   ├── fingerprint.py
-│   │   ├── item_card_schema.py
-│   │   ├── pipeline.py
-│   │   └── solution_graph.py
-│   ├── plugins/
-│   │   ├── __init__.py
-│   │   └── csat_math_2028/
-│   │       └── __init__.py
-│   └── __init__.py
-├── tests/
-│   ├── test_distill_pipeline.py
-│   ├── test_exam_spec.py
-│   └── test_schemas.py
-├── pyproject.toml
-└── README.md
-```
+- Python 3.11+
+- macOS or Linux shell environment
+- Optional: XeLaTeX for PDF compilation
+- Optional: `OPENAI_API_KEY` only if you want to use the OpenAI provider instead of the mock provider
 
-## Core Models
-
-- `ExamSpec`: 시험 고정 조건과 기본 item blueprint 집합
-- `ExamBlueprint`: 실제 실행 런에서 사용할 설계 청사진
-- `ItemBlueprint`: 문항 수준 계획 단위
-- `DraftItem`: 생성 단계 산출물
-- `SolvedItem`: 풀이 및 정답 포함 산출물
-- `ValidationReport`: 자동/수동 검증 결과
-- `ValidatedItem`: 검증과 승인 상태가 결합된 문항
-- `RenderBundle`: 향후 PDF 렌더러 입력 묶음
-- `PromptPacket`: manual/api 공용 프롬프트 실행 계약
-- `ManualExchangePacket`: 수동 운영자 응답을 감싼 계약
-- `ItemCard`: source item을 runtime-safe 구조로 재구성한 카드
-- `SolutionGraph`: 풀이를 의존 그래프로 표현한 구조
-- `InsightAtom`: 정답 풀이용 재사용 reasoning atom
-- `DistractorAtom`: 오답 유도용 재사용 atom
-- `ItemFingerprint`: near-duplicate 탐지용 시그니처
-
-## Quickstart
+## Quick Start From A Clean Clone
 
 ```bash
-python -m pip install -e .[dev]
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -e '.[dev]'
+cp .env.example .env
+set -a
+source .env
+set +a
+
+python scripts/reset_runtime_state.py
 pytest
-python -m src.cli.main init-storage
+
 python -m src.cli.main show-spec
 python -m src.cli.main build-blueprint --run-id demo-run
-python -m src.cli.main exam run --run-id demo-run --mode api
+python -m src.cli.main exam run --run-id demo-run --mode api --provider mock
 python -m src.cli.main assemble exam --run-id demo-run
-python -m src.cli.main render exam --run-id demo-run
-python -m src.cli.main render answer-key --run-id demo-run
-python -m src.cli.main distill validate-source --source-path data/source_fixtures/csat_math_2028/sample_items.json
-python -m src.cli.main distill run --source-path data/source_fixtures/csat_math_2028/sample_items.json
-uvicorn src.api.app:app --reload
-```
+python -m src.cli.main render exam --run-id demo-run --tex-only
+python -m src.cli.main render answer-key --run-id demo-run --tex-only
 
-## Distill CLI
-
-```bash
 python -m src.cli.main distill validate-source \
   --source-path data/source_fixtures/csat_math_2028/sample_items.json
 
 python -m src.cli.main distill run \
   --source-path data/source_fixtures/csat_math_2028/sample_items.json \
-  --output-dir data/distilled/csat_math_2028
+  --output-dir out/demo-distilled
+
+python scripts/run_benchmark.py --dataset data/benchmarks/csat_math_2028/release_smoke.json
+uvicorn src.api.app:app --reload
 ```
 
-생성 결과:
+Notes:
 
-- `data/distilled/csat_math_2028/atoms.json`
-- `data/distilled/csat_math_2028/distractors.json`
-- `data/distilled/csat_math_2028/topic_graph.json`
-- `data/distilled/csat_math_2028/diagram_templates.json`
-- `data/distilled/csat_math_2028/style_rules.yaml`
-- `data/distilled/csat_math_2028/fingerprints.json`
+- The repository does not auto-load `.env`; source it in your shell if you use it.
+- The clean-clone smoke path uses the mock provider, so no API key is required.
+- `--tex-only` skips XeLaTeX compilation and still verifies the render pipeline plus manifest generation.
 
-추가 산출물:
+More detailed setup guidance lives in `docs/bootstrap.md`.
 
-- `data/distilled/csat_math_2028/item_cards.json`
-- `data/distilled/csat_math_2028/solution_graphs.json`
-- `data/distilled/csat_math_2028/manifest.json`
+## Environment Configuration
 
-## Assembly / Render CLI
+Use `.env.example` as the starting point for local configuration.
+
+Important variables:
+
+- `CSAT_DEFAULT_SPEC_ID`: default plugin/spec to load.
+- `CSAT_ARTIFACT_ROOT`, `CSAT_DATABASE_PATH`, `CSAT_DATA_ROOT`: override runtime locations if needed.
+- `CSAT_XELATEX_PATH`: optional XeLaTeX binary path for PDF builds.
+- `OPENAI_API_KEY`: required only for the OpenAI provider.
+- `CSAT_OPENAI_MODEL`, `CSAT_OPENAI_TIMEOUT_SECONDS`, `CSAT_OPENAI_MAX_RETRIES`: optional OpenAI tuning.
+
+## Runtime Outputs
+
+- `artifacts/`: JSON artifact envelopes
+- `out/`: rendered documents, benchmark outputs, and scratch pipeline outputs
+- `var/`: SQLite index and other local runtime state
+
+These paths are intentionally ignored in git. To clear local runtime state:
 
 ```bash
-python -m src.cli.main exam run --run-id sample-run --mode api
-python -m src.cli.main assemble exam --run-id sample-run --force
-python -m src.cli.main render exam --run-id sample-run --output-dir out/sample-run/exam
-python -m src.cli.main render answer-key --run-id sample-run --output-dir out/sample-run/answer-key
+python scripts/reset_runtime_state.py
 ```
 
-출력물:
+If artifact files still exist but the SQLite index is missing, rebuild it with:
 
-- `exam.tex` / `exam.pdf`
-- `answer_key.tex` / `answer_key.pdf`
-- `validation_report.tex` / `validation_report.pdf`
-- `render_manifest.json`
+```bash
+python scripts/reindex_artifacts.py
+```
 
-## Notes
+## Release Workflow
 
-- raw corpus PDF parser는 이 MVP에 포함되지 않는다. raw corpus는 distillation 단계 전용으로만 가정한다.
-- SQLite 파일 기본 위치는 `var/app.db`, artifact 루트는 `artifacts/`다.
-- distilled 데이터 기본 위치는 `data/distilled/`, 수동 fixture 기본 위치는 `data/source_fixtures/`다.
-- 설정은 환경변수 `CSAT_*`로 덮어쓸 수 있다.
-- 현재 로컬 환경에 `xelatex`가 없으면 `.tex`와 `render_manifest.json`까지만 생성되고, compile 실패 원인은 manifest의 `debug_message`에 기록된다.
+- Clean-clone release checklist:
+  `docs/release_checklist.md`
+- One-command helper:
+  `scripts/release_checklist.sh`
+- Contributor guidance:
+  `CONTRIBUTING.md`
+
+## Release Notes
+
+### 0.1.0-oss-preview (2026-03-13)
+
+- First public packaging pass for the open-source core plus the `csat_math_2028` plugin.
+- Added explicit OSS documentation for bootstrap, contribution policy, release verification, and public/private plugin boundaries.
+- Standardized runtime cleanup and ignore rules so local benchmark, render, and SQLite outputs are not part of the release surface.
+- Kept only synthetic/open-source-safe sample fixtures and release-smoke benchmark data in the documented public dataset set.
+
+## License
+
+This project is released under the MIT License. See `LICENSE`.
