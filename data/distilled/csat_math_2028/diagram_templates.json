@@ -1,74 +1,123 @@
 {
+  "manifest_version": "2.0",
   "spec_id": "csat_math_2028",
-  "generated_at": "2026-03-12T02:46:55.483322+00:00",
+  "generated_at": "2026-03-14T05:00:21.881901+00:00",
+  "source_path": "data/curated_batches/csat_math_2028/batch_01/batch_01.manifest.json",
+  "source_batches": [
+    {
+      "batch_id": "batch_01",
+      "batch_version": "2026.03.13",
+      "manifest_version": "2.0",
+      "created_at": "2026-03-13T00:00:00+00:00",
+      "manifest_path": "data/curated_batches/csat_math_2028/batch_01/batch_01.manifest.json",
+      "items_path": "data/source_fixtures/csat_math_2028/batch_01_curated_selected_items.json",
+      "item_count": 12,
+      "content_hash": "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e",
+      "provenance": {
+        "exam_name": "CSAT Mathematics",
+        "exam_year": 2028,
+        "source_name": "assistant_curated_batch_01",
+        "source_kind": "exam_analysis"
+      }
+    }
+  ],
   "templates": [
     {
       "diagram_tag": "area_under_curve",
-      "usage_count": 1,
+      "usage_count": 2,
       "applicable_topics": [
-        "integral_area_split"
+        "piecewise_linear_replacement_area_max",
+        "integral_zero_balance"
       ],
       "source_item_ids": [
-        "fixture-integral-04"
+        "batch01-kice-2024-common-q12",
+        "batch01-kice-2025-common-q9"
       ],
-      "notes": [
-        "그래프를 직접 그리지 않아도 교점과 부호를 떠올릴 수 있게 서술한다."
-      ]
+      "notes": []
     },
     {
       "diagram_tag": "function_graph",
-      "usage_count": 3,
+      "usage_count": 5,
       "applicable_topics": [
-        "derivative_monotonicity",
-        "integral_area_split"
+        "continuity_branch_selection",
+        "piecewise_linear_replacement_area_max",
+        "trigonometric_parameter_maximum",
+        "integral_zero_balance",
+        "integral_extremum_parameter"
       ],
       "source_item_ids": [
-        "fixture-derivative-02",
-        "fixture-integral-04",
-        "fixture-derivative-05"
+        "batch01-kice-2022-common-q12",
+        "batch01-kice-2024-common-q12",
+        "batch01-kice-2025-common-q10",
+        "batch01-kice-2025-common-q9",
+        "batch01-kice-2026-common-q15"
       ],
-      "notes": [
-        "그래프를 직접 주지 않아도 수험생이 도함수 그래프를 머릿속에 그리게 만드는 문장 구성이 효과적이다.",
-        "그래프를 직접 그리지 않아도 교점과 부호를 떠올릴 수 있게 서술한다."
-      ]
+      "notes": []
     },
     {
       "diagram_tag": "number_line",
       "usage_count": 1,
       "applicable_topics": [
-        "log_equation_domain"
+        "relative_motion_distance_monotonicity"
       ],
       "source_item_ids": [
-        "fixture-log-domain-01"
+        "batch01-kice-2024-common-q10"
+      ],
+      "notes": []
+    },
+    {
+      "diagram_tag": "probability_cards",
+      "usage_count": 2,
+      "applicable_topics": [
+        "sequential_transfer_conditional_probability",
+        "sample_mean_variance_scaling"
+      ],
+      "source_item_ids": [
+        "batch01-kice-2024-probstats-q28",
+        "batch01-kice-2025-probstats-q27"
       ],
       "notes": []
     },
     {
       "diagram_tag": "probability_table",
-      "usage_count": 1,
+      "usage_count": 2,
       "applicable_topics": [
-        "conditional_probability_table"
+        "sequential_transfer_conditional_probability",
+        "normal_interval_probability_optimization"
       ],
       "source_item_ids": [
-        "fixture-conditional-03"
+        "batch01-kice-2024-probstats-q28",
+        "batch01-kice-2024-probstats-q30"
       ],
-      "notes": [
-        "조건부확률 문항은 표나 나무도표로 재구성 가능해야 한다."
-      ]
+      "notes": []
+    },
+    {
+      "diagram_tag": "sequence_array",
+      "usage_count": 3,
+      "applicable_topics": [
+        "arithmetic_sequence_rationalized_sum",
+        "geometric_sequence_ratio_lock",
+        "occupancy_adjacency_count"
+      ],
+      "source_item_ids": [
+        "batch01-kice-2023-common-q7",
+        "batch01-kice-2026-common-q12",
+        "batch01-kice-2026-probstats-q30"
+      ],
+      "notes": []
     },
     {
       "diagram_tag": "sign_chart",
       "usage_count": 2,
       "applicable_topics": [
-        "derivative_monotonicity"
+        "relative_motion_distance_monotonicity",
+        "integral_extremum_parameter"
       ],
       "source_item_ids": [
-        "fixture-derivative-02",
-        "fixture-derivative-05"
+        "batch01-kice-2024-common-q10",
+        "batch01-kice-2026-common-q15"
       ],
-      "notes": [
-        "그래프를 직접 주지 않아도 수험생이 도함수 그래프를 머릿속에 그리게 만드는 문장 구성이 효과적이다."
-      ]
+      "notes": []
     }
   ]
 }

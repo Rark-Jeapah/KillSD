@@ -1,285 +1,841 @@
 {
+  "manifest_version": "2.0",
   "spec_id": "csat_math_2028",
-  "generated_at": "2026-03-12T02:46:55.482978+00:00",
-  "source_path": "data/source_fixtures/csat_math_2028/sample_items.json",
+  "generated_at": "2026-03-14T05:00:21.880896+00:00",
+  "source_path": "data/curated_batches/csat_math_2028/batch_01/batch_01.manifest.json",
+  "source_batches": [
+    {
+      "batch_id": "batch_01",
+      "batch_version": "2026.03.13",
+      "manifest_version": "2.0",
+      "created_at": "2026-03-13T00:00:00+00:00",
+      "manifest_path": "data/curated_batches/csat_math_2028/batch_01/batch_01.manifest.json",
+      "items_path": "data/source_fixtures/csat_math_2028/batch_01_curated_selected_items.json",
+      "item_count": 12,
+      "content_hash": "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e",
+      "provenance": {
+        "exam_name": "CSAT Mathematics",
+        "exam_year": 2028,
+        "source_name": "assistant_curated_batch_01",
+        "source_kind": "exam_analysis"
+      }
+    }
+  ],
   "items": [
     {
-      "card_id": "card-2f533910aaad",
+      "card_id": "card-d881cddbb02f",
+      "record_version": "sha256:ba6fcb6a266b4d53299a668cc60c3f6a29642db85107abe2a5b8cc0ee7876198",
       "spec_id": "csat_math_2028",
-      "source_item_id": "fixture-log-domain-01",
-      "source_kind": "manual_fixture",
-      "source_label": "Synthetic algebra source item",
-      "source_year": 2028,
-      "source_path": null,
+      "source_item_id": "batch01-kice-2022-common-q12",
+      "source_kind": "manual_curated_paraphrase",
+      "source_label": "2022학년도 수능 수학 공통 12번 기반 연속 가지선택 함수 distillation",
+      "source_year": 2022,
+      "source_path": "202211math.pdf",
       "subject_area": "algebra",
-      "topic": "log_equation_domain",
+      "topic": "continuity_branch_selection",
       "subtopics": [
-        "logarithm",
-        "equation",
-        "domain restriction"
+        "functional_equation",
+        "continuity",
+        "absolute_value_branch"
+      ],
+      "item_format": "multiple_choice",
+      "score": 4,
+      "difficulty": "challenging",
+      "stem": "연속함수 f가 모든 실수 x에 대해 (f(x)-1)(f(x)-x)(f(x)+x)=0을 만족하고, 최댓값이 1, 최솟값이 0이다. 이때 f(-4/3)+f(0)+f(1/2)를 구하는 선택형 문항이다.",
+      "choices": [
+        "1/2",
+        "1",
+        "3/2",
+        "2",
+        "5/2"
+      ],
+      "answer": "3",
+      "trigger_patterns": [
+        "대수식 인수분해",
+        "가능한 함수값 세 갈래",
+        "연속성과 범위로 가지치기"
+      ],
+      "canonical_moves": [
+        "factor_branch_extraction",
+        "range_and_continuity_filter",
+        "piecewise_evaluation",
+        "choice_alignment",
+        "가능한 함수값 분해",
+        "범위 조건으로 가지치기",
+        "값 대입",
+        "선택지 확정"
+      ],
+      "common_failures": [
+        "branch_sign_miss: 음수 구간에서도 f(x)=x를 선택해 범위 조건을 깨뜨린다.",
+        "continuity_omission: |x|>1에서 1, |x|<1에서 1로 두고 f(0)=0만 따로 잡는다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "function_graph"
+      ],
+      "style_notes": [
+        "원래 식을 인수분해해 가지 후보를 드러내는 순간이 핵심 발상이다.",
+        "연속성과 함수값의 범위를 동시에 사용하게 해야 문항의 깊이가 살아난다."
+      ],
+      "source_metadata": {
+        "batch_id": "batch_01",
+        "provenance": "assistant manual analysis",
+        "paper": "2022 CSAT Math",
+        "section": "common",
+        "question_no": 12,
+        "review_status": "draft",
+        "copyright_mode": "clean_room_paraphrase",
+        "selection_rationale": "연속성 기반 branch-selection family의 대표 문항"
+      },
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "card_id": "card-308b3c4871d0",
+      "record_version": "sha256:f0bc0b4fc979df9d25b1f571b1ba094615bbd475b0c11094da2362e170529762",
+      "spec_id": "csat_math_2028",
+      "source_item_id": "batch01-kice-2023-common-q7",
+      "source_kind": "manual_curated_paraphrase",
+      "source_label": "2023학년도 수능 수학 공통 7번 기반 유리화 망원합 수열 distillation",
+      "source_year": 2023,
+      "source_path": "202311math.pdf",
+      "subject_area": "algebra",
+      "topic": "arithmetic_sequence_rationalized_sum",
+      "subtopics": [
+        "arithmetic_sequence",
+        "radical_rationalization",
+        "telescoping_sum"
       ],
       "item_format": "multiple_choice",
       "score": 3,
       "difficulty": "standard",
-      "stem": "실수 x에 대하여 log_2(x-1)+log_2(x-3)=2를 만족하는 x의 값을 구하는 과정을 묻는 문항이다.",
+      "stem": "모든 항이 양수이고 첫째항과 공차가 같은 등차수열 {a_n}이 ∑_{k=1}^{15} 1/(√a_k+√a_{k+1}) = 2를 만족한다. 이때 a_4를 구하는 선택형 문항이다.",
       "choices": [
-        "2",
-        "3",
-        "4",
-        "5",
-        "6"
+        "6",
+        "7",
+        "8",
+        "9",
+        "10"
       ],
       "answer": "4",
       "trigger_patterns": [
-        "로그식 결합",
-        "정의역 제한",
-        "근의 선택"
+        "첫째항=공차",
+        "근호 유리화",
+        "망원합"
       ],
       "canonical_moves": [
-        "domain_check",
-        "log_merge",
-        "quadratic_filter",
+        "equal_first_term_difference",
+        "radical_rationalization",
+        "telescoping_evaluation",
         "choice_alignment",
-        "정의역 확인",
-        "로그 결합",
-        "방정식 풀이",
+        "수열 일반항 설정",
+        "유리화로 망원합 만들기",
+        "합 계산",
+        "선택지 결정"
+      ],
+      "common_failures": [
+        "parameterization_miss: a_k=a+(k-1)d로 두고 a=d 조건을 끝까지 반영하지 않는다.",
+        "rationalization_slip: 1/(√k+√(k+1))를 √(k+1)-√k 로만 바꾸고 1/√r 인자를 놓친다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "sequence_array"
+      ],
+      "style_notes": [
+        "근호가 붙은 수열합을 망원합으로 바꾸는 전형을 잘 드러내는 문항이다.",
+        "첫째항=공차 조건은 짧지만 빠뜨리기 쉬운 좋은 오답 포인트다."
+      ],
+      "source_metadata": {
+        "batch_id": "batch_01",
+        "provenance": "assistant manual analysis",
+        "paper": "2023 CSAT Math",
+        "section": "common",
+        "question_no": 7,
+        "review_status": "draft",
+        "copyright_mode": "clean_room_paraphrase",
+        "selection_rationale": "수열 일반항 파라미터화와 유리화 망원합을 함께 묻는 재사용 가치가 큰 구조"
+      },
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "card_id": "card-90715990d936",
+      "record_version": "sha256:d624879b62aa753811b20a48945de3f394b44a3f6ca5d2848f779cd8ad9d9f38",
+      "spec_id": "csat_math_2028",
+      "source_item_id": "batch01-kice-2024-common-q10",
+      "source_kind": "manual_curated_paraphrase",
+      "source_label": "2024학년도 수능 수학 공통 10번 기반 상대운동 거리 distillation",
+      "source_year": 2024,
+      "source_path": "202411math.pdf",
+      "subject_area": "calculus_1",
+      "topic": "relative_motion_distance_monotonicity",
+      "subtopics": [
+        "velocity",
+        "relative_position",
+        "absolute_displacement"
+      ],
+      "item_format": "multiple_choice",
+      "score": 4,
+      "difficulty": "challenging",
+      "stem": "원점에서 동시에 출발한 두 점 P, Q의 속도가 각각 v1(t)=t^2-6t+5, v2(t)=2t-7이다. 두 점 사이 거리 f(t)가 [0,a]에서 증가, [a,b]에서 감소, [b,∞)에서 다시 증가한다. 이때 t=a부터 t=b까지 점 Q가 움직인 거리를 구하는 선택형 문항이다.",
+      "choices": [
+        "15/2",
+        "17/2",
+        "19/2",
+        "21/2",
+        "23/2"
+      ],
+      "answer": "2",
+      "trigger_patterns": [
+        "상대위치 적분",
+        "거리의 증감은 상대속도",
+        "이동거리는 절댓값 적분"
+      ],
+      "canonical_moves": [
+        "relative_position_integration",
+        "distance_monotonicity_from_relative_velocity",
+        "absolute_velocity_distance",
+        "choice_alignment",
+        "상대위치 함수 계산",
+        "증감 구간 판정",
+        "Q의 이동거리 계산",
         "선택지 대응"
       ],
       "common_failures": [
-        "domain_omission: x>1만 확인하고 x=2를 후보로 남긴다.",
-        "algebraic_slip: (x-1)(x-3)=2로 잘못 두고 계산한다."
+        "position_distance_confusion: ∫_2^6 v2(t)dt만 계산하여 부호변화를 무시한다.",
+        "critical_point_shortcut: 상대속도의 근 2,6만 보고 거리함수의 비음수성은 확인하지 않는다."
       ],
       "allowed_answer_forms": [
         "choice_index"
       ],
       "diagram_tags": [
-        "number_line"
-      ],
-      "style_notes": [
-        "정의역 조건은 문장으로 먼저 드러내고 수식 조작은 그 다음에 배치한다.",
-        "선택지는 근삿값 유혹을 주되 지나치게 쉬운 배제형은 피한다."
-      ],
-      "source_metadata": {
-        "fixture_group": "sample",
-        "notes": "Synthetic fixture for offline distillation"
-      }
-    },
-    {
-      "card_id": "card-11ae605f39b1",
-      "spec_id": "csat_math_2028",
-      "source_item_id": "fixture-derivative-02",
-      "source_kind": "manual_fixture",
-      "source_label": "Synthetic calculus source item A",
-      "source_year": 2026,
-      "source_path": null,
-      "subject_area": "calculus_1",
-      "topic": "derivative_monotonicity",
-      "subtopics": [
-        "derivative",
-        "critical point",
-        "monotonicity"
-      ],
-      "item_format": "multiple_choice",
-      "score": 3,
-      "difficulty": "challenging",
-      "stem": "함수 f(x)=x^3-3x^2+ax가 구간 전체에서 감소하지 않도록 하는 실수 a의 범위를 추론하는 문항이다.",
-      "choices": [
-        "a≤0",
-        "0≤a≤3",
-        "a≥3",
-        "a≥1",
-        "a≤3"
-      ],
-      "answer": "3",
-      "trigger_patterns": [
-        "도함수 계산",
-        "꼭짓점 활용",
-        "전구간 부호 판단"
-      ],
-      "canonical_moves": [
-        "differentiate_polynomial",
-        "quadratic_vertex_check",
-        "global_monotonicity_condition",
-        "choice_alignment",
-        "도함수 계산",
-        "최솟값 관찰",
-        "단조 조건 연결",
-        "정답 선택"
-      ],
-      "common_failures": [
-        "local_global_confusion: f'(1)=0이 되도록 a=3 하나만 답으로 본다.",
-        "sign_condition_flip: 감소하지 않음을 f'(x)≤0으로 잘못 해석한다."
-      ],
-      "allowed_answer_forms": [
-        "choice_index"
-      ],
-      "diagram_tags": [
-        "function_graph",
+        "number_line",
         "sign_chart"
       ],
       "style_notes": [
-        "그래프를 직접 주지 않아도 수험생이 도함수 그래프를 머릿속에 그리게 만드는 문장 구성이 효과적이다.",
-        "경계값만 답으로 오인하는 오답 선택지를 반드시 포함한다."
+        "상대속도와 개별 이동거리를 구분하도록 만드는 고전적 운동 문제다.",
+        "거리의 증감과 실제 이동거리를 अलग개념으로 분리해서 검증하는 validator atom으로 좋다."
       ],
       "source_metadata": {
-        "fixture_group": "sample",
-        "notes": "Near-duplicate seed A"
-      }
+        "batch_id": "batch_01",
+        "provenance": "assistant manual analysis",
+        "paper": "2024 CSAT Math",
+        "section": "common",
+        "question_no": 10,
+        "review_status": "draft",
+        "copyright_mode": "clean_room_paraphrase",
+        "selection_rationale": "상대운동과 절댓값 적분을 분리하는 calculus family"
+      },
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
     },
     {
-      "card_id": "card-f1b5f0985f48",
+      "card_id": "card-0833466505ed",
+      "record_version": "sha256:9d89bf230070d58de443fa167501b9bbf3389980f687f0370e770cdb6bd6ebe6",
       "spec_id": "csat_math_2028",
-      "source_item_id": "fixture-conditional-03",
-      "source_kind": "manual_fixture",
-      "source_label": "Synthetic probability source item",
-      "source_year": 2025,
-      "source_path": null,
-      "subject_area": "probability_statistics",
-      "topic": "conditional_probability_table",
-      "subtopics": [
-        "conditional probability",
-        "sample space partition",
-        "counting"
-      ],
-      "item_format": "short_answer",
-      "score": 4,
-      "difficulty": "challenging",
-      "stem": "서로 다른 색 구슬이 들어 있는 주머니에서 두 번 꺼낼 때 사건 A, B가 주어질 때 P(A|B)를 구하는 단답형 문항이다.",
-      "choices": [],
-      "answer": "2/3",
-      "trigger_patterns": [
-        "조건 사건 제한",
-        "분모 재설정",
-        "교집합 계산"
-      ],
-      "canonical_moves": [
-        "condition_partition",
-        "count_conditioned_cases",
-        "conditional_probability_ratio",
-        "조건 사건 정리",
-        "경우의 수 계산",
-        "조건부확률 계산"
-      ],
-      "common_failures": [
-        "unconditioned_ratio: P(A)/P(B) 또는 P(A∩B)/P(S)로 계산한다.",
-        "count_overlap_miss: 조건 사건에 포함되지 않는 경우를 함께 센다."
-      ],
-      "allowed_answer_forms": [
-        "reduced_fraction"
-      ],
-      "diagram_tags": [
-        "probability_table"
-      ],
-      "style_notes": [
-        "조건부확률 문항은 표나 나무도표로 재구성 가능해야 한다.",
-        "단답형이라도 답 형식은 기약분수인지 여부를 명시하는 편이 안전하다."
-      ],
-      "source_metadata": {
-        "fixture_group": "sample",
-        "notes": "Conditional probability template"
-      }
-    },
-    {
-      "card_id": "card-3e364f1ab56e",
-      "spec_id": "csat_math_2028",
-      "source_item_id": "fixture-integral-04",
-      "source_kind": "manual_fixture",
-      "source_label": "Synthetic integral source item",
+      "source_item_id": "batch01-kice-2024-common-q12",
+      "source_kind": "manual_curated_paraphrase",
+      "source_label": "2024학년도 수능 수학 공통 12번 기반 조각선 대체 넓이최대 distillation",
       "source_year": 2024,
-      "source_path": null,
+      "source_path": "202411math.pdf",
       "subject_area": "calculus_1",
-      "topic": "integral_area_split",
+      "topic": "piecewise_linear_replacement_area_max",
       "subtopics": [
-        "integral",
-        "graph symmetry",
-        "signed area"
+        "piecewise_function",
+        "signed_area",
+        "optimization"
       ],
-      "item_format": "short_answer",
+      "item_format": "multiple_choice",
       "score": 4,
       "difficulty": "advanced",
-      "stem": "곡선 y=x(x-2)와 x축으로 둘러싸인 부분의 넓이를 구하는 단답형 문항이다.",
-      "choices": [],
-      "answer": "4/3",
+      "stem": "f(x)=x(x-6)(x-9)/9, 0<t<6. x<t에서는 g(x)=f(x), x≥t에서는 기울기 -1인 직선 y=-(x-t)+f(t)로 바꾼 함수 g를 만든다. g와 x축이 둘러싸는 넓이의 최댓값을 구하는 선택형 문항이다.",
+      "choices": [
+        "125/4",
+        "127/4",
+        "129/4",
+        "131/4",
+        "133/4"
+      ],
+      "answer": "3",
       "trigger_patterns": [
-        "교점 확인",
-        "부호 판단",
-        "정적분 계산"
+        "절단점 이후 직선 대체",
+        "적분+삼각형 넓이",
+        "면적함수 미분"
       ],
       "canonical_moves": [
-        "root_identification",
-        "signed_area_check",
-        "definite_integral_evaluation",
-        "answer_form_finalize",
-        "교점 확인",
-        "부호 판단",
-        "적분 계산",
-        "답 형식 확정"
+        "intercept_structure_check",
+        "integral_plus_triangle_area",
+        "differentiate_area_function",
+        "evaluate_optimum",
+        "도형 구조 파악",
+        "넓이식 구성",
+        "최적점 찾기",
+        "최댓값 계산"
       ],
       "common_failures": [
-        "signed_area_confusion: ∫_0^2 x(x-2)dx = -4/3을 그대로 답으로 쓴다.",
-        "antiderivative_slip: x^3/3-2x^2를 대입해 8/3으로 계산한다."
+        "shape_area_mismatch: 밑변을 t로 두거나 사다리꼴처럼 계산한다.",
+        "endpoint_bias: f(t)가 클수록 넓이도 크다고 보고 t를 6에 가깝게 잡는다."
       ],
       "allowed_answer_forms": [
-        "reduced_fraction"
+        "choice_index"
       ],
       "diagram_tags": [
         "function_graph",
         "area_under_curve"
       ],
       "style_notes": [
-        "곡선과 x축 사이 넓이는 부호 판단을 먼저 유도해야 한다.",
-        "그래프를 직접 그리지 않아도 교점과 부호를 떠올릴 수 있게 서술한다."
+        "조각선 대체 이후 오른쪽 넓이가 삼각형으로 정리된다는 걸 보게 해야 한다.",
+        "적분과 도형 넓이가 섞인 optimization family로 재사용 가치가 높다."
       ],
       "source_metadata": {
-        "fixture_group": "sample",
-        "notes": "Signed area template"
-      }
+        "batch_id": "batch_01",
+        "provenance": "assistant manual analysis",
+        "paper": "2024 CSAT Math",
+        "section": "common",
+        "question_no": 12,
+        "review_status": "draft",
+        "copyright_mode": "clean_room_paraphrase",
+        "selection_rationale": "piecewise replacement로 면적함수를 만드는 대표적 calculus family"
+      },
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
     },
     {
-      "card_id": "card-bdc63c51ee21",
+      "card_id": "card-efb26b41c167",
+      "record_version": "sha256:d10bacde64db06e71d57d0a5dc460f69fe124d8d9392995ef3621408bff7bd8b",
       "spec_id": "csat_math_2028",
-      "source_item_id": "fixture-derivative-05",
-      "source_kind": "manual_fixture",
-      "source_label": "Synthetic calculus source item B",
-      "source_year": 2028,
-      "source_path": null,
-      "subject_area": "calculus_1",
-      "topic": "derivative_monotonicity",
+      "source_item_id": "batch01-kice-2024-probstats-q28",
+      "source_kind": "manual_curated_paraphrase",
+      "source_label": "2024학년도 수능 수학 확률과 통계 28번 기반 조건부 공이동 distillation",
+      "source_year": 2024,
+      "source_path": "202411math.pdf",
+      "subject_area": "probability_statistics",
+      "topic": "sequential_transfer_conditional_probability",
       "subtopics": [
-        "derivative",
-        "critical point",
-        "monotonicity"
+        "conditional_probability",
+        "multinomial_count",
+        "process_modeling"
+      ],
+      "item_format": "multiple_choice",
+      "score": 4,
+      "difficulty": "challenging",
+      "stem": "복원추출로 확인한 카드값에 따라 상자 A의 공을 상자 B로 옮기는 시행을 4번 반복한다. 1이면 (흰1), 2 또는 3이면 (흰1, 검1), 4이면 (흰2, 검1)을 B에 넣는다. 4번 후 B의 총공 개수가 8개일 때, 검은 공이 2개일 조건부확률을 구하는 선택형 문항이다.",
+      "choices": [
+        "3/70",
+        "2/35",
+        "1/14",
+        "3/35",
+        "1/10"
+      ],
+      "answer": "4",
+      "trigger_patterns": [
+        "시행 유형 압축",
+        "총량 조건",
+        "조건부확률"
+      ],
+      "canonical_moves": [
+        "outcome_type_grouping",
+        "integer_composition_under_total",
+        "multinomial_conditional_ratio",
+        "choice_alignment",
+        "세 시행 유형 묶기",
+        "총공 8개 조건 해 찾기",
+        "조건 사건 확률 계산",
+        "선택지 확정"
+      ],
+      "common_failures": [
+        "conditioning_drop: 전체 확률공간에서 검은 공 2개 확률만 계산한다.",
+        "type_split_miss: 2와 3을 서로 다른 시행 유형으로 취급해 경우를 중복 계산한다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "probability_table",
+        "probability_cards"
+      ],
+      "style_notes": [
+        "원시 시행을 세 가지 유형으로 압축하는 순간 계산이 쉬워지는 process 문항이다.",
+        "조건부확률 문제이므로 분모 재설정 실패를 노리는 오답이 중요하다."
+      ],
+      "source_metadata": {
+        "batch_id": "batch_01",
+        "provenance": "assistant manual analysis",
+        "paper": "2024 CSAT Math",
+        "section": "probability_statistics",
+        "question_no": 28,
+        "review_status": "draft",
+        "copyright_mode": "clean_room_paraphrase",
+        "selection_rationale": "단계적 공 이동 process를 조건부확률로 압축하는 확통 family"
+      },
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "card_id": "card-e67c6571a95e",
+      "record_version": "sha256:ad0b7be3ac26f49f88f83219c0de6b8985705c3cb6a68ef022becabc60cf3988",
+      "spec_id": "csat_math_2028",
+      "source_item_id": "batch01-kice-2024-probstats-q30",
+      "source_kind": "manual_curated_paraphrase",
+      "source_label": "2024학년도 수능 수학 확률과 통계 30번 기반 정규구간 최적화 distillation",
+      "source_year": 2024,
+      "source_path": "202411math.pdf",
+      "subject_area": "probability_statistics",
+      "topic": "normal_interval_probability_optimization",
+      "subtopics": [
+        "normal_distribution",
+        "standardization",
+        "interval_optimization"
+      ],
+      "item_format": "short_answer",
+      "score": 4,
+      "difficulty": "challenging",
+      "stem": "양수 t에 대해 X~N(1,t^2)라 하자. P(X≤5t)≥1/2를 만족시키는 t들 중에서 P(t^2-t+1 ≤ X ≤ t^2+t+1)가 최대가 되도록 하는 값을 표준정규분포표로 계산해 1000배한 수를 구하는 단답형 문항이다.",
+      "choices": [],
+      "answer": "673",
+      "trigger_patterns": [
+        "중앙값 조건",
+        "표준화",
+        "고정길이 구간 최적화"
+      ],
+      "canonical_moves": [
+        "median_condition_for_normal",
+        "normal_standardization",
+        "fixed_width_interval_maximization",
+        "z_table_accumulation",
+        "t의 허용범위 찾기",
+        "확률 구간 표준화",
+        "최적 t 결정",
+        "표준정규표 사용"
+      ],
+      "common_failures": [
+        "constraint_direction_error: 5t≤1로 해석해 허용범위를 반대로 잡는다.",
+        "interval_center_miss: 구간 길이가 커진다고 생각해 t를 크게 잡는다."
+      ],
+      "allowed_answer_forms": [
+        "natural_number"
+      ],
+      "diagram_tags": [
+        "probability_table"
+      ],
+      "style_notes": [
+        "정규분포 구간확률을 '고정 길이 구간이 중심에 가까울수록 크다'는 직관으로 바꾸는 문항이다.",
+        "표준정규표를 마지막에 한 번만 쓰게 설계하면 풀이 흐름이 깔끔해진다."
+      ],
+      "source_metadata": {
+        "batch_id": "batch_01",
+        "provenance": "assistant manual analysis",
+        "paper": "2024 CSAT Math",
+        "section": "probability_statistics",
+        "question_no": 30,
+        "review_status": "draft",
+        "copyright_mode": "clean_room_paraphrase",
+        "selection_rationale": "정규구간 최적화 family를 만들기 위한 고효율 문항"
+      },
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "card_id": "card-ac7e3dee1bdd",
+      "record_version": "sha256:5209c49a0bb919d8b74784f7036f2dac83f55a400c5eb47df5674ecd75e90751",
+      "spec_id": "csat_math_2028",
+      "source_item_id": "batch01-kice-2025-common-q10",
+      "source_kind": "manual_curated_paraphrase",
+      "source_label": "2025학년도 수능 수학 공통 10번 기반 파라미터 삼각함수 distillation",
+      "source_year": 2025,
+      "source_path": "202511math.pdf",
+      "subject_area": "algebra",
+      "topic": "trigonometric_parameter_maximum",
+      "subtopics": [
+        "trigonometric_function",
+        "parameter_identification",
+        "periodicity"
+      ],
+      "item_format": "multiple_choice",
+      "score": 4,
+      "difficulty": "challenging",
+      "stem": "닫힌구간 [0, 2π]에서 정의된 함수 f(x)=a cos(bx)+3이 x=π/3에서 최댓값 13을 갖는다. 자연수 a, b에 대하여 a+b의 최솟값을 묻는 선택형 문항이다.",
+      "choices": [
+        "12",
+        "14",
+        "16",
+        "18",
+        "20"
+      ],
+      "answer": "3",
+      "trigger_patterns": [
+        "최댓값=평행이동+진폭",
+        "최댓점에서 cos=1",
+        "주기 정수배 조건"
+      ],
+      "canonical_moves": [
+        "amplitude_from_maximum",
+        "maximum_phase_condition",
+        "minimum_period_parameter",
+        "choice_alignment",
+        "진폭 결정",
+        "최댓점 조건 해석",
+        "최소 자연수 선택",
+        "선택지 대응"
+      ],
+      "common_failures": [
+        "max_min_confusion: cos(bπ/3)=-1을 대입해 최솟점 조건으로 처리한다.",
+        "periodicity_underuse: 도함수 0 조건만 보고 b=3을 선택한다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "function_graph"
+      ],
+      "style_notes": [
+        "최댓값과 최댓점을 동시에 주어 진폭과 주기를 연쇄적으로 추론하게 만드는 유형이다.",
+        "선택지는 주기 조건을 절반만 반영한 오답이 살아남도록 구성하는 것이 좋다."
+      ],
+      "source_metadata": {
+        "batch_id": "batch_01",
+        "provenance": "assistant manual analysis",
+        "paper": "2025 CSAT Math",
+        "section": "common",
+        "question_no": 10,
+        "review_status": "draft",
+        "copyright_mode": "clean_room_paraphrase",
+        "selection_rationale": "정수 파라미터 삼각함수 family를 만들기 좋은 핵심 문항"
+      },
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "card_id": "card-5675a6d0478f",
+      "record_version": "sha256:e84ba4e09e8c7b81bb6ad4e45fe9c35ecc71ea75f9daea0248433746efc4b35b",
+      "spec_id": "csat_math_2028",
+      "source_item_id": "batch01-kice-2025-common-q9",
+      "source_kind": "manual_curated_paraphrase",
+      "source_label": "2025학년도 수능 수학 공통 9번 기반 적분 균형점 distillation",
+      "source_year": 2025,
+      "source_path": "202511math.pdf",
+      "subject_area": "calculus_1",
+      "topic": "integral_zero_balance",
+      "subtopics": [
+        "definite_integral",
+        "antiderivative",
+        "root_filter"
+      ],
+      "item_format": "multiple_choice",
+      "score": 4,
+      "difficulty": "challenging",
+      "stem": "이차함수 f(x)=3x^2-16x-20에 대하여 ∫_{-2}^{a} f(x)dx = ∫_{-2}^{0} f(x)dx 를 만족하는 양수 a를 구하는 선택형 문항이다.",
+      "choices": [
+        "16",
+        "14",
+        "12",
+        "10",
+        "8"
+      ],
+      "answer": "4",
+      "trigger_patterns": [
+        "공통 시작점 적분 비교",
+        "원시함수 인수분해",
+        "양수해 필터"
+      ],
+      "canonical_moves": [
+        "integral_difference_reduction",
+        "antiderivative_factorization",
+        "positive_root_filter",
+        "choice_alignment",
+        "공통 구간 제거",
+        "원시함수 계산",
+        "양수해 선택",
+        "정답 확정"
+      ],
+      "common_failures": [
+        "integrand_equality_mistake: 상한만 같다고 보고 f(a)=f(0)을 푼다.",
+        "sign_filter_miss: a=-2도 후보에 남긴다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "function_graph",
+        "area_under_curve"
+      ],
+      "style_notes": [
+        "적분 구간의 공통 부분을 제거하는 순간 문제 길이가 급격히 짧아진다.",
+        "양수 조건을 마지막까지 남겨 두어 오답이 살아 있게 만드는 편이 좋다."
+      ],
+      "source_metadata": {
+        "batch_id": "batch_01",
+        "provenance": "assistant manual analysis",
+        "paper": "2025 CSAT Math",
+        "section": "common",
+        "question_no": 9,
+        "review_status": "draft",
+        "copyright_mode": "clean_room_paraphrase",
+        "selection_rationale": "적분값 같음 → 차적분 0 family의 대표 문항"
+      },
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "card_id": "card-d982b3848782",
+      "record_version": "sha256:405bf16995eb85ea11f94a137326c7537b70510a8bcce6476f57ec69ae320af8",
+      "spec_id": "csat_math_2028",
+      "source_item_id": "batch01-kice-2025-probstats-q27",
+      "source_kind": "manual_curated_paraphrase",
+      "source_label": "2025학년도 수능 수학 확률과 통계 27번 기반 표본평균 분산 distillation",
+      "source_year": 2025,
+      "source_path": "202511math.pdf",
+      "subject_area": "probability_statistics",
+      "topic": "sample_mean_variance_scaling",
+      "subtopics": [
+        "discrete_distribution",
+        "sample_mean",
+        "variance_scaling"
+      ],
+      "item_format": "multiple_choice",
+      "score": 3,
+      "difficulty": "standard",
+      "stem": "숫자 1,3,5,7,9를 복원추출로 세 번 확인한 뒤 평균을 X̄라 한다. V(aX̄+6)=24일 때 양수 a를 구하는 선택형 문항이다.",
+      "choices": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "answer": "3",
+      "trigger_patterns": [
+        "분산 계산",
+        "표본평균 분산",
+        "선형변환 분산"
+      ],
+      "canonical_moves": [
+        "discrete_variance_evaluation",
+        "sample_mean_variance_rule",
+        "linear_transform_variance",
+        "choice_alignment",
+        "원래 분포의 분산 계산",
+        "표본평균 분산",
+        "선형변환 적용",
+        "선택지 확정"
+      ],
+      "common_failures": [
+        "mean_variance_mixup: 평균 5를 분산처럼 사용해 a^2·5/3=24로 계산한다.",
+        "n_scaling_error: Var(X̄)=3Var(X)로 잘못 적용한다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "probability_cards"
+      ],
+      "style_notes": [
+        "짧은 문항이지만 분산 계산과 표본평균 공식을 모두 확인할 수 있는 좋은 표준형이다.",
+        "복원추출 평균의 분산을 n으로 나누는 규칙을 자동화된 atom으로 빼내기 쉽다."
+      ],
+      "source_metadata": {
+        "batch_id": "batch_01",
+        "provenance": "assistant manual analysis",
+        "paper": "2025 CSAT Math",
+        "section": "probability_statistics",
+        "question_no": 27,
+        "review_status": "draft",
+        "copyright_mode": "clean_room_paraphrase",
+        "selection_rationale": "확통 기본형 중에서도 재사용률 높은 variance scaling family"
+      },
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "card_id": "card-abc5eb3f7d84",
+      "record_version": "sha256:828e1f40b0ae8692df060952f66e91b282a6408b623476147fc2577b7b3d59c8",
+      "spec_id": "csat_math_2028",
+      "source_item_id": "batch01-kice-2026-common-q12",
+      "source_kind": "manual_curated_paraphrase",
+      "source_label": "2026학년도 수능 수학 공통 12번 기반 등비수열 비율 잠금 distillation",
+      "source_year": 2026,
+      "source_path": "202611math.pdf",
+      "subject_area": "algebra",
+      "topic": "geometric_sequence_ratio_lock",
+      "subtopics": [
+        "geometric_sequence",
+        "grouped_terms",
+        "ratio_extraction"
+      ],
+      "item_format": "multiple_choice",
+      "score": 4,
+      "difficulty": "challenging",
+      "stem": "등비수열 {a_n}이 2(a_1+a_4+a_7)=a_4+a_7+a_10=6을 만족한다. 이때 a_10을 구하는 선택형 문항이다.",
+      "choices": [
+        "22/7",
+        "24/7",
+        "26/7",
+        "30/7",
+        "32/7"
+      ],
+      "answer": "2",
+      "trigger_patterns": [
+        "세 칸 간격 항 묶기",
+        "등식 비교",
+        "r^3 치환"
+      ],
+      "canonical_moves": [
+        "group_by_three_steps",
+        "ratio_comparison",
+        "back_substitution",
+        "choice_alignment",
+        "공비의 세 제곱 치환",
+        "두 등식 비교",
+        "첫째항과 제10항 계산",
+        "정답 선택"
+      ],
+      "common_failures": [
+        "factor_two_omission: 앞의 등식에 붙은 2를 빼먹고 u=1로 처리한다.",
+        "ratio_root_confusion: u=2에서 곧바로 r=2로 두고 a_10을 과대평가한다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "sequence_array"
+      ],
+      "style_notes": [
+        "같은 간격으로 떨어진 항들을 묶고 r^3을 치환하는 발상이 핵심이다.",
+        "등식 두 개의 비를 비교할 때 앞의 계수 2를 일부러 살아 있게 만들어야 좋은 오답이 생긴다."
+      ],
+      "source_metadata": {
+        "batch_id": "batch_01",
+        "provenance": "assistant manual analysis",
+        "paper": "2026 CSAT Math",
+        "section": "common",
+        "question_no": 12,
+        "review_status": "draft",
+        "copyright_mode": "clean_room_paraphrase",
+        "selection_rationale": "등비수열에서 특정 간격 항 묶음을 이용한 parameter-lock family"
+      },
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "card_id": "card-14d246da0af2",
+      "record_version": "sha256:bcdf21710e9adeab8a71e84edbd7bf6c870cbaabdbf106ca913dc819df184824",
+      "spec_id": "csat_math_2028",
+      "source_item_id": "batch01-kice-2026-common-q15",
+      "source_kind": "manual_curated_paraphrase",
+      "source_label": "2026학년도 수능 수학 공통 15번 기반 적분함수 극값개수 distillation",
+      "source_year": 2026,
+      "source_path": "202611math.pdf",
+      "subject_area": "calculus_1",
+      "topic": "integral_extremum_parameter",
+      "subtopics": [
+        "piecewise_quadratic",
+        "integral_function",
+        "sign_chart"
       ],
       "item_format": "multiple_choice",
       "score": 4,
       "difficulty": "advanced",
-      "stem": "함수 g(x)=x^3-6x^2+bx가 전구간에서 증가하지 않도록 하는 실수 b의 범위를 판단하는 문항이다.",
+      "stem": "f(x)=-x^2 (x<0), f(x)=x^2-x (x≥0)이고, 양수 a에 대해 g(x)=ax+a (x<-1), 0 (-1≤x<1), ax-a (x≥1)라 하자. h(x)=∫_0^x (g(t)-f(t))dt가 극값을 정확히 하나만 갖게 하는 a의 최댓값을 k라 할 때, a=k에서 k+h(3)을 구하는 선택형 문항이다.",
       "choices": [
-        "b≤0",
-        "b≤12",
-        "b≥12",
-        "0≤b≤12",
-        "b=12"
+        "9/2",
+        "11/2",
+        "13/2",
+        "15/2",
+        "17/2"
       ],
-      "answer": "2",
+      "answer": "4",
       "trigger_patterns": [
-        "도함수 계산",
-        "꼭짓점 활용",
-        "전구간 부호 판단"
+        "적분함수 도함수",
+        "구간별 부호표",
+        "극값 개수 조건"
       ],
       "canonical_moves": [
-        "differentiate_polynomial",
-        "global_monotonicity_direction_check",
-        "quadratic_vertex_check",
-        "choice_alignment",
-        "도함수 계산",
-        "최댓값 관찰",
-        "꼭짓점 기반 조건",
-        "정답 선택"
+        "differentiate_integral_function",
+        "piecewise_sign_factorization",
+        "extremum_count_parameter_bound",
+        "parameter_substitution_integral",
+        "도함수로 환원",
+        "구간별 부호 분석",
+        "극값이 하나가 되게 하는 최대 a",
+        "최종값 계산"
       ],
       "common_failures": [
-        "direction_misread: 전구간에서 증가하지 않음을 f'(x)≥0으로 해석한다.",
-        "vertex_substitution_slip: x=1로 대입해 b-3≤0을 얻는다."
+        "stationary_extremum_confusion: 부호를 확인하지 않고 두 점을 모두 극값으로 센다.",
+        "left_quadratic_oversight: x≥1 구간만 보고 a를 무한히 키워도 극값 수가 하나라고 판단한다."
       ],
       "allowed_answer_forms": [
         "choice_index"
@@ -289,13 +845,99 @@
         "sign_chart"
       ],
       "style_notes": [
-        "유사 문항끼리는 계수만 바꾼 재출제를 피하기 위해 fingerprint로 근접도를 확인한다.",
-        "증가/감소 해석 오류를 노리는 선택지는 지나치게 직접적이면 안 된다."
+        "적분함수의 극값 개수를 h'의 sign chart로 바꾸는 전환이 핵심이다.",
+        "왼쪽 구간 이차식이 추가 극값을 만드는 순간을 잡아내는 validator atom으로 유용하다."
       ],
       "source_metadata": {
-        "fixture_group": "sample",
-        "notes": "Near-duplicate seed B"
-      }
+        "batch_id": "batch_01",
+        "provenance": "assistant manual analysis",
+        "paper": "2026 CSAT Math",
+        "section": "common",
+        "question_no": 15,
+        "review_status": "draft",
+        "copyright_mode": "clean_room_paraphrase",
+        "selection_rationale": "piecewise sign-counting과 parameter bound를 묻는 고난도 calculus family"
+      },
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "card_id": "card-e01071757eeb",
+      "record_version": "sha256:aac14721ea5edee1b5507f9dc58db4e821101bec41e696a92fc0d36287c57a8e",
+      "spec_id": "csat_math_2028",
+      "source_item_id": "batch01-kice-2026-probstats-q30",
+      "source_kind": "manual_curated_paraphrase",
+      "source_label": "2026학년도 수능 수학 확률과 통계 30번 기반 제한분배 distillation",
+      "source_year": 2026,
+      "source_path": "202611math.pdf",
+      "subject_area": "probability_statistics",
+      "topic": "occupancy_adjacency_count",
+      "subtopics": [
+        "combinatorics",
+        "restricted_distribution",
+        "string_encoding"
+      ],
+      "item_format": "short_answer",
+      "score": 4,
+      "difficulty": "advanced",
+      "stem": "일렬로 놓인 10개의 주머니에 서로 구별하지 않는 공 8개를 모두 넣는다. 각 주머니에는 최대 2개만 넣을 수 있고, 공이 1개인 주머니 수는 4 또는 6개이다. 또한 공이 2개인 주머니의 이웃 주머니에는 공이 들어 있지 않아야 할 때 가능한 분배 경우의 수를 구하는 단답형 문항이다.",
+      "choices": [],
+      "answer": "262",
+      "trigger_patterns": [
+        "0-1-2 문자열로 변환",
+        "1의 개수 case split",
+        "강제 0 반영 배치"
+      ],
+      "canonical_moves": [
+        "occupancy_string_encoding",
+        "count_balance_case_split",
+        "forced_zero_position_count",
+        "case_sum_finalize",
+        "문자열 모델링",
+        "1의 개수에 따른 분할",
+        "각 경우의 수 세기",
+        "합산"
+      ],
+      "common_failures": [
+        "distinguishable_ball_error: 공을 서로 다른 공으로 보고 순열을 곱해 버린다.",
+        "boundary_neighborhood_error: 맨끝의 2도 양옆 두 칸 모두 비어 있어야 한다고 잘못 본다."
+      ],
+      "allowed_answer_forms": [
+        "natural_number"
+      ],
+      "diagram_tags": [
+        "sequence_array"
+      ],
+      "style_notes": [
+        "제한분배를 문자열 문제로 번역하는 atom이 선행되어야 한다.",
+        "경계 주머니와 내부 주머니의 이웃 조건이 다르다는 점을 오답 포인트로 살리기 좋다."
+      ],
+      "source_metadata": {
+        "batch_id": "batch_01",
+        "provenance": "assistant manual analysis",
+        "paper": "2026 CSAT Math",
+        "section": "probability_statistics",
+        "question_no": 30,
+        "review_status": "draft",
+        "copyright_mode": "clean_room_paraphrase",
+        "selection_rationale": "인접 제한이 있는 점유 분배 family의 강한 대표 문항"
+      },
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
     }
   ]
 }

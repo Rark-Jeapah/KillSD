@@ -1,25 +1,156 @@
 {
+  "manifest_version": "2.0",
   "spec_id": "csat_math_2028",
-  "generated_at": "2026-03-12T02:46:55.484738+00:00",
-  "source_path": "data/source_fixtures/csat_math_2028/sample_items.json",
+  "generated_at": "2026-03-14T05:00:21.884215+00:00",
+  "mode": "curated_batches",
+  "source_path": "data/curated_batches/csat_math_2028/batch_01/batch_01.manifest.json",
   "output_dir": "data/distilled/csat_math_2028",
+  "source_batch_hashes": [
+    "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+  ],
+  "source_batches": [
+    {
+      "batch_id": "batch_01",
+      "batch_version": "2026.03.13",
+      "manifest_version": "2.0",
+      "created_at": "2026-03-13T00:00:00+00:00",
+      "manifest_path": "data/curated_batches/csat_math_2028/batch_01/batch_01.manifest.json",
+      "items_path": "data/source_fixtures/csat_math_2028/batch_01_curated_selected_items.json",
+      "item_count": 12,
+      "content_hash": "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e",
+      "provenance": {
+        "exam_name": "CSAT Mathematics",
+        "exam_year": 2028,
+        "source_name": "assistant_curated_batch_01",
+        "source_kind": "exam_analysis"
+      }
+    }
+  ],
   "counts": {
-    "source_items": 5,
-    "item_cards": 5,
-    "solution_graphs": 5,
-    "atoms": 17,
-    "distractors": 10,
-    "fingerprints": 5,
-    "duplicate_candidates": 1
+    "source_items": 12,
+    "retained_source_items": 12,
+    "item_cards": 12,
+    "solution_graphs": 12,
+    "atoms": 48,
+    "distractors": 24,
+    "fingerprints": 12,
+    "duplicate_candidates": 0
   },
+  "coverage": {
+    "by_domain": {
+      "algebra": 4,
+      "calculus_1": 4,
+      "probability_statistics": 4
+    },
+    "by_topic": {
+      "arithmetic_sequence_rationalized_sum": 1,
+      "continuity_branch_selection": 1,
+      "geometric_sequence_ratio_lock": 1,
+      "integral_extremum_parameter": 1,
+      "integral_zero_balance": 1,
+      "normal_interval_probability_optimization": 1,
+      "occupancy_adjacency_count": 1,
+      "piecewise_linear_replacement_area_max": 1,
+      "relative_motion_distance_monotonicity": 1,
+      "sample_mean_variance_scaling": 1,
+      "sequential_transfer_conditional_probability": 1,
+      "trigonometric_parameter_maximum": 1
+    },
+    "by_difficulty": {
+      "advanced": 3,
+      "challenging": 7,
+      "standard": 2
+    },
+    "by_answer_form": {
+      "choice_index": 10,
+      "natural_number": 2
+    }
+  },
+  "dedup": {
+    "item_cards": {
+      "input": 12,
+      "output": 12,
+      "exact_duplicates": 0,
+      "superseded_versions": 0,
+      "version_groups": 0
+    },
+    "insight_atoms": {
+      "input": 48,
+      "output": 48,
+      "duplicates_removed": 0
+    },
+    "distractor_atoms": {
+      "input": 24,
+      "output": 24,
+      "duplicates_removed": 0
+    },
+    "fingerprints": {
+      "input": 12,
+      "output": 12,
+      "duplicates_removed": 0
+    },
+    "near_duplicate_candidates": 0
+  },
+  "version_history": [],
   "generated_files": [
-    "item_cards.json",
-    "solution_graphs.json",
-    "atoms.json",
-    "distractors.json",
-    "topic_graph.json",
-    "diagram_templates.json",
-    "style_rules.yaml",
-    "fingerprints.json"
-  ]
+    {
+      "path": "data/distilled/csat_math_2028/item_cards.json",
+      "sha256": "sha256:91bc2eeed9a487eeffdb3d1085169b0720cc848036b4d07265843badb9f48cbf"
+    },
+    {
+      "path": "data/distilled/csat_math_2028/solution_graphs.json",
+      "sha256": "sha256:780f3ace793aac8b4a6f39c1d36822ec2067ac358378b296645f51fc23b59ac4"
+    },
+    {
+      "path": "data/distilled/csat_math_2028/atoms.json",
+      "sha256": "sha256:5ac84a63e0bd3fc7688465987d7f92d5ac71c6a7cfda8f8a0d6bb2eee254efaa"
+    },
+    {
+      "path": "data/distilled/csat_math_2028/distractors.json",
+      "sha256": "sha256:b31735b80dc5f07fd0bcbfaaa62fc36b86bee601b4564796364bd402093cb663"
+    },
+    {
+      "path": "data/distilled/csat_math_2028/topic_graph.json",
+      "sha256": "sha256:e812302073469ebe55627c3fe3ea53a55bd548ec8a0cfff1b2e5cd817a21e886"
+    },
+    {
+      "path": "data/distilled/csat_math_2028/diagram_templates.json",
+      "sha256": "sha256:d1458a2d61930c0d03b039bac52ca2292569652f599e3e3ead8426e8abd98e6e"
+    },
+    {
+      "path": "data/distilled/csat_math_2028/style_rules.yaml",
+      "sha256": "sha256:53e18031c0fb627c5ffc388fa17fd0d16bd787731548e0b55f9e39c43d7c2552"
+    },
+    {
+      "path": "data/distilled/csat_math_2028/fingerprints.json",
+      "sha256": "sha256:1a856cc1e41247356ac0890901f689dda52e38b7bcac35e0ec928aa7ceffff9d"
+    }
+  ],
+  "batch_validation": {
+    "spec_id": "csat_math_2028",
+    "batch_root": "data/curated_batches/csat_math_2028/batch_01/batch_01.manifest.json",
+    "batch_count": 1,
+    "item_count": 12,
+    "valid": true,
+    "batches": [
+      {
+        "batch_id": "batch_01",
+        "batch_version": "2026.03.13",
+        "manifest_version": "2.0",
+        "manifest_path": "data/curated_batches/csat_math_2028/batch_01/batch_01.manifest.json",
+        "items_path": "data/source_fixtures/csat_math_2028/batch_01_curated_selected_items.json",
+        "declared_item_count": 12,
+        "computed_item_count": 12,
+        "declared_content_hash": "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e",
+        "computed_content_hash": "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e",
+        "provenance": {
+          "exam_name": "CSAT Mathematics",
+          "exam_year": 2028,
+          "source_name": "assistant_curated_batch_01",
+          "source_kind": "exam_analysis"
+        },
+        "errors": []
+      }
+    ]
+  }
 }

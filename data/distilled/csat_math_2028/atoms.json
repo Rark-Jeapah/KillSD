@@ -1,285 +1,588 @@
 {
+  "manifest_version": "2.0",
   "spec_id": "csat_math_2028",
-  "generated_at": "2026-03-12T02:46:55.483214+00:00",
-  "source_path": "data/source_fixtures/csat_math_2028/sample_items.json",
+  "generated_at": "2026-03-14T05:00:21.881366+00:00",
+  "source_path": "data/curated_batches/csat_math_2028/batch_01/batch_01.manifest.json",
+  "source_batches": [
+    {
+      "batch_id": "batch_01",
+      "batch_version": "2026.03.13",
+      "manifest_version": "2.0",
+      "created_at": "2026-03-13T00:00:00+00:00",
+      "manifest_path": "data/curated_batches/csat_math_2028/batch_01/batch_01.manifest.json",
+      "items_path": "data/source_fixtures/csat_math_2028/batch_01_curated_selected_items.json",
+      "item_count": 12,
+      "content_hash": "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e",
+      "provenance": {
+        "exam_name": "CSAT Mathematics",
+        "exam_year": 2028,
+        "source_name": "assistant_curated_batch_01",
+        "source_kind": "exam_analysis"
+      }
+    }
+  ],
   "atoms": [
     {
-      "atom_id": "atom-5480edcc0dcb",
-      "label": "경우의 수 계산 [count_conditioned_cases]",
-      "topic": "conditional_probability_table",
+      "atom_id": "atom-9ed560f420ba",
+      "record_version": "sha256:4a9c6c52f4ce806bee4ad4b6a50af6dd5ebf3b25ff9848fde9e3b65e18e0bec8",
+      "label": "선택지 결정 [choice_alignment]",
+      "topic": "arithmetic_sequence_rationalized_sum",
       "prerequisites": [
-        "conditional probability",
-        "sample space partition"
+        "arithmetic_sequence",
+        "radical_rationalization"
       ],
       "trigger_patterns": [
-        "조건 사건 제한",
-        "분모 재설정",
-        "교집합 계산"
+        "첫째항=공차",
+        "근호 유리화",
+        "망원합"
       ],
       "canonical_moves": [
-        "count_conditioned_cases",
-        "B의 경우의 수와 A∩B의 경우의 수를 각각 센다."
+        "choice_alignment",
+        "9에 해당하는 선택지를 고른다."
       ],
       "common_failures": [
-        "unconditioned_ratio: P(A)/P(B) 또는 P(A∩B)/P(S)로 계산한다.",
-        "count_overlap_miss: 조건 사건에 포함되지 않는 경우를 함께 센다."
+        "parameterization_miss: a_k=a+(k-1)d로 두고 a=d 조건을 끝까지 반영하지 않는다.",
+        "rationalization_slip: 1/(√k+√(k+1))를 √(k+1)-√k 로만 바꾸고 1/√r 인자를 놓친다."
       ],
       "allowed_answer_forms": [
-        "reduced_fraction"
+        "choice_index"
       ],
       "diagram_tags": [
-        "probability_table"
+        "sequence_array"
+      ],
+      "difficulty_delta": 0,
+      "source_item_ids": [
+        "batch01-kice-2023-common-q7"
+      ],
+      "source_step_ids": [
+        "s4"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-2c68e9191d22",
+      "record_version": "sha256:58ee693a58d9886a6379e9c573ebaca13ac7731743b2750f6496778dda47aedd",
+      "label": "수열 일반항 설정 [equal_first_term_difference]",
+      "topic": "arithmetic_sequence_rationalized_sum",
+      "prerequisites": [
+        "arithmetic_sequence",
+        "radical_rationalization"
+      ],
+      "trigger_patterns": [
+        "첫째항=공차",
+        "근호 유리화",
+        "망원합"
+      ],
+      "canonical_moves": [
+        "equal_first_term_difference",
+        "첫째항과 공차가 같으므로 a_1=d=r>0, 따라서 a_k=kr이다."
+      ],
+      "common_failures": [
+        "parameterization_miss: a_k=a+(k-1)d로 두고 a=d 조건을 끝까지 반영하지 않는다.",
+        "rationalization_slip: 1/(√k+√(k+1))를 √(k+1)-√k 로만 바꾸고 1/√r 인자를 놓친다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "sequence_array"
+      ],
+      "difficulty_delta": 0,
+      "source_item_ids": [
+        "batch01-kice-2023-common-q7"
+      ],
+      "source_step_ids": [
+        "s1"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-dc5d6c4d53b4",
+      "record_version": "sha256:28a7645a210ea44d9005416bc8f4047b442d2ad4e1bbc00d4f95ec40835229c9",
+      "label": "유리화로 망원합 만들기 [radical_rationalization]",
+      "topic": "arithmetic_sequence_rationalized_sum",
+      "prerequisites": [
+        "arithmetic_sequence",
+        "radical_rationalization"
+      ],
+      "trigger_patterns": [
+        "첫째항=공차",
+        "근호 유리화",
+        "망원합"
+      ],
+      "canonical_moves": [
+        "radical_rationalization",
+        "1/(√a_k+√a_{k+1})=(√(k+1)-√k)/√r 로 바꾼다."
+      ],
+      "common_failures": [
+        "parameterization_miss: a_k=a+(k-1)d로 두고 a=d 조건을 끝까지 반영하지 않는다.",
+        "rationalization_slip: 1/(√k+√(k+1))를 √(k+1)-√k 로만 바꾸고 1/√r 인자를 놓친다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "sequence_array"
       ],
       "difficulty_delta": 1,
       "source_item_ids": [
-        "fixture-conditional-03"
+        "batch01-kice-2023-common-q7"
       ],
       "source_step_ids": [
         "s2"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
       ]
     },
     {
-      "atom_id": "atom-aaa349a7160b",
-      "label": "조건 사건 정리 [condition_partition]",
-      "topic": "conditional_probability_table",
+      "atom_id": "atom-4b6d0073efd9",
+      "record_version": "sha256:648b0c4b23d4f7bad3ac673fefe665868b9493e3bc7d2e75d01f97e9ad99da8f",
+      "label": "합 계산 [telescoping_evaluation]",
+      "topic": "arithmetic_sequence_rationalized_sum",
       "prerequisites": [
-        "conditional probability",
-        "sample space partition"
+        "arithmetic_sequence",
+        "radical_rationalization"
       ],
       "trigger_patterns": [
-        "조건 사건 제한",
-        "분모 재설정",
-        "교집합 계산"
+        "첫째항=공차",
+        "근호 유리화",
+        "망원합"
       ],
       "canonical_moves": [
-        "condition_partition",
-        "사건 B에 해당하는 경우만 표로 정리한다."
+        "telescoping_evaluation",
+        "망원합으로 3/√r=2를 얻어 r=9/4, 따라서 a_4=4r=9이다."
       ],
       "common_failures": [
-        "unconditioned_ratio: P(A)/P(B) 또는 P(A∩B)/P(S)로 계산한다.",
-        "count_overlap_miss: 조건 사건에 포함되지 않는 경우를 함께 센다."
-      ],
-      "allowed_answer_forms": [
-        "reduced_fraction"
-      ],
-      "diagram_tags": [
-        "probability_table"
-      ],
-      "difficulty_delta": 0,
-      "source_item_ids": [
-        "fixture-conditional-03"
-      ],
-      "source_step_ids": [
-        "s1"
-      ]
-    },
-    {
-      "atom_id": "atom-0ce427cc63df",
-      "label": "조건부확률 계산 [conditional_probability_ratio]",
-      "topic": "conditional_probability_table",
-      "prerequisites": [
-        "conditional probability",
-        "sample space partition"
-      ],
-      "trigger_patterns": [
-        "조건 사건 제한",
-        "분모 재설정",
-        "교집합 계산"
-      ],
-      "canonical_moves": [
-        "conditional_probability_ratio",
-        "P(A|B)=P(A∩B)/P(B)=2/3이다."
-      ],
-      "common_failures": [
-        "unconditioned_ratio: P(A)/P(B) 또는 P(A∩B)/P(S)로 계산한다.",
-        "count_overlap_miss: 조건 사건에 포함되지 않는 경우를 함께 센다."
-      ],
-      "allowed_answer_forms": [
-        "reduced_fraction"
-      ],
-      "diagram_tags": [
-        "probability_table"
-      ],
-      "difficulty_delta": 0,
-      "source_item_ids": [
-        "fixture-conditional-03"
-      ],
-      "source_step_ids": [
-        "s3"
-      ]
-    },
-    {
-      "atom_id": "atom-bba0fe482772",
-      "label": "꼭짓점 기반 조건 [quadratic_vertex_check]",
-      "topic": "derivative_monotonicity",
-      "prerequisites": [
-        "derivative",
-        "critical point"
-      ],
-      "trigger_patterns": [
-        "도함수 계산",
-        "꼭짓점 활용",
-        "전구간 부호 판단"
-      ],
-      "canonical_moves": [
-        "quadratic_vertex_check",
-        "문항 의도가 감소 함수 조건이라면 꼭짓점 x=2에서 g'(2)=b-12≤0을 얻는다."
-      ],
-      "common_failures": [
-        "direction_misread: 전구간에서 증가하지 않음을 f'(x)≥0으로 해석한다.",
-        "vertex_substitution_slip: x=1로 대입해 b-3≤0을 얻는다."
+        "parameterization_miss: a_k=a+(k-1)d로 두고 a=d 조건을 끝까지 반영하지 않는다.",
+        "rationalization_slip: 1/(√k+√(k+1))를 √(k+1)-√k 로만 바꾸고 1/√r 인자를 놓친다."
       ],
       "allowed_answer_forms": [
         "choice_index"
       ],
       "diagram_tags": [
-        "function_graph",
-        "sign_chart"
+        "sequence_array"
       ],
       "difficulty_delta": 1,
       "source_item_ids": [
-        "fixture-derivative-05"
+        "batch01-kice-2023-common-q7"
       ],
       "source_step_ids": [
         "s3"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
       ]
     },
     {
-      "atom_id": "atom-f81b2ab6c767",
-      "label": "단조 조건 연결 [global_monotonicity_condition]",
-      "topic": "derivative_monotonicity",
+      "atom_id": "atom-f75e124261e2",
+      "record_version": "sha256:20a40f7b52bae22f13bccd8d19706c7d34a7eda5b7a3c0c41e0aff04ea26a59b",
+      "label": "가능한 함수값 분해 [factor_branch_extraction]",
+      "topic": "continuity_branch_selection",
       "prerequisites": [
-        "derivative",
-        "critical point"
+        "functional_equation",
+        "continuity"
       ],
       "trigger_patterns": [
-        "도함수 계산",
-        "꼭짓점 활용",
-        "전구간 부호 판단"
+        "대수식 인수분해",
+        "가능한 함수값 세 갈래",
+        "연속성과 범위로 가지치기"
       ],
       "canonical_moves": [
-        "global_monotonicity_condition",
-        "감소하지 않으려면 모든 x에 대해 f'(x)≥0 이어야 하므로 a-3≥0이다."
+        "factor_branch_extraction",
+        "주어진 식은 (f(x)-1)(f(x)-x)(f(x)+x)=0 이므로 각 x에서 f(x)는 1, x, -x 중 하나이다."
       ],
       "common_failures": [
-        "local_global_confusion: f'(1)=0이 되도록 a=3 하나만 답으로 본다.",
-        "sign_condition_flip: 감소하지 않음을 f'(x)≤0으로 잘못 해석한다."
+        "branch_sign_miss: 음수 구간에서도 f(x)=x를 선택해 범위 조건을 깨뜨린다.",
+        "continuity_omission: |x|>1에서 1, |x|<1에서 1로 두고 f(0)=0만 따로 잡는다."
       ],
       "allowed_answer_forms": [
         "choice_index"
       ],
       "diagram_tags": [
-        "function_graph",
-        "sign_chart"
+        "function_graph"
       ],
       "difficulty_delta": 1,
       "source_item_ids": [
-        "fixture-derivative-02"
+        "batch01-kice-2022-common-q12"
       ],
       "source_step_ids": [
-        "s3"
+        "s1"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
       ]
     },
     {
-      "atom_id": "atom-f9684d631a8c",
-      "label": "도함수 계산 [differentiate_polynomial]",
-      "topic": "derivative_monotonicity",
+      "atom_id": "atom-fd2f54d2016c",
+      "record_version": "sha256:60f79ead5c12558be2d4fd24c37514b79583ba89f96b6bf2c72b6c2ba22275f5",
+      "label": "값 대입 [piecewise_evaluation]",
+      "topic": "continuity_branch_selection",
       "prerequisites": [
-        "derivative",
-        "critical point"
+        "functional_equation",
+        "continuity"
       ],
       "trigger_patterns": [
-        "도함수 계산",
-        "꼭짓점 활용",
-        "전구간 부호 판단"
+        "대수식 인수분해",
+        "가능한 함수값 세 갈래",
+        "연속성과 범위로 가지치기"
       ],
       "canonical_moves": [
-        "differentiate_polynomial",
-        "f'(x)=3x^2-6x+a를 구한다.",
-        "g'(x)=3x^2-12x+b를 구한다."
+        "piecewise_evaluation",
+        "f(-4/3)=1, f(0)=0, f(1/2)=1/2이므로 합은 3/2이다."
       ],
       "common_failures": [
-        "local_global_confusion: f'(1)=0이 되도록 a=3 하나만 답으로 본다.",
-        "sign_condition_flip: 감소하지 않음을 f'(x)≤0으로 잘못 해석한다.",
-        "direction_misread: 전구간에서 증가하지 않음을 f'(x)≥0으로 해석한다.",
-        "vertex_substitution_slip: x=1로 대입해 b-3≤0을 얻는다."
+        "branch_sign_miss: 음수 구간에서도 f(x)=x를 선택해 범위 조건을 깨뜨린다.",
+        "continuity_omission: |x|>1에서 1, |x|<1에서 1로 두고 f(0)=0만 따로 잡는다."
       ],
       "allowed_answer_forms": [
         "choice_index"
       ],
       "diagram_tags": [
-        "function_graph",
-        "sign_chart"
+        "function_graph"
       ],
       "difficulty_delta": 0,
       "source_item_ids": [
-        "fixture-derivative-02",
-        "fixture-derivative-05"
+        "batch01-kice-2022-common-q12"
       ],
       "source_step_ids": [
-        "s1"
+        "s3"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
       ]
     },
     {
-      "atom_id": "atom-bb0d073139cc",
+      "atom_id": "atom-411b1c693ee2",
+      "record_version": "sha256:bcc1206b1a469f59f5a5b28edc428d59ce7fd846c6f6d0bd909b9c9d12f76aa7",
+      "label": "범위 조건으로 가지치기 [range_and_continuity_filter]",
+      "topic": "continuity_branch_selection",
+      "prerequisites": [
+        "functional_equation",
+        "continuity"
+      ],
+      "trigger_patterns": [
+        "대수식 인수분해",
+        "가능한 함수값 세 갈래",
+        "연속성과 범위로 가지치기"
+      ],
+      "canonical_moves": [
+        "range_and_continuity_filter",
+        "최솟값이 0이고 최댓값이 1이므로 음수값과 1보다 큰 값은 나올 수 없다. 따라서 |x|>1에서는 f(x)=1, |x|≤1에서는 연속성을 지키며 f(x)=|x|가 된다."
+      ],
+      "common_failures": [
+        "branch_sign_miss: 음수 구간에서도 f(x)=x를 선택해 범위 조건을 깨뜨린다.",
+        "continuity_omission: |x|>1에서 1, |x|<1에서 1로 두고 f(0)=0만 따로 잡는다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "function_graph"
+      ],
+      "difficulty_delta": 2,
+      "source_item_ids": [
+        "batch01-kice-2022-common-q12"
+      ],
+      "source_step_ids": [
+        "s2"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-b09128d32b8d",
+      "record_version": "sha256:d1261d2c5c5cf25fd0da69eeaa40da97b97440ce3a506c54277d854892d4020d",
+      "label": "선택지 확정 [choice_alignment]",
+      "topic": "continuity_branch_selection",
+      "prerequisites": [
+        "functional_equation",
+        "continuity"
+      ],
+      "trigger_patterns": [
+        "대수식 인수분해",
+        "가능한 함수값 세 갈래",
+        "연속성과 범위로 가지치기"
+      ],
+      "canonical_moves": [
+        "choice_alignment",
+        "3/2에 대응되는 선택지를 고른다."
+      ],
+      "common_failures": [
+        "branch_sign_miss: 음수 구간에서도 f(x)=x를 선택해 범위 조건을 깨뜨린다.",
+        "continuity_omission: |x|>1에서 1, |x|<1에서 1로 두고 f(0)=0만 따로 잡는다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "function_graph"
+      ],
+      "difficulty_delta": 0,
+      "source_item_ids": [
+        "batch01-kice-2022-common-q12"
+      ],
+      "source_step_ids": [
+        "s4"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-83734ad92f5d",
+      "record_version": "sha256:f1c54fb84d516fc3398ee2e1cfd883638cd252aae3b384e1568fbb6dcfc73a83",
+      "label": "공비의 세 제곱 치환 [group_by_three_steps]",
+      "topic": "geometric_sequence_ratio_lock",
+      "prerequisites": [
+        "geometric_sequence",
+        "grouped_terms"
+      ],
+      "trigger_patterns": [
+        "세 칸 간격 항 묶기",
+        "등식 비교",
+        "r^3 치환"
+      ],
+      "canonical_moves": [
+        "group_by_three_steps",
+        "a_1=A, r^3=u로 두면 a_4=Au, a_7=Au^2, a_10=Au^3이다."
+      ],
+      "common_failures": [
+        "factor_two_omission: 앞의 등식에 붙은 2를 빼먹고 u=1로 처리한다.",
+        "ratio_root_confusion: u=2에서 곧바로 r=2로 두고 a_10을 과대평가한다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "sequence_array"
+      ],
+      "difficulty_delta": 0,
+      "source_item_ids": [
+        "batch01-kice-2026-common-q12"
+      ],
+      "source_step_ids": [
+        "s1"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-9b2024e06d9a",
+      "record_version": "sha256:04819a01b14371fd9f13769d600a32baab46bb2d19520ac00bcf5a5f19bca228",
+      "label": "두 등식 비교 [ratio_comparison]",
+      "topic": "geometric_sequence_ratio_lock",
+      "prerequisites": [
+        "geometric_sequence",
+        "grouped_terms"
+      ],
+      "trigger_patterns": [
+        "세 칸 간격 항 묶기",
+        "등식 비교",
+        "r^3 치환"
+      ],
+      "canonical_moves": [
+        "ratio_comparison",
+        "2A(1+u+u^2)=6, Au(1+u+u^2)=6이므로 u=2를 얻는다."
+      ],
+      "common_failures": [
+        "factor_two_omission: 앞의 등식에 붙은 2를 빼먹고 u=1로 처리한다.",
+        "ratio_root_confusion: u=2에서 곧바로 r=2로 두고 a_10을 과대평가한다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "sequence_array"
+      ],
+      "difficulty_delta": 1,
+      "source_item_ids": [
+        "batch01-kice-2026-common-q12"
+      ],
+      "source_step_ids": [
+        "s2"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-5772cfa94751",
+      "record_version": "sha256:c6b1b717a6be36c3c32f5cd0ea9346f70e291ca3dfe15a2d112c1c02bded5035",
       "label": "정답 선택 [choice_alignment]",
-      "topic": "derivative_monotonicity",
+      "topic": "geometric_sequence_ratio_lock",
       "prerequisites": [
-        "derivative",
-        "critical point"
+        "geometric_sequence",
+        "grouped_terms"
       ],
       "trigger_patterns": [
-        "도함수 계산",
-        "꼭짓점 활용",
-        "전구간 부호 판단"
+        "세 칸 간격 항 묶기",
+        "등식 비교",
+        "r^3 치환"
       ],
       "canonical_moves": [
         "choice_alignment",
-        "a≥3에 해당하는 선택지를 고른다.",
-        "b≤12에 해당하는 선택지를 고른다."
+        "24/7에 해당하는 선택지를 고른다."
       ],
       "common_failures": [
-        "local_global_confusion: f'(1)=0이 되도록 a=3 하나만 답으로 본다.",
-        "sign_condition_flip: 감소하지 않음을 f'(x)≤0으로 잘못 해석한다.",
-        "direction_misread: 전구간에서 증가하지 않음을 f'(x)≥0으로 해석한다.",
-        "vertex_substitution_slip: x=1로 대입해 b-3≤0을 얻는다."
+        "factor_two_omission: 앞의 등식에 붙은 2를 빼먹고 u=1로 처리한다.",
+        "ratio_root_confusion: u=2에서 곧바로 r=2로 두고 a_10을 과대평가한다."
       ],
       "allowed_answer_forms": [
         "choice_index"
       ],
       "diagram_tags": [
-        "function_graph",
-        "sign_chart"
+        "sequence_array"
       ],
       "difficulty_delta": 0,
       "source_item_ids": [
-        "fixture-derivative-02",
-        "fixture-derivative-05"
+        "batch01-kice-2026-common-q12"
       ],
       "source_step_ids": [
         "s4"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
       ]
     },
     {
-      "atom_id": "atom-1c4317d67e80",
-      "label": "최댓값 관찰 [global_monotonicity_direction_check]",
-      "topic": "derivative_monotonicity",
+      "atom_id": "atom-eaa3fc92c526",
+      "record_version": "sha256:3f91ca556c46ce3d11868cb1cccd2cc77f7d410d621588446ea42af1abca55f4",
+      "label": "첫째항과 제10항 계산 [back_substitution]",
+      "topic": "geometric_sequence_ratio_lock",
       "prerequisites": [
-        "derivative",
-        "critical point"
+        "geometric_sequence",
+        "grouped_terms"
       ],
       "trigger_patterns": [
-        "도함수 계산",
-        "꼭짓점 활용",
-        "전구간 부호 판단"
+        "세 칸 간격 항 묶기",
+        "등식 비교",
+        "r^3 치환"
       ],
       "canonical_moves": [
-        "global_monotonicity_direction_check",
-        "증가하지 않으려면 g'(x)≤0 이어야 하는데 도함수는 위로 열린 이차함수라 조건 충족이 불가능한지 먼저 본다."
+        "back_substitution",
+        "A(1+2+4)=3이므로 A=3/7, 따라서 a_10=Au^3=(3/7)·8=24/7이다."
       ],
       "common_failures": [
-        "direction_misread: 전구간에서 증가하지 않음을 f'(x)≥0으로 해석한다.",
-        "vertex_substitution_slip: x=1로 대입해 b-3≤0을 얻는다."
+        "factor_two_omission: 앞의 등식에 붙은 2를 빼먹고 u=1로 처리한다.",
+        "ratio_root_confusion: u=2에서 곧바로 r=2로 두고 a_10을 과대평가한다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "sequence_array"
+      ],
+      "difficulty_delta": 1,
+      "source_item_ids": [
+        "batch01-kice-2026-common-q12"
+      ],
+      "source_step_ids": [
+        "s3"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-91c895d1b3ff",
+      "record_version": "sha256:18676ae2d5f3cdd8a95c43f7734e7ea40a8ab31e2f4852429f02880e205e7667",
+      "label": "구간별 부호 분석 [piecewise_sign_factorization]",
+      "topic": "integral_extremum_parameter",
+      "prerequisites": [
+        "piecewise_quadratic",
+        "integral_function"
+      ],
+      "trigger_patterns": [
+        "적분함수 도함수",
+        "구간별 부호표",
+        "극값 개수 조건"
+      ],
+      "canonical_moves": [
+        "piecewise_sign_factorization",
+        "-1<x<1에서는 h'(x)>0 이고, x≥1에서는 h'(x)=-(x-1)(x-a), x<-1에서는 h'(x)=x^2+ax+a 이다."
+      ],
+      "common_failures": [
+        "stationary_extremum_confusion: 부호를 확인하지 않고 두 점을 모두 극값으로 센다.",
+        "left_quadratic_oversight: x≥1 구간만 보고 a를 무한히 키워도 극값 수가 하나라고 판단한다."
       ],
       "allowed_answer_forms": [
         "choice_index"
@@ -288,34 +591,44 @@
         "function_graph",
         "sign_chart"
       ],
-      "difficulty_delta": 1,
+      "difficulty_delta": 2,
       "source_item_ids": [
-        "fixture-derivative-05"
+        "batch01-kice-2026-common-q15"
       ],
       "source_step_ids": [
         "s2"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
       ]
     },
     {
-      "atom_id": "atom-d1170f7c15a9",
-      "label": "최솟값 관찰 [quadratic_vertex_check]",
-      "topic": "derivative_monotonicity",
+      "atom_id": "atom-607957d92b5f",
+      "record_version": "sha256:4818e49e439e0da28ce541bbb3f3ad2018e9aca96f0d2acdc6b317c245b2709f",
+      "label": "극값이 하나가 되게 하는 최대 a [extremum_count_parameter_bound]",
+      "topic": "integral_extremum_parameter",
       "prerequisites": [
-        "derivative",
-        "critical point"
+        "piecewise_quadratic",
+        "integral_function"
       ],
       "trigger_patterns": [
-        "도함수 계산",
-        "꼭짓점 활용",
-        "전구간 부호 판단"
+        "적분함수 도함수",
+        "구간별 부호표",
+        "극값 개수 조건"
       ],
       "canonical_moves": [
-        "quadratic_vertex_check",
-        "이차함수인 도함수의 꼭짓점 x=1에서 최솟값을 가진다."
+        "extremum_count_parameter_bound",
+        "오른쪽에서는 a>1일 때 x=a에서 한 번 극값이 생긴다. 왼쪽 이차식이 추가 극값을 만들지 않으려면 a≤4이어야 하므로 최대값은 k=4이다."
       ],
       "common_failures": [
-        "local_global_confusion: f'(1)=0이 되도록 a=3 하나만 답으로 본다.",
-        "sign_condition_flip: 감소하지 않음을 f'(x)≤0으로 잘못 해석한다."
+        "stationary_extremum_confusion: 부호를 확인하지 않고 두 점을 모두 극값으로 센다.",
+        "left_quadratic_oversight: x≥1 구간만 보고 a를 무한히 키워도 극값 수가 하나라고 판단한다."
       ],
       "allowed_answer_forms": [
         "choice_index"
@@ -324,296 +637,1569 @@
         "function_graph",
         "sign_chart"
       ],
-      "difficulty_delta": 1,
+      "difficulty_delta": 2,
       "source_item_ids": [
-        "fixture-derivative-02"
+        "batch01-kice-2026-common-q15"
       ],
       "source_step_ids": [
-        "s2"
+        "s3"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
       ]
     },
     {
-      "atom_id": "atom-d9598b47182d",
-      "label": "교점 확인 [root_identification]",
-      "topic": "integral_area_split",
+      "atom_id": "atom-aeed409368c6",
+      "record_version": "sha256:a809bbb30c11e7cf1a47f2fdfa869e782db04c241dd07477cd27168fcecba617",
+      "label": "도함수로 환원 [differentiate_integral_function]",
+      "topic": "integral_extremum_parameter",
       "prerequisites": [
-        "integral",
-        "graph symmetry"
+        "piecewise_quadratic",
+        "integral_function"
       ],
       "trigger_patterns": [
-        "교점 확인",
-        "부호 판단",
-        "정적분 계산"
+        "적분함수 도함수",
+        "구간별 부호표",
+        "극값 개수 조건"
       ],
       "canonical_moves": [
-        "root_identification",
-        "x축과의 교점은 x=0, 2이다."
+        "differentiate_integral_function",
+        "h'(x)=g(x)-f(x) 이므로 극값 개수 문제는 구간별 h'의 부호 변화를 세는 문제로 바뀐다."
       ],
       "common_failures": [
-        "signed_area_confusion: ∫_0^2 x(x-2)dx = -4/3을 그대로 답으로 쓴다.",
-        "antiderivative_slip: x^3/3-2x^2를 대입해 8/3으로 계산한다."
+        "stationary_extremum_confusion: 부호를 확인하지 않고 두 점을 모두 극값으로 센다.",
+        "left_quadratic_oversight: x≥1 구간만 보고 a를 무한히 키워도 극값 수가 하나라고 판단한다."
       ],
       "allowed_answer_forms": [
-        "reduced_fraction"
+        "choice_index"
       ],
       "diagram_tags": [
         "function_graph",
-        "area_under_curve"
+        "sign_chart"
       ],
       "difficulty_delta": 0,
       "source_item_ids": [
-        "fixture-integral-04"
+        "batch01-kice-2026-common-q15"
       ],
       "source_step_ids": [
         "s1"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
       ]
     },
     {
-      "atom_id": "atom-513ab206a642",
-      "label": "답 형식 확정 [answer_form_finalize]",
-      "topic": "integral_area_split",
+      "atom_id": "atom-7907e2c3ba8d",
+      "record_version": "sha256:ee76a682f069c61a5d34142cc1db84e8a36b68d06848f0455ccac516b3bebfee",
+      "label": "최종값 계산 [parameter_substitution_integral]",
+      "topic": "integral_extremum_parameter",
       "prerequisites": [
-        "integral",
-        "graph symmetry"
+        "piecewise_quadratic",
+        "integral_function"
       ],
       "trigger_patterns": [
-        "교점 확인",
-        "부호 판단",
-        "정적분 계산"
+        "적분함수 도함수",
+        "구간별 부호표",
+        "극값 개수 조건"
       ],
       "canonical_moves": [
-        "answer_form_finalize",
-        "기약분수 4/3으로 정리한다."
+        "parameter_substitution_integral",
+        "a=4를 대입하면 h(3)=7/2이고, 따라서 k+h(3)=15/2이다."
       ],
       "common_failures": [
-        "signed_area_confusion: ∫_0^2 x(x-2)dx = -4/3을 그대로 답으로 쓴다.",
-        "antiderivative_slip: x^3/3-2x^2를 대입해 8/3으로 계산한다."
+        "stationary_extremum_confusion: 부호를 확인하지 않고 두 점을 모두 극값으로 센다.",
+        "left_quadratic_oversight: x≥1 구간만 보고 a를 무한히 키워도 극값 수가 하나라고 판단한다."
       ],
       "allowed_answer_forms": [
-        "reduced_fraction"
+        "choice_index"
       ],
       "diagram_tags": [
         "function_graph",
-        "area_under_curve"
+        "sign_chart"
       ],
-      "difficulty_delta": 0,
+      "difficulty_delta": 1,
       "source_item_ids": [
-        "fixture-integral-04"
+        "batch01-kice-2026-common-q15"
       ],
       "source_step_ids": [
         "s4"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
       ]
     },
     {
-      "atom_id": "atom-a9c6d7c169b3",
-      "label": "부호 판단 [signed_area_check]",
-      "topic": "integral_area_split",
+      "atom_id": "atom-da1c08601747",
+      "record_version": "sha256:168701ac1881ceb078782b3a89559f365b617ba94dc615d5ad46dc80c05d9ca6",
+      "label": "공통 구간 제거 [integral_difference_reduction]",
+      "topic": "integral_zero_balance",
       "prerequisites": [
-        "integral",
-        "graph symmetry"
+        "definite_integral",
+        "antiderivative"
       ],
       "trigger_patterns": [
-        "교점 확인",
-        "부호 판단",
-        "정적분 계산"
+        "공통 시작점 적분 비교",
+        "원시함수 인수분해",
+        "양수해 필터"
       ],
       "canonical_moves": [
-        "signed_area_check",
-        "구간 (0,2)에서 함수값이 음수이므로 넓이는 절댓값 적분으로 계산한다."
+        "integral_difference_reduction",
+        "두 적분의 시작점이 같으므로 ∫_0^a f(x)dx = 0 으로 바꾼다."
       ],
       "common_failures": [
-        "signed_area_confusion: ∫_0^2 x(x-2)dx = -4/3을 그대로 답으로 쓴다.",
-        "antiderivative_slip: x^3/3-2x^2를 대입해 8/3으로 계산한다."
-      ],
-      "allowed_answer_forms": [
-        "reduced_fraction"
-      ],
-      "diagram_tags": [
-        "function_graph",
-        "area_under_curve"
-      ],
-      "difficulty_delta": 1,
-      "source_item_ids": [
-        "fixture-integral-04"
-      ],
-      "source_step_ids": [
-        "s2"
-      ]
-    },
-    {
-      "atom_id": "atom-76000528b58f",
-      "label": "적분 계산 [definite_integral_evaluation]",
-      "topic": "integral_area_split",
-      "prerequisites": [
-        "integral",
-        "graph symmetry"
-      ],
-      "trigger_patterns": [
-        "교점 확인",
-        "부호 판단",
-        "정적분 계산"
-      ],
-      "canonical_moves": [
-        "definite_integral_evaluation",
-        "-∫_0^2 (x^2-2x)dx = 4/3을 계산한다."
-      ],
-      "common_failures": [
-        "signed_area_confusion: ∫_0^2 x(x-2)dx = -4/3을 그대로 답으로 쓴다.",
-        "antiderivative_slip: x^3/3-2x^2를 대입해 8/3으로 계산한다."
-      ],
-      "allowed_answer_forms": [
-        "reduced_fraction"
-      ],
-      "diagram_tags": [
-        "function_graph",
-        "area_under_curve"
-      ],
-      "difficulty_delta": 1,
-      "source_item_ids": [
-        "fixture-integral-04"
-      ],
-      "source_step_ids": [
-        "s3"
-      ]
-    },
-    {
-      "atom_id": "atom-991b78d60850",
-      "label": "로그 결합 [log_merge]",
-      "topic": "log_equation_domain",
-      "prerequisites": [
-        "logarithm",
-        "equation"
-      ],
-      "trigger_patterns": [
-        "로그식 결합",
-        "정의역 제한",
-        "근의 선택"
-      ],
-      "canonical_moves": [
-        "log_merge",
-        "log_2((x-1)(x-3))=2로 정리한다."
-      ],
-      "common_failures": [
-        "domain_omission: x>1만 확인하고 x=2를 후보로 남긴다.",
-        "algebraic_slip: (x-1)(x-3)=2로 잘못 두고 계산한다."
+        "integrand_equality_mistake: 상한만 같다고 보고 f(a)=f(0)을 푼다.",
+        "sign_filter_miss: a=-2도 후보에 남긴다."
       ],
       "allowed_answer_forms": [
         "choice_index"
       ],
       "diagram_tags": [
-        "number_line"
+        "function_graph",
+        "area_under_curve"
       ],
       "difficulty_delta": 0,
       "source_item_ids": [
-        "fixture-log-domain-01"
+        "batch01-kice-2025-common-q9"
       ],
       "source_step_ids": [
-        "s2"
+        "s1"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
       ]
     },
     {
-      "atom_id": "atom-c2ed46456b9d",
-      "label": "방정식 풀이 [quadratic_filter]",
-      "topic": "log_equation_domain",
+      "atom_id": "atom-faf29a83d77e",
+      "record_version": "sha256:f8ec1d3103799eef8c3675695fc5e4ea9c3e6b8fe17a25fa05dddc3f89767015",
+      "label": "양수해 선택 [positive_root_filter]",
+      "topic": "integral_zero_balance",
       "prerequisites": [
-        "logarithm",
-        "equation"
+        "definite_integral",
+        "antiderivative"
       ],
       "trigger_patterns": [
-        "로그식 결합",
-        "정의역 제한",
-        "근의 선택"
+        "공통 시작점 적분 비교",
+        "원시함수 인수분해",
+        "양수해 필터"
       ],
       "canonical_moves": [
-        "quadratic_filter",
-        "x^2-4x-1=0의 해를 구하고 정의역에 맞는 해를 고른다."
+        "positive_root_filter",
+        "a=0은 제외하고 a=10, -2 중 양수는 10이다."
       ],
       "common_failures": [
-        "domain_omission: x>1만 확인하고 x=2를 후보로 남긴다.",
-        "algebraic_slip: (x-1)(x-3)=2로 잘못 두고 계산한다."
+        "integrand_equality_mistake: 상한만 같다고 보고 f(a)=f(0)을 푼다.",
+        "sign_filter_miss: a=-2도 후보에 남긴다."
       ],
       "allowed_answer_forms": [
         "choice_index"
       ],
       "diagram_tags": [
-        "number_line"
+        "function_graph",
+        "area_under_curve"
       ],
-      "difficulty_delta": 1,
+      "difficulty_delta": 0,
       "source_item_ids": [
-        "fixture-log-domain-01"
+        "batch01-kice-2025-common-q9"
       ],
       "source_step_ids": [
         "s3"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
       ]
     },
     {
-      "atom_id": "atom-5d39a6b6e0f6",
+      "atom_id": "atom-a8c6876df61c",
+      "record_version": "sha256:8dc6599db414a3f573b10a061335dd9d47cb254b3dcb75e7a22daa20adf20dde",
+      "label": "원시함수 계산 [antiderivative_factorization]",
+      "topic": "integral_zero_balance",
+      "prerequisites": [
+        "definite_integral",
+        "antiderivative"
+      ],
+      "trigger_patterns": [
+        "공통 시작점 적분 비교",
+        "원시함수 인수분해",
+        "양수해 필터"
+      ],
+      "canonical_moves": [
+        "antiderivative_factorization",
+        "F(x)=x^3-8x^2-20x 이므로 F(a)-F(0)=a(a^2-8a-20)=0 이다."
+      ],
+      "common_failures": [
+        "integrand_equality_mistake: 상한만 같다고 보고 f(a)=f(0)을 푼다.",
+        "sign_filter_miss: a=-2도 후보에 남긴다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "function_graph",
+        "area_under_curve"
+      ],
+      "difficulty_delta": 1,
+      "source_item_ids": [
+        "batch01-kice-2025-common-q9"
+      ],
+      "source_step_ids": [
+        "s2"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-2cc830cdcccb",
+      "record_version": "sha256:1c251417482d33ac0d7d8b02d5cd72dd9464cf892d2f83176a19d1d40b913498",
+      "label": "정답 확정 [choice_alignment]",
+      "topic": "integral_zero_balance",
+      "prerequisites": [
+        "definite_integral",
+        "antiderivative"
+      ],
+      "trigger_patterns": [
+        "공통 시작점 적분 비교",
+        "원시함수 인수분해",
+        "양수해 필터"
+      ],
+      "canonical_moves": [
+        "choice_alignment",
+        "10에 해당하는 선택지를 고른다."
+      ],
+      "common_failures": [
+        "integrand_equality_mistake: 상한만 같다고 보고 f(a)=f(0)을 푼다.",
+        "sign_filter_miss: a=-2도 후보에 남긴다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "function_graph",
+        "area_under_curve"
+      ],
+      "difficulty_delta": 0,
+      "source_item_ids": [
+        "batch01-kice-2025-common-q9"
+      ],
+      "source_step_ids": [
+        "s4"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-aa0307fb8429",
+      "record_version": "sha256:65c41d7bde5fdd711977ee42780cb27142f41232962ca27d6c047c632606350b",
+      "label": "t의 허용범위 찾기 [median_condition_for_normal]",
+      "topic": "normal_interval_probability_optimization",
+      "prerequisites": [
+        "normal_distribution",
+        "standardization"
+      ],
+      "trigger_patterns": [
+        "중앙값 조건",
+        "표준화",
+        "고정길이 구간 최적화"
+      ],
+      "canonical_moves": [
+        "median_condition_for_normal",
+        "정규분포의 중앙값은 평균 1이므로 P(X≤5t)≥1/2 는 5t≥1, 즉 t≥1/5 와 동치이다."
+      ],
+      "common_failures": [
+        "constraint_direction_error: 5t≤1로 해석해 허용범위를 반대로 잡는다.",
+        "interval_center_miss: 구간 길이가 커진다고 생각해 t를 크게 잡는다."
+      ],
+      "allowed_answer_forms": [
+        "natural_number"
+      ],
+      "diagram_tags": [
+        "probability_table"
+      ],
+      "difficulty_delta": 1,
+      "source_item_ids": [
+        "batch01-kice-2024-probstats-q30"
+      ],
+      "source_step_ids": [
+        "s1"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-5e918bda27fb",
+      "record_version": "sha256:2b58c296571a56d3758d9658a8169d9a22fd8cecf8b359f8214fc3edd473d048",
+      "label": "최적 t 결정 [fixed_width_interval_maximization]",
+      "topic": "normal_interval_probability_optimization",
+      "prerequisites": [
+        "normal_distribution",
+        "standardization"
+      ],
+      "trigger_patterns": [
+        "중앙값 조건",
+        "표준화",
+        "고정길이 구간 최적화"
+      ],
+      "canonical_moves": [
+        "fixed_width_interval_maximization",
+        "길이가 2인 구간이 0에 가장 가까울 때 확률이 최대이므로 허용범위의 최소 t=1/5에서 최대가 된다."
+      ],
+      "common_failures": [
+        "constraint_direction_error: 5t≤1로 해석해 허용범위를 반대로 잡는다.",
+        "interval_center_miss: 구간 길이가 커진다고 생각해 t를 크게 잡는다."
+      ],
+      "allowed_answer_forms": [
+        "natural_number"
+      ],
+      "diagram_tags": [
+        "probability_table"
+      ],
+      "difficulty_delta": 1,
+      "source_item_ids": [
+        "batch01-kice-2024-probstats-q30"
+      ],
+      "source_step_ids": [
+        "s3"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-b734db999208",
+      "record_version": "sha256:20de17d0bae20f6a0f1021bfd52590753df720a1d03edad5490bf0d864588c53",
+      "label": "표준정규표 사용 [z_table_accumulation]",
+      "topic": "normal_interval_probability_optimization",
+      "prerequisites": [
+        "normal_distribution",
+        "standardization"
+      ],
+      "trigger_patterns": [
+        "중앙값 조건",
+        "표준화",
+        "고정길이 구간 최적화"
+      ],
+      "canonical_moves": [
+        "z_table_accumulation",
+        "P(-0.8≤Z≤1.2)=P(0≤Z≤0.8)+P(0≤Z≤1.2)=0.288+0.385=0.673이므로 답은 673이다."
+      ],
+      "common_failures": [
+        "constraint_direction_error: 5t≤1로 해석해 허용범위를 반대로 잡는다.",
+        "interval_center_miss: 구간 길이가 커진다고 생각해 t를 크게 잡는다."
+      ],
+      "allowed_answer_forms": [
+        "natural_number"
+      ],
+      "diagram_tags": [
+        "probability_table"
+      ],
+      "difficulty_delta": 0,
+      "source_item_ids": [
+        "batch01-kice-2024-probstats-q30"
+      ],
+      "source_step_ids": [
+        "s4"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-af1e1caf6149",
+      "record_version": "sha256:62bd3a5538b4e007f5d0405ebf3473f880ab3461550ba12d288879ef1c6bd646",
+      "label": "확률 구간 표준화 [normal_standardization]",
+      "topic": "normal_interval_probability_optimization",
+      "prerequisites": [
+        "normal_distribution",
+        "standardization"
+      ],
+      "trigger_patterns": [
+        "중앙값 조건",
+        "표준화",
+        "고정길이 구간 최적화"
+      ],
+      "canonical_moves": [
+        "normal_standardization",
+        "P(t^2-t+1 ≤ X ≤ t^2+t+1)=P(t-1 ≤ Z ≤ t+1) 로 바뀐다."
+      ],
+      "common_failures": [
+        "constraint_direction_error: 5t≤1로 해석해 허용범위를 반대로 잡는다.",
+        "interval_center_miss: 구간 길이가 커진다고 생각해 t를 크게 잡는다."
+      ],
+      "allowed_answer_forms": [
+        "natural_number"
+      ],
+      "diagram_tags": [
+        "probability_table"
+      ],
+      "difficulty_delta": 1,
+      "source_item_ids": [
+        "batch01-kice-2024-probstats-q30"
+      ],
+      "source_step_ids": [
+        "s2"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-49e3b3d6143d",
+      "record_version": "sha256:bb94457cd7fbcfc1fcd842c2244f2eecf3199a85c6944045ab838f8665cb4177",
+      "label": "1의 개수에 따른 분할 [count_balance_case_split]",
+      "topic": "occupancy_adjacency_count",
+      "prerequisites": [
+        "combinatorics",
+        "restricted_distribution"
+      ],
+      "trigger_patterns": [
+        "0-1-2 문자열로 변환",
+        "1의 개수 case split",
+        "강제 0 반영 배치"
+      ],
+      "canonical_moves": [
+        "count_balance_case_split",
+        "1의 개수가 6이면 2의 개수는 1, 1의 개수가 4이면 2의 개수는 2뿐이다."
+      ],
+      "common_failures": [
+        "distinguishable_ball_error: 공을 서로 다른 공으로 보고 순열을 곱해 버린다.",
+        "boundary_neighborhood_error: 맨끝의 2도 양옆 두 칸 모두 비어 있어야 한다고 잘못 본다."
+      ],
+      "allowed_answer_forms": [
+        "natural_number"
+      ],
+      "diagram_tags": [
+        "sequence_array"
+      ],
+      "difficulty_delta": 0,
+      "source_item_ids": [
+        "batch01-kice-2026-probstats-q30"
+      ],
+      "source_step_ids": [
+        "s2"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-4aa2306a0d09",
+      "record_version": "sha256:d2aefe6a930733c183c6d994bf520143c7fe1a3197de2f26f6da60a35bc183ba",
+      "label": "각 경우의 수 세기 [forced_zero_position_count]",
+      "topic": "occupancy_adjacency_count",
+      "prerequisites": [
+        "combinatorics",
+        "restricted_distribution"
+      ],
+      "trigger_patterns": [
+        "0-1-2 문자열로 변환",
+        "1의 개수 case split",
+        "강제 0 반영 배치"
+      ],
+      "canonical_moves": [
+        "forced_zero_position_count",
+        "한 개의 2가 있는 경우는 112개, 두 개의 2가 있는 경우는 150개이다. 이는 2의 위치를 고정하고 주변 강제 0을 반영해 남은 자리에 1을 배치하는 방법으로 센다."
+      ],
+      "common_failures": [
+        "distinguishable_ball_error: 공을 서로 다른 공으로 보고 순열을 곱해 버린다.",
+        "boundary_neighborhood_error: 맨끝의 2도 양옆 두 칸 모두 비어 있어야 한다고 잘못 본다."
+      ],
+      "allowed_answer_forms": [
+        "natural_number"
+      ],
+      "diagram_tags": [
+        "sequence_array"
+      ],
+      "difficulty_delta": 2,
+      "source_item_ids": [
+        "batch01-kice-2026-probstats-q30"
+      ],
+      "source_step_ids": [
+        "s3"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-44753ee430ea",
+      "record_version": "sha256:c27f9225a27312d1b730e5d220f84c5367ceb26fd8f851ffa9cb106597044adb",
+      "label": "문자열 모델링 [occupancy_string_encoding]",
+      "topic": "occupancy_adjacency_count",
+      "prerequisites": [
+        "combinatorics",
+        "restricted_distribution"
+      ],
+      "trigger_patterns": [
+        "0-1-2 문자열로 변환",
+        "1의 개수 case split",
+        "강제 0 반영 배치"
+      ],
+      "canonical_moves": [
+        "occupancy_string_encoding",
+        "주머니 상태를 0,1,2로 이루어진 길이 10의 문자열로 바꾸면 합은 8이고, 2의 이웃은 반드시 0이어야 한다."
+      ],
+      "common_failures": [
+        "distinguishable_ball_error: 공을 서로 다른 공으로 보고 순열을 곱해 버린다.",
+        "boundary_neighborhood_error: 맨끝의 2도 양옆 두 칸 모두 비어 있어야 한다고 잘못 본다."
+      ],
+      "allowed_answer_forms": [
+        "natural_number"
+      ],
+      "diagram_tags": [
+        "sequence_array"
+      ],
+      "difficulty_delta": 1,
+      "source_item_ids": [
+        "batch01-kice-2026-probstats-q30"
+      ],
+      "source_step_ids": [
+        "s1"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-cd176fc4ce75",
+      "record_version": "sha256:582c805720e067a5d8bb7086c0f4e3c53e446a22dd717b0e55b018a501f6fac2",
+      "label": "합산 [case_sum_finalize]",
+      "topic": "occupancy_adjacency_count",
+      "prerequisites": [
+        "combinatorics",
+        "restricted_distribution"
+      ],
+      "trigger_patterns": [
+        "0-1-2 문자열로 변환",
+        "1의 개수 case split",
+        "강제 0 반영 배치"
+      ],
+      "canonical_moves": [
+        "case_sum_finalize",
+        "전체 경우의 수는 112+150=262이다."
+      ],
+      "common_failures": [
+        "distinguishable_ball_error: 공을 서로 다른 공으로 보고 순열을 곱해 버린다.",
+        "boundary_neighborhood_error: 맨끝의 2도 양옆 두 칸 모두 비어 있어야 한다고 잘못 본다."
+      ],
+      "allowed_answer_forms": [
+        "natural_number"
+      ],
+      "diagram_tags": [
+        "sequence_array"
+      ],
+      "difficulty_delta": 0,
+      "source_item_ids": [
+        "batch01-kice-2026-probstats-q30"
+      ],
+      "source_step_ids": [
+        "s4"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-a62602826bf9",
+      "record_version": "sha256:105176f54f368f8d12b13aa778242b916c82a96534e54203ea52165d1a0e0451",
+      "label": "넓이식 구성 [integral_plus_triangle_area]",
+      "topic": "piecewise_linear_replacement_area_max",
+      "prerequisites": [
+        "piecewise_function",
+        "signed_area"
+      ],
+      "trigger_patterns": [
+        "절단점 이후 직선 대체",
+        "적분+삼각형 넓이",
+        "면적함수 미분"
+      ],
+      "canonical_moves": [
+        "integral_plus_triangle_area",
+        "전체 넓이는 A(t)=∫_0^t f(x)dx + 1/2·{f(t)}^2 이다."
+      ],
+      "common_failures": [
+        "shape_area_mismatch: 밑변을 t로 두거나 사다리꼴처럼 계산한다.",
+        "endpoint_bias: f(t)가 클수록 넓이도 크다고 보고 t를 6에 가깝게 잡는다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "function_graph",
+        "area_under_curve"
+      ],
+      "difficulty_delta": 1,
+      "source_item_ids": [
+        "batch01-kice-2024-common-q12"
+      ],
+      "source_step_ids": [
+        "s2"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-dfdb2e9c1779",
+      "record_version": "sha256:98e570ba806930ffe90fe81c94d39cd3e3202656788ac8467abe23f50ba07ffe",
+      "label": "도형 구조 파악 [intercept_structure_check]",
+      "topic": "piecewise_linear_replacement_area_max",
+      "prerequisites": [
+        "piecewise_function",
+        "signed_area"
+      ],
+      "trigger_patterns": [
+        "절단점 이후 직선 대체",
+        "적분+삼각형 넓이",
+        "면적함수 미분"
+      ],
+      "canonical_moves": [
+        "intercept_structure_check",
+        "0<t<6에서 f(t)>0이고, f는 x=0에서 x축과 만난다. 직선 부분은 x=t+f(t)에서 x축과 만난다."
+      ],
+      "common_failures": [
+        "shape_area_mismatch: 밑변을 t로 두거나 사다리꼴처럼 계산한다.",
+        "endpoint_bias: f(t)가 클수록 넓이도 크다고 보고 t를 6에 가깝게 잡는다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "function_graph",
+        "area_under_curve"
+      ],
+      "difficulty_delta": 1,
+      "source_item_ids": [
+        "batch01-kice-2024-common-q12"
+      ],
+      "source_step_ids": [
+        "s1"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-4d283d118751",
+      "record_version": "sha256:d62b82a807dd42d7eea98ba82828cf31329cd14cd3fb017edda6094f0506684b",
+      "label": "최댓값 계산 [evaluate_optimum]",
+      "topic": "piecewise_linear_replacement_area_max",
+      "prerequisites": [
+        "piecewise_function",
+        "signed_area"
+      ],
+      "trigger_patterns": [
+        "절단점 이후 직선 대체",
+        "적분+삼각형 넓이",
+        "면적함수 미분"
+      ],
+      "canonical_moves": [
+        "evaluate_optimum",
+        "A(3)=129/4 이므로 해당 선택지를 고른다."
+      ],
+      "common_failures": [
+        "shape_area_mismatch: 밑변을 t로 두거나 사다리꼴처럼 계산한다.",
+        "endpoint_bias: f(t)가 클수록 넓이도 크다고 보고 t를 6에 가깝게 잡는다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "function_graph",
+        "area_under_curve"
+      ],
+      "difficulty_delta": 1,
+      "source_item_ids": [
+        "batch01-kice-2024-common-q12"
+      ],
+      "source_step_ids": [
+        "s4"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-c65f20afed2d",
+      "record_version": "sha256:f095187956a8c3f578a6d3f6ccb5b64e1dad5f18da2487d4425a267fe92ec579",
+      "label": "최적점 찾기 [differentiate_area_function]",
+      "topic": "piecewise_linear_replacement_area_max",
+      "prerequisites": [
+        "piecewise_function",
+        "signed_area"
+      ],
+      "trigger_patterns": [
+        "절단점 이후 직선 대체",
+        "적분+삼각형 넓이",
+        "면적함수 미분"
+      ],
+      "canonical_moves": [
+        "differentiate_area_function",
+        "A'(t)=0을 풀면 t=3이 내부 임계점이고, 이때 최대가 된다."
+      ],
+      "common_failures": [
+        "shape_area_mismatch: 밑변을 t로 두거나 사다리꼴처럼 계산한다.",
+        "endpoint_bias: f(t)가 클수록 넓이도 크다고 보고 t를 6에 가깝게 잡는다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "function_graph",
+        "area_under_curve"
+      ],
+      "difficulty_delta": 2,
+      "source_item_ids": [
+        "batch01-kice-2024-common-q12"
+      ],
+      "source_step_ids": [
+        "s3"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-c7ee0f007efc",
+      "record_version": "sha256:8678b6a778f062559c27c7a397f02d33c5919e3d0ad732d65e1a405b625a611e",
+      "label": "Q의 이동거리 계산 [absolute_velocity_distance]",
+      "topic": "relative_motion_distance_monotonicity",
+      "prerequisites": [
+        "velocity",
+        "relative_position"
+      ],
+      "trigger_patterns": [
+        "상대위치 적분",
+        "거리의 증감은 상대속도",
+        "이동거리는 절댓값 적분"
+      ],
+      "canonical_moves": [
+        "absolute_velocity_distance",
+        "Q의 이동거리는 ∫_2^6 |2t-7|dt 이고, t=7/2에서 부호가 바뀌므로 값을 계산하면 17/2이다."
+      ],
+      "common_failures": [
+        "position_distance_confusion: ∫_2^6 v2(t)dt만 계산하여 부호변화를 무시한다.",
+        "critical_point_shortcut: 상대속도의 근 2,6만 보고 거리함수의 비음수성은 확인하지 않는다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "number_line",
+        "sign_chart"
+      ],
+      "difficulty_delta": 1,
+      "source_item_ids": [
+        "batch01-kice-2024-common-q10"
+      ],
+      "source_step_ids": [
+        "s3"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-b5282f8459b5",
+      "record_version": "sha256:c9bd0c711f4ab94f649459c4f7a97daa46b6d68ef9b57ed4d72d379636b3fc28",
+      "label": "상대위치 함수 계산 [relative_position_integration]",
+      "topic": "relative_motion_distance_monotonicity",
+      "prerequisites": [
+        "velocity",
+        "relative_position"
+      ],
+      "trigger_patterns": [
+        "상대위치 적분",
+        "거리의 증감은 상대속도",
+        "이동거리는 절댓값 적분"
+      ],
+      "canonical_moves": [
+        "relative_position_integration",
+        "두 점의 위치 차 D(t)=∫_0^t(v1-v2)du = t(t-6)^2/3 를 구한다."
+      ],
+      "common_failures": [
+        "position_distance_confusion: ∫_2^6 v2(t)dt만 계산하여 부호변화를 무시한다.",
+        "critical_point_shortcut: 상대속도의 근 2,6만 보고 거리함수의 비음수성은 확인하지 않는다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "number_line",
+        "sign_chart"
+      ],
+      "difficulty_delta": 1,
+      "source_item_ids": [
+        "batch01-kice-2024-common-q10"
+      ],
+      "source_step_ids": [
+        "s1"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-c1248db07985",
+      "record_version": "sha256:ac28ac3f61341a23d3cf61512ba8276b1bc2b23dedd90f35595d3e78bdc84213",
       "label": "선택지 대응 [choice_alignment]",
-      "topic": "log_equation_domain",
+      "topic": "relative_motion_distance_monotonicity",
       "prerequisites": [
-        "logarithm",
-        "equation"
+        "velocity",
+        "relative_position"
       ],
       "trigger_patterns": [
-        "로그식 결합",
-        "정의역 제한",
-        "근의 선택"
+        "상대위치 적분",
+        "거리의 증감은 상대속도",
+        "이동거리는 절댓값 적분"
       ],
       "canonical_moves": [
         "choice_alignment",
-        "근삿값을 비교해 4에 대응되는 선택지를 고른다."
+        "17/2에 해당하는 선택지를 고른다."
       ],
       "common_failures": [
-        "domain_omission: x>1만 확인하고 x=2를 후보로 남긴다.",
-        "algebraic_slip: (x-1)(x-3)=2로 잘못 두고 계산한다."
+        "position_distance_confusion: ∫_2^6 v2(t)dt만 계산하여 부호변화를 무시한다.",
+        "critical_point_shortcut: 상대속도의 근 2,6만 보고 거리함수의 비음수성은 확인하지 않는다."
       ],
       "allowed_answer_forms": [
         "choice_index"
       ],
       "diagram_tags": [
-        "number_line"
+        "number_line",
+        "sign_chart"
       ],
       "difficulty_delta": 0,
       "source_item_ids": [
-        "fixture-log-domain-01"
+        "batch01-kice-2024-common-q10"
       ],
       "source_step_ids": [
         "s4"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
       ]
     },
     {
-      "atom_id": "atom-311a529ea04c",
-      "label": "정의역 확인 [domain_check]",
-      "topic": "log_equation_domain",
+      "atom_id": "atom-b5da2ace4b13",
+      "record_version": "sha256:2916de49787af10684a463611b1fa6f48c3e5b070176cafb92d7550bfe168434",
+      "label": "증감 구간 판정 [distance_monotonicity_from_relative_velocity]",
+      "topic": "relative_motion_distance_monotonicity",
       "prerequisites": [
-        "logarithm",
-        "equation"
+        "velocity",
+        "relative_position"
       ],
       "trigger_patterns": [
-        "로그식 결합",
-        "정의역 제한",
-        "근의 선택"
+        "상대위치 적분",
+        "거리의 증감은 상대속도",
+        "이동거리는 절댓값 적분"
       ],
       "canonical_moves": [
-        "domain_check",
-        "로그의 진수가 양수이므로 x>3이어야 한다."
+        "distance_monotonicity_from_relative_velocity",
+        "D(t)≥0 이므로 거리 f(t)=D(t)이고, D'(t)=v1-v2=(t-2)(t-6)에서 a=2, b=6을 얻는다."
       ],
       "common_failures": [
-        "domain_omission: x>1만 확인하고 x=2를 후보로 남긴다.",
-        "algebraic_slip: (x-1)(x-3)=2로 잘못 두고 계산한다."
+        "position_distance_confusion: ∫_2^6 v2(t)dt만 계산하여 부호변화를 무시한다.",
+        "critical_point_shortcut: 상대속도의 근 2,6만 보고 거리함수의 비음수성은 확인하지 않는다."
       ],
       "allowed_answer_forms": [
         "choice_index"
       ],
       "diagram_tags": [
-        "number_line"
+        "number_line",
+        "sign_chart"
+      ],
+      "difficulty_delta": 1,
+      "source_item_ids": [
+        "batch01-kice-2024-common-q10"
+      ],
+      "source_step_ids": [
+        "s2"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-6bd958653805",
+      "record_version": "sha256:ea4a2778d462f2946f3d338ef0d8e765792b172af4eacafcdc274a975a766b23",
+      "label": "선택지 확정 [choice_alignment]",
+      "topic": "sample_mean_variance_scaling",
+      "prerequisites": [
+        "discrete_distribution",
+        "sample_mean"
+      ],
+      "trigger_patterns": [
+        "분산 계산",
+        "표본평균 분산",
+        "선형변환 분산"
+      ],
+      "canonical_moves": [
+        "choice_alignment",
+        "3에 해당하는 선택지를 고른다."
+      ],
+      "common_failures": [
+        "mean_variance_mixup: 평균 5를 분산처럼 사용해 a^2·5/3=24로 계산한다.",
+        "n_scaling_error: Var(X̄)=3Var(X)로 잘못 적용한다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "probability_cards"
       ],
       "difficulty_delta": 0,
       "source_item_ids": [
-        "fixture-log-domain-01"
+        "batch01-kice-2025-probstats-q27"
+      ],
+      "source_step_ids": [
+        "s4"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-07788e923163",
+      "record_version": "sha256:74c23d11df9932fcb3df0be89322a4b2b49455592d69a46b78761f6e36169c83",
+      "label": "선형변환 적용 [linear_transform_variance]",
+      "topic": "sample_mean_variance_scaling",
+      "prerequisites": [
+        "discrete_distribution",
+        "sample_mean"
+      ],
+      "trigger_patterns": [
+        "분산 계산",
+        "표본평균 분산",
+        "선형변환 분산"
+      ],
+      "canonical_moves": [
+        "linear_transform_variance",
+        "Var(aX̄+6)=a^2 Var(X̄)=24 이므로 a^2=9, 양수 a=3이다."
+      ],
+      "common_failures": [
+        "mean_variance_mixup: 평균 5를 분산처럼 사용해 a^2·5/3=24로 계산한다.",
+        "n_scaling_error: Var(X̄)=3Var(X)로 잘못 적용한다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "probability_cards"
+      ],
+      "difficulty_delta": 0,
+      "source_item_ids": [
+        "batch01-kice-2025-probstats-q27"
+      ],
+      "source_step_ids": [
+        "s3"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-41950944ce98",
+      "record_version": "sha256:93cf5d28d84f517e22e93ae7423a4c1931783d57af1889fbb7ad07687cfa8567",
+      "label": "원래 분포의 분산 계산 [discrete_variance_evaluation]",
+      "topic": "sample_mean_variance_scaling",
+      "prerequisites": [
+        "discrete_distribution",
+        "sample_mean"
+      ],
+      "trigger_patterns": [
+        "분산 계산",
+        "표본평균 분산",
+        "선형변환 분산"
+      ],
+      "canonical_moves": [
+        "discrete_variance_evaluation",
+        "한 번의 추출값 X의 평균은 5, 분산은 8이다."
+      ],
+      "common_failures": [
+        "mean_variance_mixup: 평균 5를 분산처럼 사용해 a^2·5/3=24로 계산한다.",
+        "n_scaling_error: Var(X̄)=3Var(X)로 잘못 적용한다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "probability_cards"
+      ],
+      "difficulty_delta": 1,
+      "source_item_ids": [
+        "batch01-kice-2025-probstats-q27"
       ],
       "source_step_ids": [
         "s1"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-de2ace55fc83",
+      "record_version": "sha256:a7292124b0e6c9fee0ba079a5a46e99d98a47e6f103e4037ca18b6bf4d15b8a1",
+      "label": "표본평균 분산 [sample_mean_variance_rule]",
+      "topic": "sample_mean_variance_scaling",
+      "prerequisites": [
+        "discrete_distribution",
+        "sample_mean"
+      ],
+      "trigger_patterns": [
+        "분산 계산",
+        "표본평균 분산",
+        "선형변환 분산"
+      ],
+      "canonical_moves": [
+        "sample_mean_variance_rule",
+        "세 번 복원추출한 평균 X̄에 대해 Var(X̄)=Var(X)/3=8/3이다."
+      ],
+      "common_failures": [
+        "mean_variance_mixup: 평균 5를 분산처럼 사용해 a^2·5/3=24로 계산한다.",
+        "n_scaling_error: Var(X̄)=3Var(X)로 잘못 적용한다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "probability_cards"
+      ],
+      "difficulty_delta": 0,
+      "source_item_ids": [
+        "batch01-kice-2025-probstats-q27"
+      ],
+      "source_step_ids": [
+        "s2"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-266cf6e56189",
+      "record_version": "sha256:a7ee98ef7c3b151632b9597a642a8c0fc9e6676096186983ca73cc3e8c427006",
+      "label": "선택지 확정 [choice_alignment]",
+      "topic": "sequential_transfer_conditional_probability",
+      "prerequisites": [
+        "conditional_probability",
+        "multinomial_count"
+      ],
+      "trigger_patterns": [
+        "시행 유형 압축",
+        "총량 조건",
+        "조건부확률"
+      ],
+      "canonical_moves": [
+        "choice_alignment",
+        "3/35에 해당하는 선택지를 고른다."
+      ],
+      "common_failures": [
+        "conditioning_drop: 전체 확률공간에서 검은 공 2개 확률만 계산한다.",
+        "type_split_miss: 2와 3을 서로 다른 시행 유형으로 취급해 경우를 중복 계산한다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "probability_table",
+        "probability_cards"
+      ],
+      "difficulty_delta": 0,
+      "source_item_ids": [
+        "batch01-kice-2024-probstats-q28"
+      ],
+      "source_step_ids": [
+        "s4"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-976e9114b283",
+      "record_version": "sha256:e767ea456e8479019a94cee6fdf7302f18625f66580513e7b5012d84e7e166cc",
+      "label": "세 시행 유형 묶기 [outcome_type_grouping]",
+      "topic": "sequential_transfer_conditional_probability",
+      "prerequisites": [
+        "conditional_probability",
+        "multinomial_count"
+      ],
+      "trigger_patterns": [
+        "시행 유형 압축",
+        "총량 조건",
+        "조건부확률"
+      ],
+      "canonical_moves": [
+        "outcome_type_grouping",
+        "한 번의 시행을 A형(총1, 검0), B형(총2, 검1), C형(총3, 검1)로 요약하면 확률은 각각 1/4, 1/2, 1/4이다."
+      ],
+      "common_failures": [
+        "conditioning_drop: 전체 확률공간에서 검은 공 2개 확률만 계산한다.",
+        "type_split_miss: 2와 3을 서로 다른 시행 유형으로 취급해 경우를 중복 계산한다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "probability_table",
+        "probability_cards"
+      ],
+      "difficulty_delta": 1,
+      "source_item_ids": [
+        "batch01-kice-2024-probstats-q28"
+      ],
+      "source_step_ids": [
+        "s1"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-7fe9f40741ee",
+      "record_version": "sha256:a9148de5e062b88598d4928ae6d5833da2746befdf4ce1b47c3ddb397a036697",
+      "label": "조건 사건 확률 계산 [multinomial_conditional_ratio]",
+      "topic": "sequential_transfer_conditional_probability",
+      "prerequisites": [
+        "conditional_probability",
+        "multinomial_count"
+      ],
+      "trigger_patterns": [
+        "시행 유형 압축",
+        "총량 조건",
+        "조건부확률"
+      ],
+      "canonical_moves": [
+        "multinomial_conditional_ratio",
+        "검은 공이 2개가 되는 경우는 (2,0,2)뿐이다. 각 경우의 다항분포 확률을 계산해 조건부확률을 구하면 3/35이다."
+      ],
+      "common_failures": [
+        "conditioning_drop: 전체 확률공간에서 검은 공 2개 확률만 계산한다.",
+        "type_split_miss: 2와 3을 서로 다른 시행 유형으로 취급해 경우를 중복 계산한다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "probability_table",
+        "probability_cards"
+      ],
+      "difficulty_delta": 1,
+      "source_item_ids": [
+        "batch01-kice-2024-probstats-q28"
+      ],
+      "source_step_ids": [
+        "s3"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-d87c287920c1",
+      "record_version": "sha256:c4b2e8188b7d443b62fe064f397d28c0ac50045634bf951ae0aeb4799ce38fcc",
+      "label": "총공 8개 조건 해 찾기 [integer_composition_under_total]",
+      "topic": "sequential_transfer_conditional_probability",
+      "prerequisites": [
+        "conditional_probability",
+        "multinomial_count"
+      ],
+      "trigger_patterns": [
+        "시행 유형 압축",
+        "총량 조건",
+        "조건부확률"
+      ],
+      "canonical_moves": [
+        "integer_composition_under_total",
+        "4회 시행에서 총공 수가 8이 되려면 (A,B,C)의 횟수는 (0,4,0), (1,2,1), (2,0,2) 세 경우뿐이다."
+      ],
+      "common_failures": [
+        "conditioning_drop: 전체 확률공간에서 검은 공 2개 확률만 계산한다.",
+        "type_split_miss: 2와 3을 서로 다른 시행 유형으로 취급해 경우를 중복 계산한다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "probability_table",
+        "probability_cards"
+      ],
+      "difficulty_delta": 1,
+      "source_item_ids": [
+        "batch01-kice-2024-probstats-q28"
+      ],
+      "source_step_ids": [
+        "s2"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-31532c20ba13",
+      "record_version": "sha256:1d5e27a8d8b11944cdf22fa3de04e56f0b3d466fd46fc819c932b4711218345b",
+      "label": "선택지 대응 [choice_alignment]",
+      "topic": "trigonometric_parameter_maximum",
+      "prerequisites": [
+        "trigonometric_function",
+        "parameter_identification"
+      ],
+      "trigger_patterns": [
+        "최댓값=평행이동+진폭",
+        "최댓점에서 cos=1",
+        "주기 정수배 조건"
+      ],
+      "canonical_moves": [
+        "choice_alignment",
+        "16에 해당하는 선택지를 고른다."
+      ],
+      "common_failures": [
+        "max_min_confusion: cos(bπ/3)=-1을 대입해 최솟점 조건으로 처리한다.",
+        "periodicity_underuse: 도함수 0 조건만 보고 b=3을 선택한다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "function_graph"
+      ],
+      "difficulty_delta": 0,
+      "source_item_ids": [
+        "batch01-kice-2025-common-q10"
+      ],
+      "source_step_ids": [
+        "s4"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-3f37cf4df82a",
+      "record_version": "sha256:3a7294b9118c3066ea8ef3f4bd25058c74a03c8aa7c910a17a719038da4db6a4",
+      "label": "진폭 결정 [amplitude_from_maximum]",
+      "topic": "trigonometric_parameter_maximum",
+      "prerequisites": [
+        "trigonometric_function",
+        "parameter_identification"
+      ],
+      "trigger_patterns": [
+        "최댓값=평행이동+진폭",
+        "최댓점에서 cos=1",
+        "주기 정수배 조건"
+      ],
+      "canonical_moves": [
+        "amplitude_from_maximum",
+        "최댓값이 13이므로 a+3=13, 따라서 a=10이다."
+      ],
+      "common_failures": [
+        "max_min_confusion: cos(bπ/3)=-1을 대입해 최솟점 조건으로 처리한다.",
+        "periodicity_underuse: 도함수 0 조건만 보고 b=3을 선택한다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "function_graph"
+      ],
+      "difficulty_delta": 0,
+      "source_item_ids": [
+        "batch01-kice-2025-common-q10"
+      ],
+      "source_step_ids": [
+        "s1"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-4f05c9d076c1",
+      "record_version": "sha256:85fa1d80166ccfe606e065a70f4d3de25927492e014cb1e3e4dc998869ead07d",
+      "label": "최댓점 조건 해석 [maximum_phase_condition]",
+      "topic": "trigonometric_parameter_maximum",
+      "prerequisites": [
+        "trigonometric_function",
+        "parameter_identification"
+      ],
+      "trigger_patterns": [
+        "최댓값=평행이동+진폭",
+        "최댓점에서 cos=1",
+        "주기 정수배 조건"
+      ],
+      "canonical_moves": [
+        "maximum_phase_condition",
+        "a>0이므로 최댓값은 cos(bx)=1일 때 생긴다. 따라서 x=π/3에서 bπ/3=2kπ를 만족해야 한다."
+      ],
+      "common_failures": [
+        "max_min_confusion: cos(bπ/3)=-1을 대입해 최솟점 조건으로 처리한다.",
+        "periodicity_underuse: 도함수 0 조건만 보고 b=3을 선택한다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "function_graph"
+      ],
+      "difficulty_delta": 1,
+      "source_item_ids": [
+        "batch01-kice-2025-common-q10"
+      ],
+      "source_step_ids": [
+        "s2"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
+      ]
+    },
+    {
+      "atom_id": "atom-bfce1fb21363",
+      "record_version": "sha256:e8e3e1a5fc2e633455a1c8ed4a335d823ad64a3e114325d8c650961ddfb887b7",
+      "label": "최소 자연수 선택 [minimum_period_parameter]",
+      "topic": "trigonometric_parameter_maximum",
+      "prerequisites": [
+        "trigonometric_function",
+        "parameter_identification"
+      ],
+      "trigger_patterns": [
+        "최댓값=평행이동+진폭",
+        "최댓점에서 cos=1",
+        "주기 정수배 조건"
+      ],
+      "canonical_moves": [
+        "minimum_period_parameter",
+        "자연수 b의 최솟값은 6이므로 a+b=16이다."
+      ],
+      "common_failures": [
+        "max_min_confusion: cos(bπ/3)=-1을 대입해 최솟점 조건으로 처리한다.",
+        "periodicity_underuse: 도함수 0 조건만 보고 b=3을 선택한다."
+      ],
+      "allowed_answer_forms": [
+        "choice_index"
+      ],
+      "diagram_tags": [
+        "function_graph"
+      ],
+      "difficulty_delta": 0,
+      "source_item_ids": [
+        "batch01-kice-2025-common-q10"
+      ],
+      "source_step_ids": [
+        "s3"
+      ],
+      "source_batch_ids": [
+        "batch_01"
+      ],
+      "source_batch_versions": [
+        "2026.03.13"
+      ],
+      "source_batch_hashes": [
+        "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e"
       ]
     }
   ]

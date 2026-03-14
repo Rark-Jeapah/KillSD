@@ -1,138 +1,77 @@
 {
+  "manifest_version": "2.0",
   "spec_id": "csat_math_2028",
-  "generated_at": "2026-03-12T02:46:55.483184+00:00",
-  "source_path": "data/source_fixtures/csat_math_2028/sample_items.json",
+  "generated_at": "2026-03-14T05:00:21.881222+00:00",
+  "source_path": "data/curated_batches/csat_math_2028/batch_01/batch_01.manifest.json",
+  "source_batches": [
+    {
+      "batch_id": "batch_01",
+      "batch_version": "2026.03.13",
+      "manifest_version": "2.0",
+      "created_at": "2026-03-13T00:00:00+00:00",
+      "manifest_path": "data/curated_batches/csat_math_2028/batch_01/batch_01.manifest.json",
+      "items_path": "data/source_fixtures/csat_math_2028/batch_01_curated_selected_items.json",
+      "item_count": 12,
+      "content_hash": "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e",
+      "provenance": {
+        "exam_name": "CSAT Mathematics",
+        "exam_year": 2028,
+        "source_name": "assistant_curated_batch_01",
+        "source_kind": "exam_analysis"
+      }
+    }
+  ],
   "graphs": [
     {
-      "graph_id": "sg-6548a8d4d8ff",
-      "source_item_id": "fixture-log-domain-01",
+      "graph_id": "sg-6f2d578348e5",
+      "source_item_id": "batch01-kice-2022-common-q12",
       "nodes": [
         {
           "node_id": "s1",
-          "label": "정의역 확인",
-          "kind": "given",
-          "content": "로그의 진수가 양수이므로 x>3이어야 한다.",
-          "technique": "domain_check",
+          "label": "가능한 함수값 분해",
+          "kind": "transform",
+          "content": "주어진 식은 (f(x)-1)(f(x)-x)(f(x)+x)=0 이므로 각 x에서 f(x)는 1, x, -x 중 하나이다.",
+          "technique": "factor_branch_extraction",
           "dependencies": [],
           "outputs": [
-            "x>3"
-          ],
-          "difficulty_delta": 0
-        },
-        {
-          "node_id": "s2",
-          "label": "로그 결합",
-          "kind": "transform",
-          "content": "log_2((x-1)(x-3))=2로 정리한다.",
-          "technique": "log_merge",
-          "dependencies": [
-            "s1"
-          ],
-          "outputs": [
-            "(x-1)(x-3)=4"
-          ],
-          "difficulty_delta": 0
-        },
-        {
-          "node_id": "s3",
-          "label": "방정식 풀이",
-          "kind": "compute",
-          "content": "x^2-4x-1=0의 해를 구하고 정의역에 맞는 해를 고른다.",
-          "technique": "quadratic_filter",
-          "dependencies": [
-            "s2"
-          ],
-          "outputs": [
-            "x=2+√5"
+            "f(x)∈{1,x,-x}"
           ],
           "difficulty_delta": 1
         },
         {
-          "node_id": "s4",
-          "label": "선택지 대응",
-          "kind": "result",
-          "content": "근삿값을 비교해 4에 대응되는 선택지를 고른다.",
-          "technique": "choice_alignment",
-          "dependencies": [
-            "s3"
-          ],
-          "outputs": [
-            "choice=4"
-          ],
-          "difficulty_delta": 0
-        }
-      ],
-      "edges": [
-        {
-          "from_node": "s1",
-          "to_node": "s2",
-          "relation": "depends_on"
-        },
-        {
-          "from_node": "s2",
-          "to_node": "s3",
-          "relation": "depends_on"
-        },
-        {
-          "from_node": "s3",
-          "to_node": "s4",
-          "relation": "depends_on"
-        }
-      ],
-      "final_answer": "4",
-      "diagram_tags": [
-        "number_line"
-      ]
-    },
-    {
-      "graph_id": "sg-d69252497ff5",
-      "source_item_id": "fixture-derivative-02",
-      "nodes": [
-        {
-          "node_id": "s1",
-          "label": "도함수 계산",
-          "kind": "compute",
-          "content": "f'(x)=3x^2-6x+a를 구한다.",
-          "technique": "differentiate_polynomial",
-          "dependencies": [],
-          "outputs": [
-            "f'(x)=3x^2-6x+a"
-          ],
-          "difficulty_delta": 0
-        },
-        {
           "node_id": "s2",
-          "label": "최솟값 관찰",
+          "label": "범위 조건으로 가지치기",
           "kind": "inference",
-          "content": "이차함수인 도함수의 꼭짓점 x=1에서 최솟값을 가진다.",
-          "technique": "quadratic_vertex_check",
+          "content": "최솟값이 0이고 최댓값이 1이므로 음수값과 1보다 큰 값은 나올 수 없다. 따라서 |x|>1에서는 f(x)=1, |x|≤1에서는 연속성을 지키며 f(x)=|x|가 된다.",
+          "technique": "range_and_continuity_filter",
           "dependencies": [
             "s1"
           ],
           "outputs": [
-            "min f'(x)=a-3"
+            "f(x)=1 for |x|>1",
+            "f(x)=|x| for |x|≤1"
           ],
-          "difficulty_delta": 1
+          "difficulty_delta": 2
         },
         {
           "node_id": "s3",
-          "label": "단조 조건 연결",
-          "kind": "transform",
-          "content": "감소하지 않으려면 모든 x에 대해 f'(x)≥0 이어야 하므로 a-3≥0이다.",
-          "technique": "global_monotonicity_condition",
+          "label": "값 대입",
+          "kind": "compute",
+          "content": "f(-4/3)=1, f(0)=0, f(1/2)=1/2이므로 합은 3/2이다.",
+          "technique": "piecewise_evaluation",
           "dependencies": [
             "s2"
           ],
           "outputs": [
-            "a≥3"
+            "sum=3/2"
           ],
-          "difficulty_delta": 1
+          "difficulty_delta": 0
         },
         {
           "node_id": "s4",
-          "label": "정답 선택",
+          "label": "선택지 확정",
           "kind": "result",
-          "content": "a≥3에 해당하는 선택지를 고른다.",
+          "content": "3/2에 대응되는 선택지를 고른다.",
           "technique": "choice_alignment",
           "dependencies": [
             "s3"
@@ -162,128 +101,65 @@
       ],
       "final_answer": "3",
       "diagram_tags": [
-        "function_graph",
-        "sign_chart"
+        "function_graph"
       ]
     },
     {
-      "graph_id": "sg-165d89b4e948",
-      "source_item_id": "fixture-conditional-03",
+      "graph_id": "sg-307dc5f4bcbe",
+      "source_item_id": "batch01-kice-2023-common-q7",
       "nodes": [
         {
           "node_id": "s1",
-          "label": "조건 사건 정리",
+          "label": "수열 일반항 설정",
           "kind": "given",
-          "content": "사건 B에 해당하는 경우만 표로 정리한다.",
-          "technique": "condition_partition",
+          "content": "첫째항과 공차가 같으므로 a_1=d=r>0, 따라서 a_k=kr이다.",
+          "technique": "equal_first_term_difference",
           "dependencies": [],
           "outputs": [
-            "restricted sample space"
+            "a_k=kr"
           ],
           "difficulty_delta": 0
         },
         {
           "node_id": "s2",
-          "label": "경우의 수 계산",
-          "kind": "compute",
-          "content": "B의 경우의 수와 A∩B의 경우의 수를 각각 센다.",
-          "technique": "count_conditioned_cases",
+          "label": "유리화로 망원합 만들기",
+          "kind": "transform",
+          "content": "1/(√a_k+√a_{k+1})=(√(k+1)-√k)/√r 로 바꾼다.",
+          "technique": "radical_rationalization",
           "dependencies": [
             "s1"
           ],
           "outputs": [
-            "|B|=3",
-            "|A∩B|=2"
+            "sum=(1/√r)∑(√(k+1)-√k)"
           ],
           "difficulty_delta": 1
         },
         {
           "node_id": "s3",
-          "label": "조건부확률 계산",
-          "kind": "result",
-          "content": "P(A|B)=P(A∩B)/P(B)=2/3이다.",
-          "technique": "conditional_probability_ratio",
-          "dependencies": [
-            "s2"
-          ],
-          "outputs": [
-            "2/3"
-          ],
-          "difficulty_delta": 0
-        }
-      ],
-      "edges": [
-        {
-          "from_node": "s1",
-          "to_node": "s2",
-          "relation": "depends_on"
-        },
-        {
-          "from_node": "s2",
-          "to_node": "s3",
-          "relation": "depends_on"
-        }
-      ],
-      "final_answer": "2/3",
-      "diagram_tags": [
-        "probability_table"
-      ]
-    },
-    {
-      "graph_id": "sg-204d9530ba55",
-      "source_item_id": "fixture-integral-04",
-      "nodes": [
-        {
-          "node_id": "s1",
-          "label": "교점 확인",
-          "kind": "given",
-          "content": "x축과의 교점은 x=0, 2이다.",
-          "technique": "root_identification",
-          "dependencies": [],
-          "outputs": [
-            "interval [0,2]"
-          ],
-          "difficulty_delta": 0
-        },
-        {
-          "node_id": "s2",
-          "label": "부호 판단",
-          "kind": "inference",
-          "content": "구간 (0,2)에서 함수값이 음수이므로 넓이는 절댓값 적분으로 계산한다.",
-          "technique": "signed_area_check",
-          "dependencies": [
-            "s1"
-          ],
-          "outputs": [
-            "area=-∫_0^2 x(x-2)dx"
-          ],
-          "difficulty_delta": 1
-        },
-        {
-          "node_id": "s3",
-          "label": "적분 계산",
+          "label": "합 계산",
           "kind": "compute",
-          "content": "-∫_0^2 (x^2-2x)dx = 4/3을 계산한다.",
-          "technique": "definite_integral_evaluation",
+          "content": "망원합으로 3/√r=2를 얻어 r=9/4, 따라서 a_4=4r=9이다.",
+          "technique": "telescoping_evaluation",
           "dependencies": [
             "s2"
           ],
           "outputs": [
-            "4/3"
+            "r=9/4",
+            "a_4=9"
           ],
           "difficulty_delta": 1
         },
         {
           "node_id": "s4",
-          "label": "답 형식 확정",
+          "label": "선택지 결정",
           "kind": "result",
-          "content": "기약분수 4/3으로 정리한다.",
-          "technique": "answer_form_finalize",
+          "content": "9에 해당하는 선택지를 고른다.",
+          "technique": "choice_alignment",
           "dependencies": [
             "s3"
           ],
           "outputs": [
-            "4/3"
+            "choice=4"
           ],
           "difficulty_delta": 0
         }
@@ -305,61 +181,61 @@
           "relation": "depends_on"
         }
       ],
-      "final_answer": "4/3",
+      "final_answer": "4",
       "diagram_tags": [
-        "function_graph",
-        "area_under_curve"
+        "sequence_array"
       ]
     },
     {
-      "graph_id": "sg-5dc14260604e",
-      "source_item_id": "fixture-derivative-05",
+      "graph_id": "sg-730e4292b7a5",
+      "source_item_id": "batch01-kice-2024-common-q10",
       "nodes": [
         {
           "node_id": "s1",
-          "label": "도함수 계산",
+          "label": "상대위치 함수 계산",
           "kind": "compute",
-          "content": "g'(x)=3x^2-12x+b를 구한다.",
-          "technique": "differentiate_polynomial",
+          "content": "두 점의 위치 차 D(t)=∫_0^t(v1-v2)du = t(t-6)^2/3 를 구한다.",
+          "technique": "relative_position_integration",
           "dependencies": [],
           "outputs": [
-            "g'(x)=3x^2-12x+b"
+            "D(t)=t(t-6)^2/3"
           ],
-          "difficulty_delta": 0
+          "difficulty_delta": 1
         },
         {
           "node_id": "s2",
-          "label": "최댓값 관찰",
+          "label": "증감 구간 판정",
           "kind": "inference",
-          "content": "증가하지 않으려면 g'(x)≤0 이어야 하는데 도함수는 위로 열린 이차함수라 조건 충족이 불가능한지 먼저 본다.",
-          "technique": "global_monotonicity_direction_check",
+          "content": "D(t)≥0 이므로 거리 f(t)=D(t)이고, D'(t)=v1-v2=(t-2)(t-6)에서 a=2, b=6을 얻는다.",
+          "technique": "distance_monotonicity_from_relative_velocity",
           "dependencies": [
             "s1"
           ],
           "outputs": [
-            "need reinterpretation"
+            "a=2",
+            "b=6"
           ],
           "difficulty_delta": 1
         },
         {
           "node_id": "s3",
-          "label": "꼭짓점 기반 조건",
-          "kind": "transform",
-          "content": "문항 의도가 감소 함수 조건이라면 꼭짓점 x=2에서 g'(2)=b-12≤0을 얻는다.",
-          "technique": "quadratic_vertex_check",
+          "label": "Q의 이동거리 계산",
+          "kind": "compute",
+          "content": "Q의 이동거리는 ∫_2^6 |2t-7|dt 이고, t=7/2에서 부호가 바뀌므로 값을 계산하면 17/2이다.",
+          "technique": "absolute_velocity_distance",
           "dependencies": [
             "s2"
           ],
           "outputs": [
-            "b≤12"
+            "distance=17/2"
           ],
           "difficulty_delta": 1
         },
         {
           "node_id": "s4",
-          "label": "정답 선택",
+          "label": "선택지 대응",
           "kind": "result",
-          "content": "b≤12에 해당하는 선택지를 고른다.",
+          "content": "17/2에 해당하는 선택지를 고른다.",
           "technique": "choice_alignment",
           "dependencies": [
             "s3"
@@ -389,8 +265,747 @@
       ],
       "final_answer": "2",
       "diagram_tags": [
+        "number_line",
+        "sign_chart"
+      ]
+    },
+    {
+      "graph_id": "sg-de2963963ea5",
+      "source_item_id": "batch01-kice-2024-common-q12",
+      "nodes": [
+        {
+          "node_id": "s1",
+          "label": "도형 구조 파악",
+          "kind": "given",
+          "content": "0<t<6에서 f(t)>0이고, f는 x=0에서 x축과 만난다. 직선 부분은 x=t+f(t)에서 x축과 만난다.",
+          "technique": "intercept_structure_check",
+          "dependencies": [],
+          "outputs": [
+            "right intercept = t+f(t)"
+          ],
+          "difficulty_delta": 1
+        },
+        {
+          "node_id": "s2",
+          "label": "넓이식 구성",
+          "kind": "transform",
+          "content": "전체 넓이는 A(t)=∫_0^t f(x)dx + 1/2·{f(t)}^2 이다.",
+          "technique": "integral_plus_triangle_area",
+          "dependencies": [
+            "s1"
+          ],
+          "outputs": [
+            "A(t)=∫_0^t f + f(t)^2/2"
+          ],
+          "difficulty_delta": 1
+        },
+        {
+          "node_id": "s3",
+          "label": "최적점 찾기",
+          "kind": "compute",
+          "content": "A'(t)=0을 풀면 t=3이 내부 임계점이고, 이때 최대가 된다.",
+          "technique": "differentiate_area_function",
+          "dependencies": [
+            "s2"
+          ],
+          "outputs": [
+            "t=3"
+          ],
+          "difficulty_delta": 2
+        },
+        {
+          "node_id": "s4",
+          "label": "최댓값 계산",
+          "kind": "result",
+          "content": "A(3)=129/4 이므로 해당 선택지를 고른다.",
+          "technique": "evaluate_optimum",
+          "dependencies": [
+            "s3"
+          ],
+          "outputs": [
+            "choice=3"
+          ],
+          "difficulty_delta": 1
+        }
+      ],
+      "edges": [
+        {
+          "from_node": "s1",
+          "to_node": "s2",
+          "relation": "depends_on"
+        },
+        {
+          "from_node": "s2",
+          "to_node": "s3",
+          "relation": "depends_on"
+        },
+        {
+          "from_node": "s3",
+          "to_node": "s4",
+          "relation": "depends_on"
+        }
+      ],
+      "final_answer": "3",
+      "diagram_tags": [
+        "function_graph",
+        "area_under_curve"
+      ]
+    },
+    {
+      "graph_id": "sg-41fceb5951af",
+      "source_item_id": "batch01-kice-2024-probstats-q28",
+      "nodes": [
+        {
+          "node_id": "s1",
+          "label": "세 시행 유형 묶기",
+          "kind": "given",
+          "content": "한 번의 시행을 A형(총1, 검0), B형(총2, 검1), C형(총3, 검1)로 요약하면 확률은 각각 1/4, 1/2, 1/4이다.",
+          "technique": "outcome_type_grouping",
+          "dependencies": [],
+          "outputs": [
+            "type probs"
+          ],
+          "difficulty_delta": 1
+        },
+        {
+          "node_id": "s2",
+          "label": "총공 8개 조건 해 찾기",
+          "kind": "compute",
+          "content": "4회 시행에서 총공 수가 8이 되려면 (A,B,C)의 횟수는 (0,4,0), (1,2,1), (2,0,2) 세 경우뿐이다.",
+          "technique": "integer_composition_under_total",
+          "dependencies": [
+            "s1"
+          ],
+          "outputs": [
+            "three count triples"
+          ],
+          "difficulty_delta": 1
+        },
+        {
+          "node_id": "s3",
+          "label": "조건 사건 확률 계산",
+          "kind": "compute",
+          "content": "검은 공이 2개가 되는 경우는 (2,0,2)뿐이다. 각 경우의 다항분포 확률을 계산해 조건부확률을 구하면 3/35이다.",
+          "technique": "multinomial_conditional_ratio",
+          "dependencies": [
+            "s2"
+          ],
+          "outputs": [
+            "P=3/35"
+          ],
+          "difficulty_delta": 1
+        },
+        {
+          "node_id": "s4",
+          "label": "선택지 확정",
+          "kind": "result",
+          "content": "3/35에 해당하는 선택지를 고른다.",
+          "technique": "choice_alignment",
+          "dependencies": [
+            "s3"
+          ],
+          "outputs": [
+            "choice=4"
+          ],
+          "difficulty_delta": 0
+        }
+      ],
+      "edges": [
+        {
+          "from_node": "s1",
+          "to_node": "s2",
+          "relation": "depends_on"
+        },
+        {
+          "from_node": "s2",
+          "to_node": "s3",
+          "relation": "depends_on"
+        },
+        {
+          "from_node": "s3",
+          "to_node": "s4",
+          "relation": "depends_on"
+        }
+      ],
+      "final_answer": "4",
+      "diagram_tags": [
+        "probability_table",
+        "probability_cards"
+      ]
+    },
+    {
+      "graph_id": "sg-af7766cfc919",
+      "source_item_id": "batch01-kice-2024-probstats-q30",
+      "nodes": [
+        {
+          "node_id": "s1",
+          "label": "t의 허용범위 찾기",
+          "kind": "inference",
+          "content": "정규분포의 중앙값은 평균 1이므로 P(X≤5t)≥1/2 는 5t≥1, 즉 t≥1/5 와 동치이다.",
+          "technique": "median_condition_for_normal",
+          "dependencies": [],
+          "outputs": [
+            "t≥1/5"
+          ],
+          "difficulty_delta": 1
+        },
+        {
+          "node_id": "s2",
+          "label": "확률 구간 표준화",
+          "kind": "transform",
+          "content": "P(t^2-t+1 ≤ X ≤ t^2+t+1)=P(t-1 ≤ Z ≤ t+1) 로 바뀐다.",
+          "technique": "normal_standardization",
+          "dependencies": [
+            "s1"
+          ],
+          "outputs": [
+            "P(t-1≤Z≤t+1)"
+          ],
+          "difficulty_delta": 1
+        },
+        {
+          "node_id": "s3",
+          "label": "최적 t 결정",
+          "kind": "compute",
+          "content": "길이가 2인 구간이 0에 가장 가까울 때 확률이 최대이므로 허용범위의 최소 t=1/5에서 최대가 된다.",
+          "technique": "fixed_width_interval_maximization",
+          "dependencies": [
+            "s2"
+          ],
+          "outputs": [
+            "t=1/5"
+          ],
+          "difficulty_delta": 1
+        },
+        {
+          "node_id": "s4",
+          "label": "표준정규표 사용",
+          "kind": "result",
+          "content": "P(-0.8≤Z≤1.2)=P(0≤Z≤0.8)+P(0≤Z≤1.2)=0.288+0.385=0.673이므로 답은 673이다.",
+          "technique": "z_table_accumulation",
+          "dependencies": [
+            "s3"
+          ],
+          "outputs": [
+            "673"
+          ],
+          "difficulty_delta": 0
+        }
+      ],
+      "edges": [
+        {
+          "from_node": "s1",
+          "to_node": "s2",
+          "relation": "depends_on"
+        },
+        {
+          "from_node": "s2",
+          "to_node": "s3",
+          "relation": "depends_on"
+        },
+        {
+          "from_node": "s3",
+          "to_node": "s4",
+          "relation": "depends_on"
+        }
+      ],
+      "final_answer": "673",
+      "diagram_tags": [
+        "probability_table"
+      ]
+    },
+    {
+      "graph_id": "sg-97e064baaaaa",
+      "source_item_id": "batch01-kice-2025-common-q10",
+      "nodes": [
+        {
+          "node_id": "s1",
+          "label": "진폭 결정",
+          "kind": "given",
+          "content": "최댓값이 13이므로 a+3=13, 따라서 a=10이다.",
+          "technique": "amplitude_from_maximum",
+          "dependencies": [],
+          "outputs": [
+            "a=10"
+          ],
+          "difficulty_delta": 0
+        },
+        {
+          "node_id": "s2",
+          "label": "최댓점 조건 해석",
+          "kind": "transform",
+          "content": "a>0이므로 최댓값은 cos(bx)=1일 때 생긴다. 따라서 x=π/3에서 bπ/3=2kπ를 만족해야 한다.",
+          "technique": "maximum_phase_condition",
+          "dependencies": [
+            "s1"
+          ],
+          "outputs": [
+            "b is a multiple of 6"
+          ],
+          "difficulty_delta": 1
+        },
+        {
+          "node_id": "s3",
+          "label": "최소 자연수 선택",
+          "kind": "compute",
+          "content": "자연수 b의 최솟값은 6이므로 a+b=16이다.",
+          "technique": "minimum_period_parameter",
+          "dependencies": [
+            "s2"
+          ],
+          "outputs": [
+            "a+b=16"
+          ],
+          "difficulty_delta": 0
+        },
+        {
+          "node_id": "s4",
+          "label": "선택지 대응",
+          "kind": "result",
+          "content": "16에 해당하는 선택지를 고른다.",
+          "technique": "choice_alignment",
+          "dependencies": [
+            "s3"
+          ],
+          "outputs": [
+            "choice=3"
+          ],
+          "difficulty_delta": 0
+        }
+      ],
+      "edges": [
+        {
+          "from_node": "s1",
+          "to_node": "s2",
+          "relation": "depends_on"
+        },
+        {
+          "from_node": "s2",
+          "to_node": "s3",
+          "relation": "depends_on"
+        },
+        {
+          "from_node": "s3",
+          "to_node": "s4",
+          "relation": "depends_on"
+        }
+      ],
+      "final_answer": "3",
+      "diagram_tags": [
+        "function_graph"
+      ]
+    },
+    {
+      "graph_id": "sg-c47231440f4c",
+      "source_item_id": "batch01-kice-2025-common-q9",
+      "nodes": [
+        {
+          "node_id": "s1",
+          "label": "공통 구간 제거",
+          "kind": "transform",
+          "content": "두 적분의 시작점이 같으므로 ∫_0^a f(x)dx = 0 으로 바꾼다.",
+          "technique": "integral_difference_reduction",
+          "dependencies": [],
+          "outputs": [
+            "∫_0^a f(x)dx=0"
+          ],
+          "difficulty_delta": 0
+        },
+        {
+          "node_id": "s2",
+          "label": "원시함수 계산",
+          "kind": "compute",
+          "content": "F(x)=x^3-8x^2-20x 이므로 F(a)-F(0)=a(a^2-8a-20)=0 이다.",
+          "technique": "antiderivative_factorization",
+          "dependencies": [
+            "s1"
+          ],
+          "outputs": [
+            "a(a^2-8a-20)=0"
+          ],
+          "difficulty_delta": 1
+        },
+        {
+          "node_id": "s3",
+          "label": "양수해 선택",
+          "kind": "inference",
+          "content": "a=0은 제외하고 a=10, -2 중 양수는 10이다.",
+          "technique": "positive_root_filter",
+          "dependencies": [
+            "s2"
+          ],
+          "outputs": [
+            "a=10"
+          ],
+          "difficulty_delta": 0
+        },
+        {
+          "node_id": "s4",
+          "label": "정답 확정",
+          "kind": "result",
+          "content": "10에 해당하는 선택지를 고른다.",
+          "technique": "choice_alignment",
+          "dependencies": [
+            "s3"
+          ],
+          "outputs": [
+            "choice=4"
+          ],
+          "difficulty_delta": 0
+        }
+      ],
+      "edges": [
+        {
+          "from_node": "s1",
+          "to_node": "s2",
+          "relation": "depends_on"
+        },
+        {
+          "from_node": "s2",
+          "to_node": "s3",
+          "relation": "depends_on"
+        },
+        {
+          "from_node": "s3",
+          "to_node": "s4",
+          "relation": "depends_on"
+        }
+      ],
+      "final_answer": "4",
+      "diagram_tags": [
+        "function_graph",
+        "area_under_curve"
+      ]
+    },
+    {
+      "graph_id": "sg-995cee5d621d",
+      "source_item_id": "batch01-kice-2025-probstats-q27",
+      "nodes": [
+        {
+          "node_id": "s1",
+          "label": "원래 분포의 분산 계산",
+          "kind": "compute",
+          "content": "한 번의 추출값 X의 평균은 5, 분산은 8이다.",
+          "technique": "discrete_variance_evaluation",
+          "dependencies": [],
+          "outputs": [
+            "Var(X)=8"
+          ],
+          "difficulty_delta": 1
+        },
+        {
+          "node_id": "s2",
+          "label": "표본평균 분산",
+          "kind": "transform",
+          "content": "세 번 복원추출한 평균 X̄에 대해 Var(X̄)=Var(X)/3=8/3이다.",
+          "technique": "sample_mean_variance_rule",
+          "dependencies": [
+            "s1"
+          ],
+          "outputs": [
+            "Var(X̄)=8/3"
+          ],
+          "difficulty_delta": 0
+        },
+        {
+          "node_id": "s3",
+          "label": "선형변환 적용",
+          "kind": "compute",
+          "content": "Var(aX̄+6)=a^2 Var(X̄)=24 이므로 a^2=9, 양수 a=3이다.",
+          "technique": "linear_transform_variance",
+          "dependencies": [
+            "s2"
+          ],
+          "outputs": [
+            "a=3"
+          ],
+          "difficulty_delta": 0
+        },
+        {
+          "node_id": "s4",
+          "label": "선택지 확정",
+          "kind": "result",
+          "content": "3에 해당하는 선택지를 고른다.",
+          "technique": "choice_alignment",
+          "dependencies": [
+            "s3"
+          ],
+          "outputs": [
+            "choice=3"
+          ],
+          "difficulty_delta": 0
+        }
+      ],
+      "edges": [
+        {
+          "from_node": "s1",
+          "to_node": "s2",
+          "relation": "depends_on"
+        },
+        {
+          "from_node": "s2",
+          "to_node": "s3",
+          "relation": "depends_on"
+        },
+        {
+          "from_node": "s3",
+          "to_node": "s4",
+          "relation": "depends_on"
+        }
+      ],
+      "final_answer": "3",
+      "diagram_tags": [
+        "probability_cards"
+      ]
+    },
+    {
+      "graph_id": "sg-1a0e8bdd8ece",
+      "source_item_id": "batch01-kice-2026-common-q12",
+      "nodes": [
+        {
+          "node_id": "s1",
+          "label": "공비의 세 제곱 치환",
+          "kind": "given",
+          "content": "a_1=A, r^3=u로 두면 a_4=Au, a_7=Au^2, a_10=Au^3이다.",
+          "technique": "group_by_three_steps",
+          "dependencies": [],
+          "outputs": [
+            "a_4=Au",
+            "a_7=Au^2",
+            "a_10=Au^3"
+          ],
+          "difficulty_delta": 0
+        },
+        {
+          "node_id": "s2",
+          "label": "두 등식 비교",
+          "kind": "transform",
+          "content": "2A(1+u+u^2)=6, Au(1+u+u^2)=6이므로 u=2를 얻는다.",
+          "technique": "ratio_comparison",
+          "dependencies": [
+            "s1"
+          ],
+          "outputs": [
+            "u=2"
+          ],
+          "difficulty_delta": 1
+        },
+        {
+          "node_id": "s3",
+          "label": "첫째항과 제10항 계산",
+          "kind": "compute",
+          "content": "A(1+2+4)=3이므로 A=3/7, 따라서 a_10=Au^3=(3/7)·8=24/7이다.",
+          "technique": "back_substitution",
+          "dependencies": [
+            "s2"
+          ],
+          "outputs": [
+            "A=3/7",
+            "a_10=24/7"
+          ],
+          "difficulty_delta": 1
+        },
+        {
+          "node_id": "s4",
+          "label": "정답 선택",
+          "kind": "result",
+          "content": "24/7에 해당하는 선택지를 고른다.",
+          "technique": "choice_alignment",
+          "dependencies": [
+            "s3"
+          ],
+          "outputs": [
+            "choice=2"
+          ],
+          "difficulty_delta": 0
+        }
+      ],
+      "edges": [
+        {
+          "from_node": "s1",
+          "to_node": "s2",
+          "relation": "depends_on"
+        },
+        {
+          "from_node": "s2",
+          "to_node": "s3",
+          "relation": "depends_on"
+        },
+        {
+          "from_node": "s3",
+          "to_node": "s4",
+          "relation": "depends_on"
+        }
+      ],
+      "final_answer": "2",
+      "diagram_tags": [
+        "sequence_array"
+      ]
+    },
+    {
+      "graph_id": "sg-4cfe3cf8cce9",
+      "source_item_id": "batch01-kice-2026-common-q15",
+      "nodes": [
+        {
+          "node_id": "s1",
+          "label": "도함수로 환원",
+          "kind": "transform",
+          "content": "h'(x)=g(x)-f(x) 이므로 극값 개수 문제는 구간별 h'의 부호 변화를 세는 문제로 바뀐다.",
+          "technique": "differentiate_integral_function",
+          "dependencies": [],
+          "outputs": [
+            "h'(x)=g(x)-f(x)"
+          ],
+          "difficulty_delta": 0
+        },
+        {
+          "node_id": "s2",
+          "label": "구간별 부호 분석",
+          "kind": "inference",
+          "content": "-1<x<1에서는 h'(x)>0 이고, x≥1에서는 h'(x)=-(x-1)(x-a), x<-1에서는 h'(x)=x^2+ax+a 이다.",
+          "technique": "piecewise_sign_factorization",
+          "dependencies": [
+            "s1"
+          ],
+          "outputs": [
+            "right factor",
+            "left quadratic"
+          ],
+          "difficulty_delta": 2
+        },
+        {
+          "node_id": "s3",
+          "label": "극값이 하나가 되게 하는 최대 a",
+          "kind": "compute",
+          "content": "오른쪽에서는 a>1일 때 x=a에서 한 번 극값이 생긴다. 왼쪽 이차식이 추가 극값을 만들지 않으려면 a≤4이어야 하므로 최대값은 k=4이다.",
+          "technique": "extremum_count_parameter_bound",
+          "dependencies": [
+            "s2"
+          ],
+          "outputs": [
+            "k=4"
+          ],
+          "difficulty_delta": 2
+        },
+        {
+          "node_id": "s4",
+          "label": "최종값 계산",
+          "kind": "result",
+          "content": "a=4를 대입하면 h(3)=7/2이고, 따라서 k+h(3)=15/2이다.",
+          "technique": "parameter_substitution_integral",
+          "dependencies": [
+            "s3"
+          ],
+          "outputs": [
+            "choice=4"
+          ],
+          "difficulty_delta": 1
+        }
+      ],
+      "edges": [
+        {
+          "from_node": "s1",
+          "to_node": "s2",
+          "relation": "depends_on"
+        },
+        {
+          "from_node": "s2",
+          "to_node": "s3",
+          "relation": "depends_on"
+        },
+        {
+          "from_node": "s3",
+          "to_node": "s4",
+          "relation": "depends_on"
+        }
+      ],
+      "final_answer": "4",
+      "diagram_tags": [
         "function_graph",
         "sign_chart"
+      ]
+    },
+    {
+      "graph_id": "sg-0cac2b0dd5ea",
+      "source_item_id": "batch01-kice-2026-probstats-q30",
+      "nodes": [
+        {
+          "node_id": "s1",
+          "label": "문자열 모델링",
+          "kind": "transform",
+          "content": "주머니 상태를 0,1,2로 이루어진 길이 10의 문자열로 바꾸면 합은 8이고, 2의 이웃은 반드시 0이어야 한다.",
+          "technique": "occupancy_string_encoding",
+          "dependencies": [],
+          "outputs": [
+            "length-10 string over {0,1,2}"
+          ],
+          "difficulty_delta": 1
+        },
+        {
+          "node_id": "s2",
+          "label": "1의 개수에 따른 분할",
+          "kind": "inference",
+          "content": "1의 개수가 6이면 2의 개수는 1, 1의 개수가 4이면 2의 개수는 2뿐이다.",
+          "technique": "count_balance_case_split",
+          "dependencies": [
+            "s1"
+          ],
+          "outputs": [
+            "case A: one 2",
+            "case B: two 2s"
+          ],
+          "difficulty_delta": 0
+        },
+        {
+          "node_id": "s3",
+          "label": "각 경우의 수 세기",
+          "kind": "compute",
+          "content": "한 개의 2가 있는 경우는 112개, 두 개의 2가 있는 경우는 150개이다. 이는 2의 위치를 고정하고 주변 강제 0을 반영해 남은 자리에 1을 배치하는 방법으로 센다.",
+          "technique": "forced_zero_position_count",
+          "dependencies": [
+            "s2"
+          ],
+          "outputs": [
+            "112",
+            "150"
+          ],
+          "difficulty_delta": 2
+        },
+        {
+          "node_id": "s4",
+          "label": "합산",
+          "kind": "result",
+          "content": "전체 경우의 수는 112+150=262이다.",
+          "technique": "case_sum_finalize",
+          "dependencies": [
+            "s3"
+          ],
+          "outputs": [
+            "262"
+          ],
+          "difficulty_delta": 0
+        }
+      ],
+      "edges": [
+        {
+          "from_node": "s1",
+          "to_node": "s2",
+          "relation": "depends_on"
+        },
+        {
+          "from_node": "s2",
+          "to_node": "s3",
+          "relation": "depends_on"
+        },
+        {
+          "from_node": "s3",
+          "to_node": "s4",
+          "relation": "depends_on"
+        }
+      ],
+      "final_answer": "262",
+      "diagram_tags": [
+        "sequence_array"
       ]
     }
   ]

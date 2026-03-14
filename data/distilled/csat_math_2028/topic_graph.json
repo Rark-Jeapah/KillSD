@@ -1,118 +1,330 @@
 {
+  "manifest_version": "2.0",
   "spec_id": "csat_math_2028",
-  "generated_at": "2026-03-12T02:46:55.483293+00:00",
+  "generated_at": "2026-03-14T05:00:21.881764+00:00",
+  "source_path": "data/curated_batches/csat_math_2028/batch_01/batch_01.manifest.json",
+  "source_batches": [
+    {
+      "batch_id": "batch_01",
+      "batch_version": "2026.03.13",
+      "manifest_version": "2.0",
+      "created_at": "2026-03-13T00:00:00+00:00",
+      "manifest_path": "data/curated_batches/csat_math_2028/batch_01/batch_01.manifest.json",
+      "items_path": "data/source_fixtures/csat_math_2028/batch_01_curated_selected_items.json",
+      "item_count": 12,
+      "content_hash": "sha256:72e1e277db72eee16e5e3a34fb5c0e543688169fbaf8408e7c10a95d92107d2e",
+      "provenance": {
+        "exam_name": "CSAT Mathematics",
+        "exam_year": 2028,
+        "source_name": "assistant_curated_batch_01",
+        "source_kind": "exam_analysis"
+      }
+    }
+  ],
   "nodes": [
     {
       "node_id": "area:algebra",
       "label": "algebra",
       "node_type": "subject_area",
-      "source_count": 1
+      "source_count": 4
     },
     {
       "node_id": "area:calculus_1",
       "label": "calculus_1",
       "node_type": "subject_area",
-      "source_count": 3
+      "source_count": 4
     },
     {
       "node_id": "area:probability_statistics",
       "label": "probability_statistics",
       "node_type": "subject_area",
-      "source_count": 1
-    },
-    {
-      "node_id": "subtopic:conditional probability",
-      "label": "conditional probability",
-      "node_type": "subtopic",
       "source_count": 4
     },
     {
-      "node_id": "subtopic:counting",
-      "label": "counting",
+      "node_id": "subtopic:absolute_displacement",
+      "label": "absolute_displacement",
       "node_type": "subtopic",
       "source_count": 1
     },
     {
-      "node_id": "subtopic:critical point",
-      "label": "critical point",
-      "node_type": "subtopic",
-      "source_count": 8
-    },
-    {
-      "node_id": "subtopic:derivative",
-      "label": "derivative",
-      "node_type": "subtopic",
-      "source_count": 8
-    },
-    {
-      "node_id": "subtopic:domain restriction",
-      "label": "domain restriction",
+      "node_id": "subtopic:absolute_value_branch",
+      "label": "absolute_value_branch",
       "node_type": "subtopic",
       "source_count": 1
     },
     {
-      "node_id": "subtopic:equation",
-      "label": "equation",
+      "node_id": "subtopic:antiderivative",
+      "label": "antiderivative",
       "node_type": "subtopic",
       "source_count": 5
     },
     {
-      "node_id": "subtopic:graph symmetry",
-      "label": "graph symmetry",
+      "node_id": "subtopic:arithmetic_sequence",
+      "label": "arithmetic_sequence",
       "node_type": "subtopic",
       "source_count": 5
     },
     {
-      "node_id": "subtopic:integral",
-      "label": "integral",
+      "node_id": "subtopic:combinatorics",
+      "label": "combinatorics",
       "node_type": "subtopic",
       "source_count": 5
     },
     {
-      "node_id": "subtopic:logarithm",
-      "label": "logarithm",
+      "node_id": "subtopic:conditional_probability",
+      "label": "conditional_probability",
       "node_type": "subtopic",
       "source_count": 5
     },
     {
-      "node_id": "subtopic:monotonicity",
-      "label": "monotonicity",
+      "node_id": "subtopic:continuity",
+      "label": "continuity",
       "node_type": "subtopic",
-      "source_count": 2
+      "source_count": 5
     },
     {
-      "node_id": "subtopic:sample space partition",
-      "label": "sample space partition",
+      "node_id": "subtopic:definite_integral",
+      "label": "definite_integral",
       "node_type": "subtopic",
-      "source_count": 4
+      "source_count": 5
     },
     {
-      "node_id": "subtopic:signed area",
-      "label": "signed area",
+      "node_id": "subtopic:discrete_distribution",
+      "label": "discrete_distribution",
+      "node_type": "subtopic",
+      "source_count": 5
+    },
+    {
+      "node_id": "subtopic:functional_equation",
+      "label": "functional_equation",
+      "node_type": "subtopic",
+      "source_count": 5
+    },
+    {
+      "node_id": "subtopic:geometric_sequence",
+      "label": "geometric_sequence",
+      "node_type": "subtopic",
+      "source_count": 5
+    },
+    {
+      "node_id": "subtopic:grouped_terms",
+      "label": "grouped_terms",
+      "node_type": "subtopic",
+      "source_count": 5
+    },
+    {
+      "node_id": "subtopic:integral_function",
+      "label": "integral_function",
+      "node_type": "subtopic",
+      "source_count": 5
+    },
+    {
+      "node_id": "subtopic:interval_optimization",
+      "label": "interval_optimization",
       "node_type": "subtopic",
       "source_count": 1
     },
     {
-      "node_id": "topic:conditional_probability_table",
-      "label": "conditional_probability_table",
+      "node_id": "subtopic:multinomial_count",
+      "label": "multinomial_count",
+      "node_type": "subtopic",
+      "source_count": 5
+    },
+    {
+      "node_id": "subtopic:normal_distribution",
+      "label": "normal_distribution",
+      "node_type": "subtopic",
+      "source_count": 5
+    },
+    {
+      "node_id": "subtopic:optimization",
+      "label": "optimization",
+      "node_type": "subtopic",
+      "source_count": 1
+    },
+    {
+      "node_id": "subtopic:parameter_identification",
+      "label": "parameter_identification",
+      "node_type": "subtopic",
+      "source_count": 5
+    },
+    {
+      "node_id": "subtopic:periodicity",
+      "label": "periodicity",
+      "node_type": "subtopic",
+      "source_count": 1
+    },
+    {
+      "node_id": "subtopic:piecewise_function",
+      "label": "piecewise_function",
+      "node_type": "subtopic",
+      "source_count": 5
+    },
+    {
+      "node_id": "subtopic:piecewise_quadratic",
+      "label": "piecewise_quadratic",
+      "node_type": "subtopic",
+      "source_count": 5
+    },
+    {
+      "node_id": "subtopic:process_modeling",
+      "label": "process_modeling",
+      "node_type": "subtopic",
+      "source_count": 1
+    },
+    {
+      "node_id": "subtopic:radical_rationalization",
+      "label": "radical_rationalization",
+      "node_type": "subtopic",
+      "source_count": 5
+    },
+    {
+      "node_id": "subtopic:ratio_extraction",
+      "label": "ratio_extraction",
+      "node_type": "subtopic",
+      "source_count": 1
+    },
+    {
+      "node_id": "subtopic:relative_position",
+      "label": "relative_position",
+      "node_type": "subtopic",
+      "source_count": 5
+    },
+    {
+      "node_id": "subtopic:restricted_distribution",
+      "label": "restricted_distribution",
+      "node_type": "subtopic",
+      "source_count": 5
+    },
+    {
+      "node_id": "subtopic:root_filter",
+      "label": "root_filter",
+      "node_type": "subtopic",
+      "source_count": 1
+    },
+    {
+      "node_id": "subtopic:sample_mean",
+      "label": "sample_mean",
+      "node_type": "subtopic",
+      "source_count": 5
+    },
+    {
+      "node_id": "subtopic:sign_chart",
+      "label": "sign_chart",
+      "node_type": "subtopic",
+      "source_count": 1
+    },
+    {
+      "node_id": "subtopic:signed_area",
+      "label": "signed_area",
+      "node_type": "subtopic",
+      "source_count": 5
+    },
+    {
+      "node_id": "subtopic:standardization",
+      "label": "standardization",
+      "node_type": "subtopic",
+      "source_count": 5
+    },
+    {
+      "node_id": "subtopic:string_encoding",
+      "label": "string_encoding",
+      "node_type": "subtopic",
+      "source_count": 1
+    },
+    {
+      "node_id": "subtopic:telescoping_sum",
+      "label": "telescoping_sum",
+      "node_type": "subtopic",
+      "source_count": 1
+    },
+    {
+      "node_id": "subtopic:trigonometric_function",
+      "label": "trigonometric_function",
+      "node_type": "subtopic",
+      "source_count": 5
+    },
+    {
+      "node_id": "subtopic:variance_scaling",
+      "label": "variance_scaling",
+      "node_type": "subtopic",
+      "source_count": 1
+    },
+    {
+      "node_id": "subtopic:velocity",
+      "label": "velocity",
+      "node_type": "subtopic",
+      "source_count": 5
+    },
+    {
+      "node_id": "topic:arithmetic_sequence_rationalized_sum",
+      "label": "arithmetic_sequence_rationalized_sum",
       "node_type": "topic",
       "source_count": 1
     },
     {
-      "node_id": "topic:derivative_monotonicity",
-      "label": "derivative_monotonicity",
-      "node_type": "topic",
-      "source_count": 2
-    },
-    {
-      "node_id": "topic:integral_area_split",
-      "label": "integral_area_split",
+      "node_id": "topic:continuity_branch_selection",
+      "label": "continuity_branch_selection",
       "node_type": "topic",
       "source_count": 1
     },
     {
-      "node_id": "topic:log_equation_domain",
-      "label": "log_equation_domain",
+      "node_id": "topic:geometric_sequence_ratio_lock",
+      "label": "geometric_sequence_ratio_lock",
+      "node_type": "topic",
+      "source_count": 1
+    },
+    {
+      "node_id": "topic:integral_extremum_parameter",
+      "label": "integral_extremum_parameter",
+      "node_type": "topic",
+      "source_count": 1
+    },
+    {
+      "node_id": "topic:integral_zero_balance",
+      "label": "integral_zero_balance",
+      "node_type": "topic",
+      "source_count": 1
+    },
+    {
+      "node_id": "topic:normal_interval_probability_optimization",
+      "label": "normal_interval_probability_optimization",
+      "node_type": "topic",
+      "source_count": 1
+    },
+    {
+      "node_id": "topic:occupancy_adjacency_count",
+      "label": "occupancy_adjacency_count",
+      "node_type": "topic",
+      "source_count": 1
+    },
+    {
+      "node_id": "topic:piecewise_linear_replacement_area_max",
+      "label": "piecewise_linear_replacement_area_max",
+      "node_type": "topic",
+      "source_count": 1
+    },
+    {
+      "node_id": "topic:relative_motion_distance_monotonicity",
+      "label": "relative_motion_distance_monotonicity",
+      "node_type": "topic",
+      "source_count": 1
+    },
+    {
+      "node_id": "topic:sample_mean_variance_scaling",
+      "label": "sample_mean_variance_scaling",
+      "node_type": "topic",
+      "source_count": 1
+    },
+    {
+      "node_id": "topic:sequential_transfer_conditional_probability",
+      "label": "sequential_transfer_conditional_probability",
+      "node_type": "topic",
+      "source_count": 1
+    },
+    {
+      "node_id": "topic:trigonometric_parameter_maximum",
+      "label": "trigonometric_parameter_maximum",
       "node_type": "topic",
       "source_count": 1
     }
@@ -120,145 +332,433 @@
   "edges": [
     {
       "from": "area:algebra",
-      "to": "topic:log_equation_domain",
+      "to": "topic:arithmetic_sequence_rationalized_sum",
+      "relation": "contains",
+      "weight": 1
+    },
+    {
+      "from": "area:algebra",
+      "to": "topic:continuity_branch_selection",
+      "relation": "contains",
+      "weight": 1
+    },
+    {
+      "from": "area:algebra",
+      "to": "topic:geometric_sequence_ratio_lock",
+      "relation": "contains",
+      "weight": 1
+    },
+    {
+      "from": "area:algebra",
+      "to": "topic:trigonometric_parameter_maximum",
       "relation": "contains",
       "weight": 1
     },
     {
       "from": "area:calculus_1",
-      "to": "topic:derivative_monotonicity",
+      "to": "topic:integral_extremum_parameter",
       "relation": "contains",
-      "weight": 2
+      "weight": 1
     },
     {
       "from": "area:calculus_1",
-      "to": "topic:integral_area_split",
+      "to": "topic:integral_zero_balance",
+      "relation": "contains",
+      "weight": 1
+    },
+    {
+      "from": "area:calculus_1",
+      "to": "topic:piecewise_linear_replacement_area_max",
+      "relation": "contains",
+      "weight": 1
+    },
+    {
+      "from": "area:calculus_1",
+      "to": "topic:relative_motion_distance_monotonicity",
       "relation": "contains",
       "weight": 1
     },
     {
       "from": "area:probability_statistics",
-      "to": "topic:conditional_probability_table",
+      "to": "topic:normal_interval_probability_optimization",
       "relation": "contains",
       "weight": 1
     },
     {
-      "from": "subtopic:conditional probability",
-      "to": "topic:conditional_probability_table",
-      "relation": "prerequisite",
-      "weight": 3
+      "from": "area:probability_statistics",
+      "to": "topic:occupancy_adjacency_count",
+      "relation": "contains",
+      "weight": 1
     },
     {
-      "from": "subtopic:critical point",
-      "to": "topic:derivative_monotonicity",
-      "relation": "prerequisite",
-      "weight": 6
+      "from": "area:probability_statistics",
+      "to": "topic:sample_mean_variance_scaling",
+      "relation": "contains",
+      "weight": 1
     },
     {
-      "from": "subtopic:derivative",
-      "to": "topic:derivative_monotonicity",
-      "relation": "prerequisite",
-      "weight": 6
+      "from": "area:probability_statistics",
+      "to": "topic:sequential_transfer_conditional_probability",
+      "relation": "contains",
+      "weight": 1
     },
     {
-      "from": "subtopic:equation",
-      "to": "topic:log_equation_domain",
-      "relation": "prerequisite",
-      "weight": 4
-    },
-    {
-      "from": "subtopic:graph symmetry",
-      "to": "topic:integral_area_split",
+      "from": "subtopic:antiderivative",
+      "to": "topic:integral_zero_balance",
       "relation": "prerequisite",
       "weight": 4
     },
     {
-      "from": "subtopic:integral",
-      "to": "topic:integral_area_split",
+      "from": "subtopic:arithmetic_sequence",
+      "to": "topic:arithmetic_sequence_rationalized_sum",
       "relation": "prerequisite",
       "weight": 4
     },
     {
-      "from": "subtopic:logarithm",
-      "to": "topic:log_equation_domain",
+      "from": "subtopic:combinatorics",
+      "to": "topic:occupancy_adjacency_count",
       "relation": "prerequisite",
       "weight": 4
     },
     {
-      "from": "subtopic:sample space partition",
-      "to": "topic:conditional_probability_table",
+      "from": "subtopic:conditional_probability",
+      "to": "topic:sequential_transfer_conditional_probability",
       "relation": "prerequisite",
-      "weight": 3
+      "weight": 4
     },
     {
-      "from": "subtopic:conditional probability",
-      "to": "topic:conditional_probability_table",
+      "from": "subtopic:continuity",
+      "to": "topic:continuity_branch_selection",
+      "relation": "prerequisite",
+      "weight": 4
+    },
+    {
+      "from": "subtopic:definite_integral",
+      "to": "topic:integral_zero_balance",
+      "relation": "prerequisite",
+      "weight": 4
+    },
+    {
+      "from": "subtopic:discrete_distribution",
+      "to": "topic:sample_mean_variance_scaling",
+      "relation": "prerequisite",
+      "weight": 4
+    },
+    {
+      "from": "subtopic:functional_equation",
+      "to": "topic:continuity_branch_selection",
+      "relation": "prerequisite",
+      "weight": 4
+    },
+    {
+      "from": "subtopic:geometric_sequence",
+      "to": "topic:geometric_sequence_ratio_lock",
+      "relation": "prerequisite",
+      "weight": 4
+    },
+    {
+      "from": "subtopic:grouped_terms",
+      "to": "topic:geometric_sequence_ratio_lock",
+      "relation": "prerequisite",
+      "weight": 4
+    },
+    {
+      "from": "subtopic:integral_function",
+      "to": "topic:integral_extremum_parameter",
+      "relation": "prerequisite",
+      "weight": 4
+    },
+    {
+      "from": "subtopic:multinomial_count",
+      "to": "topic:sequential_transfer_conditional_probability",
+      "relation": "prerequisite",
+      "weight": 4
+    },
+    {
+      "from": "subtopic:normal_distribution",
+      "to": "topic:normal_interval_probability_optimization",
+      "relation": "prerequisite",
+      "weight": 4
+    },
+    {
+      "from": "subtopic:parameter_identification",
+      "to": "topic:trigonometric_parameter_maximum",
+      "relation": "prerequisite",
+      "weight": 4
+    },
+    {
+      "from": "subtopic:piecewise_function",
+      "to": "topic:piecewise_linear_replacement_area_max",
+      "relation": "prerequisite",
+      "weight": 4
+    },
+    {
+      "from": "subtopic:piecewise_quadratic",
+      "to": "topic:integral_extremum_parameter",
+      "relation": "prerequisite",
+      "weight": 4
+    },
+    {
+      "from": "subtopic:radical_rationalization",
+      "to": "topic:arithmetic_sequence_rationalized_sum",
+      "relation": "prerequisite",
+      "weight": 4
+    },
+    {
+      "from": "subtopic:relative_position",
+      "to": "topic:relative_motion_distance_monotonicity",
+      "relation": "prerequisite",
+      "weight": 4
+    },
+    {
+      "from": "subtopic:restricted_distribution",
+      "to": "topic:occupancy_adjacency_count",
+      "relation": "prerequisite",
+      "weight": 4
+    },
+    {
+      "from": "subtopic:sample_mean",
+      "to": "topic:sample_mean_variance_scaling",
+      "relation": "prerequisite",
+      "weight": 4
+    },
+    {
+      "from": "subtopic:signed_area",
+      "to": "topic:piecewise_linear_replacement_area_max",
+      "relation": "prerequisite",
+      "weight": 4
+    },
+    {
+      "from": "subtopic:standardization",
+      "to": "topic:normal_interval_probability_optimization",
+      "relation": "prerequisite",
+      "weight": 4
+    },
+    {
+      "from": "subtopic:trigonometric_function",
+      "to": "topic:trigonometric_parameter_maximum",
+      "relation": "prerequisite",
+      "weight": 4
+    },
+    {
+      "from": "subtopic:velocity",
+      "to": "topic:relative_motion_distance_monotonicity",
+      "relation": "prerequisite",
+      "weight": 4
+    },
+    {
+      "from": "subtopic:absolute_displacement",
+      "to": "topic:relative_motion_distance_monotonicity",
       "relation": "supports",
       "weight": 1
     },
     {
-      "from": "subtopic:counting",
-      "to": "topic:conditional_probability_table",
+      "from": "subtopic:absolute_value_branch",
+      "to": "topic:continuity_branch_selection",
       "relation": "supports",
       "weight": 1
     },
     {
-      "from": "subtopic:critical point",
-      "to": "topic:derivative_monotonicity",
-      "relation": "supports",
-      "weight": 2
-    },
-    {
-      "from": "subtopic:derivative",
-      "to": "topic:derivative_monotonicity",
-      "relation": "supports",
-      "weight": 2
-    },
-    {
-      "from": "subtopic:domain restriction",
-      "to": "topic:log_equation_domain",
+      "from": "subtopic:antiderivative",
+      "to": "topic:integral_zero_balance",
       "relation": "supports",
       "weight": 1
     },
     {
-      "from": "subtopic:equation",
-      "to": "topic:log_equation_domain",
+      "from": "subtopic:arithmetic_sequence",
+      "to": "topic:arithmetic_sequence_rationalized_sum",
       "relation": "supports",
       "weight": 1
     },
     {
-      "from": "subtopic:graph symmetry",
-      "to": "topic:integral_area_split",
+      "from": "subtopic:combinatorics",
+      "to": "topic:occupancy_adjacency_count",
       "relation": "supports",
       "weight": 1
     },
     {
-      "from": "subtopic:integral",
-      "to": "topic:integral_area_split",
+      "from": "subtopic:conditional_probability",
+      "to": "topic:sequential_transfer_conditional_probability",
       "relation": "supports",
       "weight": 1
     },
     {
-      "from": "subtopic:logarithm",
-      "to": "topic:log_equation_domain",
+      "from": "subtopic:continuity",
+      "to": "topic:continuity_branch_selection",
       "relation": "supports",
       "weight": 1
     },
     {
-      "from": "subtopic:monotonicity",
-      "to": "topic:derivative_monotonicity",
-      "relation": "supports",
-      "weight": 2
-    },
-    {
-      "from": "subtopic:sample space partition",
-      "to": "topic:conditional_probability_table",
+      "from": "subtopic:definite_integral",
+      "to": "topic:integral_zero_balance",
       "relation": "supports",
       "weight": 1
     },
     {
-      "from": "subtopic:signed area",
-      "to": "topic:integral_area_split",
+      "from": "subtopic:discrete_distribution",
+      "to": "topic:sample_mean_variance_scaling",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:functional_equation",
+      "to": "topic:continuity_branch_selection",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:geometric_sequence",
+      "to": "topic:geometric_sequence_ratio_lock",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:grouped_terms",
+      "to": "topic:geometric_sequence_ratio_lock",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:integral_function",
+      "to": "topic:integral_extremum_parameter",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:interval_optimization",
+      "to": "topic:normal_interval_probability_optimization",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:multinomial_count",
+      "to": "topic:sequential_transfer_conditional_probability",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:normal_distribution",
+      "to": "topic:normal_interval_probability_optimization",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:optimization",
+      "to": "topic:piecewise_linear_replacement_area_max",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:parameter_identification",
+      "to": "topic:trigonometric_parameter_maximum",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:periodicity",
+      "to": "topic:trigonometric_parameter_maximum",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:piecewise_function",
+      "to": "topic:piecewise_linear_replacement_area_max",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:piecewise_quadratic",
+      "to": "topic:integral_extremum_parameter",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:process_modeling",
+      "to": "topic:sequential_transfer_conditional_probability",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:radical_rationalization",
+      "to": "topic:arithmetic_sequence_rationalized_sum",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:ratio_extraction",
+      "to": "topic:geometric_sequence_ratio_lock",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:relative_position",
+      "to": "topic:relative_motion_distance_monotonicity",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:restricted_distribution",
+      "to": "topic:occupancy_adjacency_count",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:root_filter",
+      "to": "topic:integral_zero_balance",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:sample_mean",
+      "to": "topic:sample_mean_variance_scaling",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:sign_chart",
+      "to": "topic:integral_extremum_parameter",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:signed_area",
+      "to": "topic:piecewise_linear_replacement_area_max",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:standardization",
+      "to": "topic:normal_interval_probability_optimization",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:string_encoding",
+      "to": "topic:occupancy_adjacency_count",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:telescoping_sum",
+      "to": "topic:arithmetic_sequence_rationalized_sum",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:trigonometric_function",
+      "to": "topic:trigonometric_parameter_maximum",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:variance_scaling",
+      "to": "topic:sample_mean_variance_scaling",
+      "relation": "supports",
+      "weight": 1
+    },
+    {
+      "from": "subtopic:velocity",
+      "to": "topic:relative_motion_distance_monotonicity",
       "relation": "supports",
       "weight": 1
     }
